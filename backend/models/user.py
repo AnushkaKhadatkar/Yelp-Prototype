@@ -19,7 +19,7 @@ class User(Base):
     languages = Column(String(255))
     gender = Column(String(20))
     profile_pic = Column(String(255))
-
+    restaurant_location = Column(String(255), nullable=True)
     role = Column(Enum("user", "owner"), default="user")
 
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())

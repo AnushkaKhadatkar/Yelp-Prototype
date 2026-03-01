@@ -88,17 +88,19 @@
 --     UNIQUE KEY unique_favourite (user_id, restaurant_id)
 -- );
 
-CREATE TABLE user_preferences (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    
-    user_id INT NOT NULL UNIQUE,
-    
-    cuisines VARCHAR(255),
-    price_range ENUM('$', '$$', '$$$', '$$$$'),
-    preferred_locations VARCHAR(255),
-    dietary_needs VARCHAR(255),
-    ambiance VARCHAR(255),
-    sort_preference VARCHAR(50),
+-- CREATE TABLE user_preferences (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     
+--     user_id INT NOT NULL UNIQUE,
+--     
+--     cuisines VARCHAR(255),
+--     price_range ENUM('$', '$$', '$$$', '$$$$'),
+--     preferred_locations VARCHAR(255),
+--     dietary_needs VARCHAR(255),
+--     ambiance VARCHAR(255),
+--     sort_preference VARCHAR(50),
 
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+--     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+-- );
+
+ALTER TABLE users ADD COLUMN restaurant_location VARCHAR(255);
