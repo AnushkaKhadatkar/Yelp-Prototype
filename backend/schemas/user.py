@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-
-# ---------- Signup ----------
+from typing import Optional
 
 class UserCreate(BaseModel):
     name: str
@@ -8,16 +7,35 @@ class UserCreate(BaseModel):
     password: str = Field(min_length=6, max_length=72)
 
 
-# ---------- Login ----------
 
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
 
-# ---------- Token Response ----------
-
 class TokenResponse(BaseModel):
     token: str
     user_id: int
     role: str
+
+class UserProfileResponse(BaseModel):
+    name: str
+    email: EmailStr
+    phone: Optional[str] = None
+    about: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    languages: Optional[str] = None
+    gender: Optional[str] = None
+    profile_pic: Optional[str] = None
+
+
+class UserProfileUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    about: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    languages: Optional[str] = None
+    gender: Optional[str] = None
