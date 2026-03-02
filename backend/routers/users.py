@@ -43,6 +43,7 @@ def update_profile(
             "phone": current_user.phone,
             "about": current_user.about,
             "city": current_user.city,
+            "state": current_user.state,
             "country": current_user.country,
             "languages": current_user.languages,
             "gender": current_user.gender,
