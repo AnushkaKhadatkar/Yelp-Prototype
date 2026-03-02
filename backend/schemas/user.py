@@ -24,6 +24,7 @@ class UserProfileResponse(BaseModel):
     phone: Optional[str] = None
     about: Optional[str] = None
     city: Optional[str] = None
+    state: Optional[str] = None
     country: Optional[str] = None
     languages: Optional[str] = None
     gender: Optional[str] = None
@@ -36,6 +37,7 @@ class UserProfileUpdate(BaseModel):
     phone: Optional[str] = None
     about: Optional[str] = None
     city: Optional[str] = None
+    state: Optional[str] = None
     country: Optional[str] = None
     languages: Optional[str] = None
     gender: Optional[str] = None
