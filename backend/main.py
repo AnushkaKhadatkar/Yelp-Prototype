@@ -6,6 +6,9 @@ from routers.auth import router as auth_router
 from fastapi import Depends
 from services.auth_service import get_current_user
 from routers.users import router as users_router
+from routers.restaurants import router as restaurants_router
+
+
 
 # Create all tables (will create when models are defined)
 # Base.metadata.create_all(bind=engine)
@@ -24,6 +27,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(restaurants_router)
 
 @app.get("/")
 def root():
