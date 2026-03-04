@@ -9,6 +9,10 @@ from database import get_db
 from models.restaurant import Restaurant
 from schemas.restaurant import RestaurantListItem
 
+from models.review import Review
+from models.user import User
+from schemas.restaurant import RestaurantDetailResponse, ReviewItem
+
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
 
@@ -60,3 +64,52 @@ def get_restaurants(
         }
         for r in restaurants
     ]
+
+@router.get("/{restaurant_id}", response_model=RestaurantDetailResponse)
+def get_restaurant_details(
+    restaurant_id: int,
+    db: Session = Depends(get_db)
+):
+    restaurant = db.query(Restaurant).filter(
+        Restaurant.id == restaurant_id
+    ).first()
+
+    if not restaurant:
+        return {"detail": "Restaurant not found"}
+
+    # JOIN reviews with users
+    reviews_query = (
+        db.query(Review, User)
+        .join(User, Review.user_id == User.id)
+        .filter(Review.restaurant_id == restaurant_id)
+        .all()
+    )
+
+    reviews_list = [
+        {
+            "review_id": review.id,
+            "user_name": user.name,
+            "rating": review.rating,
+            "comment": review.comment,
+            "photo": review.photos,
+            "created_at": review.created_at.isoformat() if review.created_at else None,
+        }
+        for review, user in reviews_query
+    ]
+
+    return {
+        "id": restaurant.id,
+        "name": restaurant.name,
+        "cuisine": restaurant.cuisine,
+        "address": restaurant.address,
+        "city": restaurant.city,
+        "description": restaurant.description,
+        "hours": restaurant.hours,
+        "contact_phone": restaurant.contact_phone,
+        "pricing_tier": restaurant.price_tier,
+        "amenities": restaurant.amenities,
+        "photos": restaurant.photos.split(",") if restaurant.photos else [],
+        "avg_rating": restaurant.avg_rating,
+        "review_count": restaurant.review_count,
+        "reviews": reviews_list
+    }
