@@ -8,6 +8,7 @@ class RestaurantListItem(BaseModel):
     cuisine: str
     address: Optional[str]
     city: Optional[str]
+    state: Optional[str]
     avg_rating: Optional[float]
     review_count: Optional[int]
     pricing_tier: Optional[str]
@@ -39,8 +40,8 @@ class RestaurantDetailResponse(BaseModel):
     id: int
     name: str
     cuisine: str
-    address: str
-    city: str
+    address: Optional[str]
+    city: Optional[str]
     description: Optional[str]
     hours: Optional[str]
     contact_phone: Optional[str]
