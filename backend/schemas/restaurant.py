@@ -51,4 +51,16 @@ class RestaurantDetailResponse(BaseModel):
     review_count: Optional[int]
     reviews: List[ReviewItem]
 
+class RestaurantCreate(BaseModel):
+    name: str
+    cuisine: str
+    address: str
+    city: str
+
+    contact_phone: Optional[str] = None
+    description: Optional[str] = None
+    hours: Optional[str] = None
+    pricing_tier: Optional[str] = None
+    amenities: Optional[str] = None
+
 RestaurantDetailResponse.model_rebuild()
