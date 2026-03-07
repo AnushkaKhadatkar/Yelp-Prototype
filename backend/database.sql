@@ -1,5 +1,6 @@
 -- CREATE DATABASE yelp_db;
 -- USE yelp_db;
+
 -- CREATE TABLE users (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     
@@ -103,4 +104,33 @@
 --     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 -- );
 
-ALTER TABLE users ADD COLUMN restaurant_location VARCHAR(255);
+-- ALTER TABLE users ADD COLUMN restaurant_location VARCHAR(255);
+
+-- SELECT * FROM users;
+
+-- SELECT * FROM user_preferences;
+
+-- INSERT INTO restaurants 
+-- (name, cuisine, address, city, state, zip_code, description, price_tier, amenities, avg_rating, review_count, photos)
+-- VALUES
+-- ('Mazala Pizza', 'Italian', '123 Main St', 'San Jose', 'CA', '95112', 
+--  'Authentic Italian pizza with outdoor seating', '$$', 
+--  'outdoor, family-friendly', 4.5, 120, 'pizza.jpg'),
+
+-- ('Bombay Spice', 'Indian', '456 Oak Ave', 'San Jose', 'CA', '95123',
+--  'Spicy Indian cuisine, vegetarian options available', '$$',
+--  'vegetarian, casual', 4.2, 95, 'indian.jpg'),
+
+-- ('Sushi Zen', 'Japanese', '789 Pine Rd', 'New York', 'NY', '10001',
+--  'Fresh sushi, romantic ambiance', '$$$',
+--  'romantic, fine dining', 4.8, 200, 'sushi.jpg');
+ 
+--  SELECT * FROM restaurants;
+ 
+-- INSERT INTO reviews (restaurant_id, user_id, rating, comment, created_at)
+-- VALUES (1, 1, 5, 'Amazing pizza!', NOW());
+
+-- SELECT * FROM reviews;
+
+-- ALTER TABLE reviews ADD COLUMN photos TEXT;
+

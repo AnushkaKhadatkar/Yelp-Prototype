@@ -212,10 +212,9 @@ def create_restaurant(
 @router.post("/{restaurant_id}/photos")
 def upload_restaurant_photos(
     restaurant_id: int,
-    photos: List[UploadFile] = File(...),
-    # photos: Annotated[List[UploadFile], File(...)],
+    photos: Annotated[List[UploadFile], File()],
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    # current_user: User = Depends(get_current_user)
 ):
     restaurant = db.query(Restaurant).filter(
         Restaurant.id == restaurant_id
