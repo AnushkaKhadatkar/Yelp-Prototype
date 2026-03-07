@@ -10,6 +10,7 @@ from routers.restaurants import router as restaurants_router
 
 from routers.reviews import router as reviews_router
 
+from routers import users
 
 # Create all tables (will create when models are defined)
 # Base.metadata.create_all(bind=engine)
@@ -30,6 +31,7 @@ app.add_middleware(
 )
 app.include_router(restaurants_router)
 app.include_router(reviews_router)
+app.include_router(users.router)
 
 @app.get("/")
 def root():

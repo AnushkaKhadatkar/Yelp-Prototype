@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, TIMESTAMP
+from sqlalchemy import Column, Integer, ForeignKey, TIMESTAMP, UniqueConstraint
 from sqlalchemy.sql import func
 from database import Base
 
@@ -11,3 +11,7 @@ class Favourite(Base):
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
 
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+
+    __table_args__ = (
+        UniqueConstraint("user_id", "restaurant_id", name="unique_user_restaurant"),
+    )

@@ -11,6 +11,9 @@ from services.auth_service import get_current_user
 from models.user_preference import UserPreference
 from schemas.preference import PreferenceResponse, PreferenceUpdate
 
+from models.favourite import Favourite
+from models.restaurant import Restaurant
+
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
@@ -130,4 +133,73 @@ def update_preferences(
             "sort_preference": prefs.sort_preference,
         }
     }
+
+#FAVOURITES
+@router.get("/favourites")
+def get_favourites(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    favourites = (
+        db.query(Restaurant)
+        .join(Favourite, Favourite.restaurant_id == Restaurant.id)
+        .filter(Favourite.user_id == current_user.id)
+        .all()
+    )
+
+    return [
+        {
+            "id": r.id,
+            "name": r.name,
+            "cuisine": r.cuisine,
+            "city": r.city,
+            "pricing_tier": r.price_tier,
+            "avg_rating": r.avg_rating,
+            "photo": r.photos.split(",")[0] if r.photos else None
+        }
+        for r in favourites
+    ]
+
+@router.post("/favourites/{restaurant_id}")
+def add_favourite(
+    restaurant_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    existing = db.query(Favourite).filter(
+        Favourite.user_id == current_user.id,
+        Favourite.restaurant_id == restaurant_id
+    ).first()
+
+    if existing:
+        return {"message": "Already in favourites"}
+
+    favourite = Favourite(
+        user_id=current_user.id,
+        restaurant_id=restaurant_id
+    )
+
+    db.add(favourite)
+    db.commit()
+
+    return {"message": "Added to favourites"}
+
+@router.delete("/favourites/{restaurant_id}")
+def remove_favourite(
+    restaurant_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    favourite = db.query(Favourite).filter(
+        Favourite.user_id == current_user.id,
+        Favourite.restaurant_id == restaurant_id
+    ).first()
+
+    if not favourite:
+        return {"message": "Not in favourites"}
+
+    db.delete(favourite)
+    db.commit()
+
+    return {"message": "Removed from favourites"}
 
