@@ -134,3 +134,29 @@
 
 -- ALTER TABLE reviews ADD COLUMN photos TEXT;
 
+-- SHOW TABLES;
+
+
+
+-- CREATE TABLE favourites (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     
+--     user_id INT NOT NULL,
+--     restaurant_id INT NOT NULL,
+
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+--     -- Prevent duplicate favourites
+--     UNIQUE KEY unique_user_restaurant (user_id, restaurant_id),
+
+--     -- Foreign Keys
+--     CONSTRAINT fk_fav_user
+--         FOREIGN KEY (user_id)
+--         REFERENCES users(id)
+--         ON DELETE CASCADE,
+
+--     CONSTRAINT fk_fav_restaurant
+--         FOREIGN KEY (restaurant_id)
+--         REFERENCES restaurants(id)
+--         ON DELETE CASCADE
+-- );
