@@ -12,7 +12,7 @@ class Review(Base):
 
     rating = Column(Integer, nullable=False)
     comment = Column(Text)
-    photos = Column(Text)
+    photos = Column(Text, nullable=True)
 
     created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
     updated_at = Column(

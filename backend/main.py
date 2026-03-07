@@ -8,6 +8,7 @@ from services.auth_service import get_current_user
 from routers.users import router as users_router
 from routers.restaurants import router as restaurants_router
 
+from routers.reviews import router as reviews_router
 
 
 # Create all tables (will create when models are defined)
@@ -28,6 +29,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(restaurants_router)
+app.include_router(reviews_router)
 
 @app.get("/")
 def root():
