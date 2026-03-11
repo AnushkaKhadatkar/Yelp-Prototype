@@ -6,6 +6,7 @@ from models.user import User
 from schemas.user import UserCreate, UserLogin, TokenResponse
 from services.auth_service import hash_password, authenticate_user, create_access_token
 from schemas.owner import OwnerCreate
+from schemas.owner import OwnerCreate
 
 router = APIRouter(prefix="/auth/user", tags=["Auth"])
 

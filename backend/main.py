@@ -10,6 +10,9 @@ from routers.restaurants import router as restaurants_router
 from routers.reviews import router as reviews_router
 from routers.owners import router as owners_router
 
+from routers.auth_user import router as auth_user_router
+from routers.auth_owner import router as auth_owner_router
+
 # Create tables
 Base.metadata.create_all(bind=engine)
 
@@ -33,7 +36,8 @@ app.include_router(users_router)
 app.include_router(restaurants_router)
 app.include_router(reviews_router)
 app.include_router(owners_router)
-
+app.include_router(auth_user_router)
+app.include_router(auth_owner_router)
 
 @app.get("/")
 def root():

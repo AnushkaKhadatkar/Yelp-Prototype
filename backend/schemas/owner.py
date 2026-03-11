@@ -1,7 +1,54 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel
+from typing import Optional, List
+
+
+# ----------------------------
+# OWNER SIGNUP
+# ----------------------------
 
 class OwnerCreate(BaseModel):
     name: str
-    email: EmailStr
-    password: str = Field(min_length=6, max_length=72)
-    restaurant_location: str
+    email: str
+    password: str
+    restaurant_location: Optional[str] = None
+
+
+# ----------------------------
+# OWNER BASIC RESPONSE
+# ----------------------------
+
+class OwnerResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    restaurant_location: Optional[str]
+
+
+# ----------------------------
+# OWNER DASHBOARD RESTAURANT
+# ----------------------------
+
+class OwnerRestaurantResponse(BaseModel):
+    id: int
+    name: str
+    cuisine: str
+    city: Optional[str]
+    avg_rating: Optional[float]
+
+
+# ----------------------------
+# OWNER PROFILE RESPONSE
+# ----------------------------
+
+class OwnerProfileResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    restaurants: List[OwnerRestaurantResponse]
+
+
+# Required for Pydantic v2
+OwnerCreate.model_rebuild()
+OwnerResponse.model_rebuild()
+OwnerRestaurantResponse.model_rebuild()
+OwnerProfileResponse.model_rebuild()
