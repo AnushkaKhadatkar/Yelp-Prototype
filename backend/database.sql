@@ -125,7 +125,7 @@
 --  'Fresh sushi, romantic ambiance', '$$$',
 --  'romantic, fine dining', 4.8, 200, 'sushi.jpg');
  
---  SELECT * FROM restaurants;
+ SELECT * FROM restaurants;
  
 -- INSERT INTO reviews (restaurant_id, user_id, rating, comment, created_at)
 -- VALUES (1, 1, 5, 'Amazing pizza!', NOW());
