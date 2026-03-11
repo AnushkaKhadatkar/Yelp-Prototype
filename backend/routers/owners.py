@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from typing import List, Optional
 import os
 import shutil
@@ -15,6 +16,9 @@ from schemas.owner import OwnerProfileResponse
 
 from models.review import Review
 from schemas.owner import OwnerRestaurantReviewsResponse, OwnerReviewItem
+
+from schemas.owner import OwnerDashboardResponse, DashboardReviewItem
+from models.review import Review
 
 router = APIRouter(prefix="/owner", tags=["Owner"])
 
@@ -313,4 +317,103 @@ def get_owner_restaurant_reviews(
         restaurant_id=restaurant.id,
         restaurant_name=restaurant.name,
         reviews=review_list
+    )
+
+@router.get("/dashboard", response_model=OwnerDashboardResponse)
+def owner_dashboard(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    if current_user.role != "owner":
+        raise HTTPException(status_code=403, detail="Not an owner")
+
+    # Get owner's restaurants
+    restaurants = db.query(Restaurant).filter(
+        Restaurant.owner_id == current_user.id
+    ).all()
+
+    restaurant_ids = [r.id for r in restaurants]
+
+    if not restaurant_ids:
+        return OwnerDashboardResponse(
+            total_review_count=0,
+            avg_rating=0.0,
+            ratings_distribution={1:0,2:0,3:0,4:0,5:0},
+            recent_reviews=[],
+            sentiment_summary="No reviews yet."
+        )
+
+    # --------------------------------
+    # Total reviews
+    # --------------------------------
+    total_reviews = db.query(func.count(Review.id)).filter(
+        Review.restaurant_id.in_(restaurant_ids)
+    ).scalar()
+
+    # --------------------------------
+    # Average rating (weighted)
+    # --------------------------------
+    avg_rating = db.query(func.avg(Review.rating)).filter(
+        Review.restaurant_id.in_(restaurant_ids)
+    ).scalar()
+
+    avg_rating = round(float(avg_rating), 2) if avg_rating else 0.0
+
+    # --------------------------------
+    # Ratings distribution
+    # --------------------------------
+    distribution_query = db.query(
+        Review.rating,
+        func.count(Review.id)
+    ).filter(
+        Review.restaurant_id.in_(restaurant_ids)
+    ).group_by(Review.rating).all()
+
+    ratings_distribution = {1:0,2:0,3:0,4:0,5:0}
+
+    for rating, count in distribution_query:
+        ratings_distribution[rating] = count
+
+    # --------------------------------
+    # Recent reviews (last 5)
+    # --------------------------------
+    recent = db.query(Review, Restaurant).join(
+        Restaurant, Review.restaurant_id == Restaurant.id
+    ).filter(
+        Review.restaurant_id.in_(restaurant_ids)
+    ).order_by(
+        Review.created_at.desc()
+    ).limit(5).all()
+
+    recent_reviews = [
+        DashboardReviewItem(
+            review_id=review.id,
+            restaurant_name=restaurant.name,
+            rating=review.rating,
+            comment=review.comment,
+            created_at=review.created_at
+        )
+        for review, restaurant in recent
+    ]
+
+    # --------------------------------
+    # Sentiment summary (simple version for now)
+    # --------------------------------
+    comments = db.query(Review.comment).filter(
+        Review.restaurant_id.in_(restaurant_ids)
+    ).all()
+
+    all_comments = " ".join([c[0] for c in comments if c[0]])
+
+    if not all_comments:
+        sentiment_summary = "No reviews available yet."
+    else:
+        sentiment_summary = f"Overall sentiment appears positive based on {total_reviews} reviews."
+
+    return OwnerDashboardResponse(
+        total_review_count=total_reviews,
+        avg_rating=avg_rating,
+        ratings_distribution=ratings_distribution,
+        recent_reviews=recent_reviews,
+        sentiment_summary=sentiment_summary
     )
