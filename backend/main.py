@@ -1,27 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import engine, Base
 from fastapi.staticfiles import StaticFiles
+
+from database import engine, Base
+
 from routers.auth import router as auth_router
-from fastapi import Depends
-from services.auth_service import get_current_user
 from routers.users import router as users_router
 from routers.restaurants import router as restaurants_router
-
 from routers.reviews import router as reviews_router
+from routers.owners import router as owners_router
 
-from routers import users
-
-# Create all tables (will create when models are defined)
-# Base.metadata.create_all(bind=engine)
+# Create tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Yelp Prototype API")
 
+# Static uploads
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
-app.include_router(auth_router)
-app.include_router(users_router)
 
-# Allow frontend to connect
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -29,16 +26,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers ONLY ONCE
+app.include_router(auth_router)
+app.include_router(users_router)
 app.include_router(restaurants_router)
 app.include_router(reviews_router)
-app.include_router(users.router)
+app.include_router(owners_router)
+
 
 @app.get("/")
 def root():
     return {"message": "Yelp Backend is Running"}
-
-from services.auth_service import get_current_user
-
-@app.get("/protected")
-def protected_route(current_user = Depends(get_current_user)):
-    return {"message": f"Hello {current_user.name}"}
