@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, List
+from datetime import datetime
 
 
 # ----------------------------
@@ -52,3 +53,20 @@ OwnerCreate.model_rebuild()
 OwnerResponse.model_rebuild()
 OwnerRestaurantResponse.model_rebuild()
 OwnerProfileResponse.model_rebuild()
+
+class OwnerReviewItem(BaseModel):
+    review_id: int
+    user_name: str
+    rating: int
+    comment: str
+    created_at: datetime
+
+
+class OwnerRestaurantReviewsResponse(BaseModel):
+    restaurant_id: int
+    restaurant_name: str
+    reviews: List[OwnerReviewItem]
+
+
+OwnerReviewItem.model_rebuild()
+OwnerRestaurantReviewsResponse.model_rebuild()

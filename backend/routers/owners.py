@@ -13,6 +13,9 @@ from pydantic import BaseModel
 from schemas.owner import OwnerRestaurantResponse
 from schemas.owner import OwnerProfileResponse
 
+from models.review import Review
+from schemas.owner import OwnerRestaurantReviewsResponse, OwnerReviewItem
+
 router = APIRouter(prefix="/owner", tags=["Owner"])
 
 
@@ -266,3 +269,48 @@ def claim_restaurant(
         "avg_rating": restaurant.avg_rating,
         "review_count": restaurant.review_count
     }
+
+@router.get("/restaurants/{restaurant_id}/reviews", response_model=OwnerRestaurantReviewsResponse)
+def get_owner_restaurant_reviews(
+    restaurant_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Must be owner
+    if current_user.role != "owner":
+        raise HTTPException(status_code=403, detail="Not an owner")
+
+    restaurant = db.query(Restaurant).filter(
+        Restaurant.id == restaurant_id
+    ).first()
+
+    if not restaurant:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+
+    # Ownership check
+    if restaurant.owner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    reviews = (
+        db.query(Review, User)
+        .join(User, Review.user_id == User.id)
+        .filter(Review.restaurant_id == restaurant_id)
+        .all()
+    )
+
+    review_list = [
+        OwnerReviewItem(
+            review_id=review.id,
+            user_name=user.name,
+            rating=review.rating,
+            comment=review.comment,
+            created_at=review.created_at
+        )
+        for review, user in reviews
+    ]
+
+    return OwnerRestaurantReviewsResponse(
+        restaurant_id=restaurant.id,
+        restaurant_name=restaurant.name,
+        reviews=review_list
+    )
