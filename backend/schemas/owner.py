@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Dict
 from datetime import datetime
 
 
@@ -48,11 +48,6 @@ class OwnerProfileResponse(BaseModel):
     restaurants: List[OwnerRestaurantResponse]
 
 
-# Required for Pydantic v2
-OwnerCreate.model_rebuild()
-OwnerResponse.model_rebuild()
-OwnerRestaurantResponse.model_rebuild()
-OwnerProfileResponse.model_rebuild()
 
 class OwnerReviewItem(BaseModel):
     review_id: int
@@ -68,5 +63,19 @@ class OwnerRestaurantReviewsResponse(BaseModel):
     reviews: List[OwnerReviewItem]
 
 
-OwnerReviewItem.model_rebuild()
-OwnerRestaurantReviewsResponse.model_rebuild()
+
+class DashboardReviewItem(BaseModel):
+    review_id: int
+    restaurant_name: str
+    rating: int
+    comment: str
+    created_at: datetime
+
+
+class OwnerDashboardResponse(BaseModel):
+    total_review_count: int
+    avg_rating: float
+    ratings_distribution: Dict[int, int]
+    recent_reviews: List[DashboardReviewItem]
+
+
