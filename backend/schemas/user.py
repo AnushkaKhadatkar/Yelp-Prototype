@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import List, Optional
 
 class UserCreate(BaseModel):
     name: str
@@ -41,3 +41,26 @@ class UserProfileUpdate(BaseModel):
     country: Optional[str] = None
     languages: Optional[str] = None
     gender: Optional[str] = None
+
+
+class UserReviewHistoryItem(BaseModel):
+    review_id: int
+    restaurant_id: int
+    restaurant_name: str
+    rating: int
+    comment: Optional[str]
+    created_at: Optional[str]
+
+
+class UserRestaurantHistoryItem(BaseModel):
+    id: int
+    name: str
+    cuisine: str
+    address: Optional[str]
+    city: Optional[str]
+    created_at: Optional[str]
+
+
+class UserHistoryResponse(BaseModel):
+    reviews: List[UserReviewHistoryItem]
+    restaurants_added: List[UserRestaurantHistoryItem]

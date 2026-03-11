@@ -14,6 +14,10 @@ from schemas.preference import PreferenceResponse, PreferenceUpdate
 from models.favourite import Favourite
 from models.restaurant import Restaurant
 
+from schemas.user import UserHistoryResponse
+from models.review import Review
+from models.restaurant import Restaurant
+
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
@@ -202,4 +206,58 @@ def remove_favourite(
     db.commit()
 
     return {"message": "Removed from favourites"}
+
+
+@router.get("/history", response_model=UserHistoryResponse)
+def get_user_history(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # ---------------------------------------
+    # 1️⃣ Reviews written by user
+    # ---------------------------------------
+    review_results = (
+        db.query(Review, Restaurant)
+        .join(Restaurant, Review.restaurant_id == Restaurant.id)
+        .filter(Review.user_id == current_user.id)
+        .all()
+    )
+
+    reviews = [
+        {
+            "review_id": review.id,
+            "restaurant_id": restaurant.id,
+            "restaurant_name": restaurant.name,
+            "rating": review.rating,
+            "comment": review.comment,
+            "created_at": review.created_at.isoformat() if review.created_at else None
+        }
+        for review, restaurant in review_results
+    ]
+
+    # ---------------------------------------
+    # 2️⃣ Restaurants added by user
+    # ---------------------------------------
+    restaurants_added_results = (
+        db.query(Restaurant)
+        .filter(Restaurant.owner_id == current_user.id)
+        .all()
+    )
+
+    restaurants_added = [
+        {
+            "id": r.id,
+            "name": r.name,
+            "cuisine": r.cuisine,
+            "address": r.address,
+            "city": r.city,
+            "created_at": r.created_at.isoformat() if r.created_at else None
+        }
+        for r in restaurants_added_results
+    ]
+
+    return {
+        "reviews": reviews,
+        "restaurants_added": restaurants_added
+    }
 
