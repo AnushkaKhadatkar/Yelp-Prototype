@@ -61,7 +61,7 @@ DATABASE_URL=mysql+pymysql://<user>:<password>@localhost:3306/<database_name>
 SECRET_KEY=your_secret_key_here
 
 # OpenAI API key (used by LangChain)
-OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_openai_api_key
 
 # Tavily API key (used by the AI assistant for web search)
 TAVILY_API_KEY=your_tavily_api_key
