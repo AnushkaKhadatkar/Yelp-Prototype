@@ -60,8 +60,8 @@ DATABASE_URL=mysql+pymysql://<user>:<password>@localhost:3306/<database_name>
 # JWT secret key (any long random string)
 SECRET_KEY=your_secret_key_here
 
-# OpenAI API key (used by LangChain)
-GEMINI_API_KEY=your_openai_api_key
+# Google Gemini API key (used by LangChain with Gemini 2.0 Flash)
+GOOGLE_API_KEY=your_google_gemini_api_key
 
 # Tavily API key (used by the AI assistant for web search)
 TAVILY_API_KEY=your_tavily_api_key
@@ -116,7 +116,7 @@ The frontend will be available at **http://localhost:5173**.
 - **Restaurant listings** — Browse, search, and filter restaurants
 - **Reviews** — Submit and view restaurant reviews
 - **Favourites** — Save favourite restaurants
-- **AI Assistant** — LangChain + LangGraph powered chatbot that recommends restaurants and searches the web via Tavily
+- **AI Assistant** — LangChain + LangGraph powered chatbot using **Gemini 2.0 Flash** that recommends restaurants and searches the web via Tavily
 
 ---
 
