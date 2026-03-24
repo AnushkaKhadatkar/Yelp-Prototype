@@ -18,11 +18,16 @@ class OwnerCreate(BaseModel):
 # OWNER BASIC RESPONSE
 # ----------------------------
 
-class OwnerResponse(BaseModel):
+class RestaurantBrief(BaseModel):
     id: int
     name: str
-    email: str
-    restaurant_location: Optional[str]
+    cuisine: Optional[str] = None
+    city: Optional[str] = None
+    avg_rating: Optional[float] = None
+
+class OwnerProfileResponse(BaseModel):
+    owner: dict
+    restaurants: List[RestaurantBrief]
 
 
 # ----------------------------

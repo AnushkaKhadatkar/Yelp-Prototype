@@ -27,7 +27,7 @@ router = APIRouter(prefix="/owner", tags=["Owner"])
 # GET OWNER PROFILE
 # =====================================================
 
-@router.get("/profile", response_model=OwnerProfileResponse)
+@router.get("/profile")
 def get_owner_profile(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
