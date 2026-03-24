@@ -146,3 +146,20 @@ def upload_review_photos(
         "message": "Review photos uploaded successfully",
         "photos": photo_paths
     }
+@router.delete("/reviews/{review_id}")
+def delete_review(review_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    review = db.query(Review).filter(Review.id == review_id).first()
+    if not review:
+        raise HTTPException(status_code=404, detail="Review not found")
+    if review.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    restaurant_id = review.restaurant_id
+    db.delete(review)
+    db.commit()
+    # Recalculate avg_rating
+    stats = db.query(func.avg(Review.rating), func.count(Review.id)).filter(Review.restaurant_id == restaurant_id).first()
+    restaurant = db.query(Restaurant).filter(Restaurant.id == restaurant_id).first()
+    restaurant.avg_rating = round(float(stats[0]), 1) if stats[0] else 0
+    restaurant.review_count = stats[1]
+    db.commit()
+    return {"message": "Review deleted successfully"}

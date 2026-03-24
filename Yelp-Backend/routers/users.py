@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter, Depends, UploadFile, File
 from sqlalchemy.orm import Session
 import shutil
@@ -82,6 +83,17 @@ def upload_profile_picture(
         "image_url": file_path
     }
 
+def parse_list(val):
+    if not val:
+        return []
+    if isinstance(val, list):
+        return val
+    try:
+        return json.loads(val)
+    except:
+        return [v.strip() for v in val.split(',') if v.strip()]
+    
+    
 @router.get("/preferences", response_model=PreferenceResponse)
 def get_preferences(
     db: Session = Depends(get_db),
@@ -95,11 +107,11 @@ def get_preferences(
         return PreferenceResponse()
 
     return {
-        "cuisines": prefs.cuisines,
+        "cuisines": parse_list(prefs.cuisines),
         "price_range": prefs.price_range,
         "location": prefs.preferred_locations,
-        "dietary_needs": prefs.dietary_needs,
-        "ambiance": prefs.ambiance,
+        "dietary_needs": parse_list(prefs.dietary_needs),
+        "ambiance": parse_list(prefs.ambiance),
         "sort_preference": prefs.sort_preference,
     }
 
@@ -120,6 +132,8 @@ def update_preferences(
     for field, value in update_data.dict(exclude_unset=True).items():
         if field == "location":
             setattr(prefs, "preferred_locations", value)
+        elif isinstance(value, list):
+            setattr(prefs, field, json.dumps(value))  # ← saves ["Italian","Chinese"] as string
         else:
             setattr(prefs, field, value)
 

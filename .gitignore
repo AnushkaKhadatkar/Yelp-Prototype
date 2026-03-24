@@ -10,4 +10,7 @@ frontend/.env
 
 # General
 .DS_Store
-Thumbs.db
+Thumbs.dbnode_modules/
+venv/
+__pycache__/
+*.pyc
