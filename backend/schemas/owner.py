@@ -82,5 +82,6 @@ class OwnerDashboardResponse(BaseModel):
     avg_rating: float
     ratings_distribution: Dict[int, int]
     recent_reviews: List[DashboardReviewItem]
+    sentiment_summary: str
 
 

@@ -70,6 +70,8 @@ export const getReviews    = (restaurantId)       => API.get(`/restaurants/${res
 export const createReview  = (restaurantId, data) => API.post(`/restaurants/${restaurantId}/reviews`, data)
 export const updateReview  = (reviewId, data)     => API.put(`/reviews/${reviewId}`, data)
 export const deleteReview  = (reviewId)           => API.delete(`/reviews/${reviewId}`)
+export const uploadReviewPhotos = (reviewId, formData) =>
+  API.post(`/reviews/${reviewId}/photos`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 
 // FAVOURITES
 export const getFavourites    = ()             => API.get('/users/favourites')

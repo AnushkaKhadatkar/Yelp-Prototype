@@ -29,10 +29,12 @@ class RestaurantResponse(BaseModel):
 
 class ReviewItem(BaseModel):
     review_id: int
+    user_id: int
     user_name: str
     rating: int
     comment: Optional[str]
     photo: Optional[str]
+    photos: Optional[List[str]] = []
     created_at: Optional[str]
 
 

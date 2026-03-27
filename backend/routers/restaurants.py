@@ -19,35 +19,74 @@ from services.auth_service import get_current_user
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
+_SEARCH_FALLBACK_CUISINE = {
+    # Common food keywords → likely cuisine bucket in our dataset
+    "burger": "American",
+    "burgers": "American",
+    "bbq": "American",
+    "barbecue": "American",
+    "steak": "American",
+    "wings": "American",
+    "taco": "Mexican",
+    "tacos": "Mexican",
+    "burrito": "Mexican",
+    "burritos": "Mexican",
+    "pizza": "Italian",
+    "pasta": "Italian",
+    "ramen": "Japanese",
+    "sushi": "Japanese",
+    "curry": "Indian",
+    "biryani": "Indian",
+    "dumpling": "Chinese",
+    "dumplings": "Chinese",
+    "dim sum": "Chinese",
+}
+
+
+def _infer_cuisine_from_text(text: str) -> Optional[str]:
+    if not text:
+        return None
+    t = text.lower().strip()
+    for k, v in _SEARCH_FALLBACK_CUISINE.items():
+        if k in t:
+            return v
+    return None
+
 
 # -----------------------
 # GET ALL RESTAURANTS
 # -----------------------
 @router.get("", response_model=List[RestaurantDetailResponse])
 def get_restaurants(
-    name: Optional[str] = Query(None),
+    search: Optional[str] = Query(None),
+    name: Optional[str] = Query(None),   
     cuisine: Optional[str] = Query(None),
-    keyword: Optional[str] = Query(None),
     city: Optional[str] = Query(None),
+    keyword: Optional[str] = Query(None),
     zip: Optional[str] = Query(None),
     db: Session = Depends(get_db)
 ):
     query = db.query(Restaurant)
 
+    # Explicit name filter (frontend may send `name`)
     if name:
         query = query.filter(Restaurant.name.ilike(f"%{name}%"))
 
-    if cuisine:
-        query = query.filter(Restaurant.cuisine == cuisine)
+    search_term_value = search or keyword
 
-    if keyword:
+    if search_term_value:
+        search_term = f"%{search_term_value}%"
         query = query.filter(
             or_(
-                Restaurant.name.ilike(f"%{keyword}%"),
-                Restaurant.description.ilike(f"%{keyword}%"),
-                Restaurant.amenities.ilike(f"%{keyword}%")
+            Restaurant.name.ilike(search_term),
+            Restaurant.description.ilike(search_term),
+            Restaurant.cuisine.ilike(search_term),
+            Restaurant.amenities.ilike(search_term)
             )
         )
+
+    if cuisine and cuisine != "All":
+        query = query.filter(Restaurant.cuisine == cuisine)
 
     if city:
         query = query.filter(Restaurant.city.ilike(f"%{city}%"))
@@ -56,6 +95,23 @@ def get_restaurants(
         query = query.filter(Restaurant.zip_code == zip)
 
     restaurants = query.all()
+
+    # If the user's keyword produced no direct matches, do a small, user-friendly fallback:
+    # infer a cuisine bucket from common food words (e.g., "burger" → American).
+    if (
+        not restaurants
+        and search_term_value
+        and not cuisine
+        and not name
+    ):
+        inferred_cuisine = _infer_cuisine_from_text(search_term_value)
+        if inferred_cuisine:
+            fallback_query = db.query(Restaurant).filter(Restaurant.cuisine == inferred_cuisine)
+            if city:
+                fallback_query = fallback_query.filter(Restaurant.city.ilike(f"%{city}%"))
+            if zip:
+                fallback_query = fallback_query.filter(Restaurant.zip_code == zip)
+            restaurants = fallback_query.all()
 
     result = []
 
@@ -71,10 +127,12 @@ def get_restaurants(
         reviews_list = [
             {
                 "review_id": review.id,
+                "user_id": review.user_id,
                 "user_name": user.name,
                 "rating": review.rating,
                 "comment": review.comment,
                 "photo": review.photos,
+                "photos": review.photos.split(",") if review.photos else [],
                 "created_at": review.created_at.isoformat() if review.created_at else None,
             }
             for review, user in reviews_query
@@ -124,10 +182,12 @@ def get_restaurant_details(
     reviews_list = [
         {
             "review_id": review.id,
+            "user_id": review.user_id,
             "user_name": user.name,
             "rating": review.rating,
             "comment": review.comment,
             "photo": review.photos,
+            "photos": review.photos.split(",") if review.photos else [],
             "created_at": review.created_at.isoformat() if review.created_at else None,
         }
         for review, user in reviews_query
