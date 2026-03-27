@@ -43,6 +43,7 @@ CUISINE_KEYWORDS = {
     "spanish":"Spanish","tapas":"Spanish",
 }
 ASIAN_CUISINES = ["Chinese","Japanese","Korean","Thai","Vietnamese","Indian","Burmese"]
+LOCAL_AREAS = {"san jose", "santa clara", "san francisco", "bay area"}
 
 def strip_markdown(text):
     text = re.sub(r'\*\*(.+?)\*\*',r'\1',text,flags=re.DOTALL)
@@ -73,29 +74,64 @@ def should_search_web(message: str) -> bool:
         "open now", "open late", "open tonight", "hours", "what time",
         "trending", "popular right now", "special event", "this weekend",
         "today", "currently", "best right now", "new restaurant",
-        "just opened", "closing time", "reservation"
+        "just opened", "closing time", "reservation",
+        "travel", "travelling", "traveling", "trip", "vacation", "visiting",
+        "in india", "in japan", "in france", "in italy", "in mexico",
+        "in thailand", "in korea", "in vietnam", "in spain"
     ]
     msg = message.lower()
     return any(t in msg for t in triggers)
 
-# ← ADDED: Search web using Tavily
-def search_web(query: str) -> str:
+def extract_destination(message: str) -> str:
+    msg = message.lower().strip()
+    patterns = [
+        r"\b(?:travel|travelling|traveling|visiting|trip to|vacation in)\s+(?:to\s+|in\s+)?([a-zA-Z\s]{2,40})",
+        r"\b(?:restaurants|food|places)\s+in\s+([a-zA-Z\s]{2,40})",
+        r"\bto\s+([a-zA-Z\s]{2,40})",
+    ]
+    for p in patterns:
+        m = re.search(p, msg)
+        if m:
+            raw = m.group(1)
+            raw = re.split(r"[,.!?;]", raw)[0].strip()
+            cleaned = " ".join(raw.split()[:4])
+            return cleaned.title()
+    return ""
+
+def search_web_results(query: str, max_results: int = 4):
     if not tavily_client:
-        return ""
+        return []
     try:
         results = tavily_client.search(
             query=query,
-            max_results=2,
+            max_results=max_results,
             search_depth="basic"
         )
         if results and results.get("results"):
-            # Take only the first result, clean it up
-            first = results["results"][0]
-            content = first.get("content", "")[:300]
-            return content
-        return ""
+            return results["results"][:max_results]
+        return []
     except Exception:
+        return []
+
+# ← ADDED: Search web using Tavily (short context for LLM mode)
+def search_web(query: str) -> str:
+    web_results = search_web_results(query, max_results=2)
+    if not web_results:
         return ""
+    first = web_results[0]
+    return first.get("content", "")[:300]
+
+def build_travel_web_response(destination: str, web_results) -> str:
+    lines = [f"Great choice. Here are some well-reviewed restaurant picks in {destination} from live web results:"]
+    for i, item in enumerate(web_results[:4], 1):
+        title = (item.get("title") or "Restaurant pick").strip()
+        content = (item.get("content") or "").strip().replace("\n", " ")
+        snippet = content[:140] + ("..." if len(content) > 140 else "")
+        lines.append(f"\n{i}. {title}")
+        if snippet:
+            lines.append(f"   {snippet}")
+    lines.append("\nIf you want, I can narrow this by budget, veg options, or neighborhood.")
+    return "".join(lines)
 
 def query_restaurants(cuisine, is_asian_broad, city, db, limit=6):
     q = db.query(Restaurant)
@@ -166,6 +202,17 @@ async def chat(user_id, message, history, db):
         if c in message.lower():
             city = "San Francisco" if c=="san francisco" else c.title()
             break
+
+    # Travel/out-of-area intent: use Tavily-first recommendations instead of local DB-only list.
+    destination = extract_destination(message)
+    if destination and destination.lower() not in LOCAL_AREAS and tavily_client:
+        travel_query = f"best restaurants in {destination} with ratings and popular local recommendations"
+        live_results = search_web_results(travel_query, max_results=4)
+        if live_results:
+            return {
+                "response": build_travel_web_response(destination, live_results),
+                "recommended_restaurants": []
+            }
 
     # ← ADDED: Run Tavily web search if query needs real-time info
     web_context = ""

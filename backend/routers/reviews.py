@@ -57,7 +57,7 @@ def create_review(
 
     db.commit()
 
-    return {"message": "Review created successfully"}
+    return {"message": "Review created successfully", "review_id": new_review.id}
 
 ### UPDATE REVIEW 
 

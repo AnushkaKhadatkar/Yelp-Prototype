@@ -57,7 +57,9 @@ export default function HomePage() {
   const handleSearch = (e) => {
     e.preventDefault()
     const params = {}
-    if (search) params.name = search
+    // Backend expects `search` (and/or `keyword`) for text search.
+    // Keep `search` in sync with the main search box.
+    if (search) params.search = search
     if (cuisine && cuisine !== 'All') params.cuisine = cuisine
     if (city) params.city = city
     if (keyword) params.keyword = keyword
@@ -66,8 +68,20 @@ export default function HomePage() {
 
   const handleCuisineFilter = (c) => {
     setActiveFilter(c)
-    if (c === 'All') fetchRestaurants()
-    else fetchRestaurants({ cuisine: c })
+    // Cuisine pills should *combine* with the current search inputs, not replace them.
+    const params = {}
+    if (search) params.search = search
+    if (city) params.city = city
+    if (keyword) params.keyword = keyword
+
+    if (c === 'All') {
+      setCuisine('')
+    } else {
+      setCuisine(c)
+      params.cuisine = c
+    }
+
+    fetchRestaurants(params)
   }
 
   const handleFavToggle = (id, isFav) => {
@@ -217,7 +231,7 @@ export default function HomePage() {
 
       {/* ── Main content ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col gap-8">
 
           {/* Restaurant grid */}
           <div className="flex-1 min-w-0">
@@ -232,17 +246,7 @@ export default function HomePage() {
                   </p>
                 )}
               </div>
-              <button className="lg:hidden btn-primary text-sm px-4 py-2 rounded-xl"
-                onClick={() => setChatOpen(!chatOpen)}>
-                🤖 {chatOpen ? 'Close AI' : 'Ask AI'}
-              </button>
             </div>
-
-            {chatOpen && (
-              <div className="lg:hidden mb-6 h-[480px] scale-in">
-                <ChatbotPanel />
-              </div>
-            )}
 
             {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -284,15 +288,49 @@ export default function HomePage() {
               </div>
             )}
           </div>
-
-          {/* AI Chatbot sidebar */}
-          <div className="hidden lg:block w-96 flex-shrink-0">
-            <div className="sticky top-32" style={{ height: 'calc(100vh - 160px)', maxHeight: 680 }}>
-              <ChatbotPanel />
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* Floating Chatbot Icon */}
+      <button
+        type="button"
+        aria-label={chatOpen ? "Close AI assistant" : "Open AI assistant"}
+        onClick={() => setChatOpen((v) => !v)}
+        className="fixed bottom-6 right-6 z-[60] rounded-full shadow-lg"
+        style={{
+          width: 56,
+          height: 56,
+          background: 'var(--red)',
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 22,
+          boxShadow: '0 14px 34px rgba(232,50,26,0.35)',
+        }}
+      >
+        🤖
+      </button>
+
+      {/* Chatbot Popover/Modal */}
+      {chatOpen && (
+        <div className="fixed inset-0 z-[70]">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'rgba(0,0,0,0.35)' }}
+            onClick={() => setChatOpen(false)}
+          />
+
+          {/* Panel */}
+          <div
+            className="absolute bottom-6 right-6 w-[92vw] max-w-[420px] h-[70vh] max-h-[680px] scale-in"
+            style={{ borderRadius: 16 }}
+          >
+            <ChatbotPanel />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

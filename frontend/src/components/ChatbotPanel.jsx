@@ -88,6 +88,17 @@ export default function ChatbotPanel() {
     if (!msg || loading) return
     setInput('')
 
+    // Simple greeting behavior requested: "hi" -> "hi how can i help you"
+    if (/^(hi|hello|hey)\b/i.test(msg)) {
+      setMessages(prev => [
+        ...prev,
+        { role: 'user', content: msg },
+        { role: 'assistant', content: "Hi! What are you in the mood for today?\n\nTell me a cuisine (e.g., Italian), your budget ($–$$$$), and your city — or say something like “romantic dinner”, “vegan casual”, or “best rated near me”.", recs: [] },
+      ])
+      setTimeout(() => inputRef.current?.focus(), 100)
+      return
+    }
+
     const updatedMessages = [...messages, { role: 'user', content: msg }]
     setMessages(updatedMessages)
     setLoading(true)

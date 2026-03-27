@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getRestaurantById, createReview, addFavourite, removeFavourite, claimRestaurant, updateReview, deleteReview } from '../services/api'
+import { getRestaurantById, createReview, addFavourite, removeFavourite, claimRestaurant, updateReview, deleteReview, uploadReviewPhotos } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
+
+const DEFAULT_PHOTO = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80'
 
 export default function RestaurantDetailsPage() {
   const { id } = useParams()
@@ -21,6 +23,7 @@ export default function RestaurantDetailsPage() {
   const [showReviewForm, setShowReviewForm] = useState(false)
   const [newRating, setNewRating] = useState(0)
   const [newComment, setNewComment] = useState('')
+  const [newPhotos, setNewPhotos] = useState([])
   const [reviewLoading, setReviewLoading] = useState(false)
   const [reviewError, setReviewError] = useState('')
 
@@ -32,6 +35,9 @@ export default function RestaurantDetailsPage() {
   // Claim
   const [claimLoading, setClaimLoading] = useState(false)
   const [claimed, setClaimed] = useState(false)
+  const [bannerImgError, setBannerImgError] = useState(false)
+  const [pendingDeleteReviewId, setPendingDeleteReviewId] = useState(null)
+  const [deleteLoading, setDeleteLoading] = useState(false)
 
   const loadRestaurant = async () => {
     setLoading(true)
@@ -67,11 +73,18 @@ export default function RestaurantDetailsPage() {
     setReviewLoading(true)
     setReviewError('')
     try {
-      await createReview(id, { rating: newRating, comment: newComment })
+      const res = await createReview(id, { rating: newRating, comment: newComment })
+      const reviewId = res?.data?.review_id
+      if (reviewId && newPhotos && newPhotos.length > 0) {
+        const fd = new FormData()
+        newPhotos.forEach((f) => fd.append('photos', f))
+        await uploadReviewPhotos(reviewId, fd)
+      }
       // Reload restaurant to get updated reviews + avg_rating
       await loadRestaurant()
       setNewRating(0)
       setNewComment('')
+      setNewPhotos([])
       setShowReviewForm(false)
     } catch (e) {
       const detail = e.response?.data?.detail
@@ -90,14 +103,17 @@ export default function RestaurantDetailsPage() {
     }
   }
 
-  const handleDeleteReview = async (reviewId) => {
-    if (!window.confirm('Delete this review?')) return
+  const handleDeleteReview = async () => {
+    if (!pendingDeleteReviewId) return
+    setDeleteLoading(true)
     try {
-      await deleteReview(reviewId)
+      await deleteReview(pendingDeleteReviewId)
       await loadRestaurant()
+      setPendingDeleteReviewId(null)
     } catch (e) {
       alert(e.response?.data?.detail || 'Failed to delete review.')
     }
+    setDeleteLoading(false)
   }
 
   const handleClaim = async () => {
@@ -150,14 +166,19 @@ export default function RestaurantDetailsPage() {
           Turkish: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=1200&q=80',
           Hawaiian: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80',
         }
-        const uploadedPhoto = restaurant.photos && restaurant.photos.length > 0
+        const uploadedPhoto = !bannerImgError && restaurant.photos && restaurant.photos.length > 0
           ? `http://localhost:8000/uploads/${restaurant.photos[0]}`
           : null
         const bannerPhoto = uploadedPhoto || CUISINE_PHOTOS[restaurant.cuisine] || DEFAULT_PHOTO
         return (
       <div className="h-56 sm:h-72 bg-gradient-to-br from-red-100 to-orange-50 rounded-2xl mb-6 overflow-hidden relative">
         {bannerPhoto ? (
-          <img src={bannerPhoto} alt={restaurant.name} className="w-full h-full object-cover" />
+          <img
+            src={bannerPhoto}
+            alt={restaurant.name}
+            onError={() => setBannerImgError(true)}
+            className="w-full h-full object-cover"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <span className="text-8xl opacity-10">🍽️</span>
@@ -261,6 +282,19 @@ export default function RestaurantDetailsPage() {
                 placeholder="Share your experience..."
                 className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-200 resize-none" />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Photos (optional)</label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => setNewPhotos(Array.from(e.target.files || []))}
+                className="w-full text-sm"
+              />
+              {newPhotos.length > 0 && (
+                <p className="text-xs text-gray-400 mt-1">{newPhotos.length} file(s) selected</p>
+              )}
+            </div>
             {reviewError && <p className="text-red-500 text-sm">{reviewError}</p>}
             <div className="flex gap-3">
               <button type="submit" disabled={reviewLoading}
@@ -306,7 +340,7 @@ export default function RestaurantDetailsPage() {
                       <div className="flex gap-2">
                         <button onClick={() => { setEditingReviewId(r.review_id); setEditRating(r.rating); setEditComment(r.comment) }}
                           className="text-xs text-blue-500 hover:text-blue-700 px-2 py-1 rounded hover:bg-blue-50 transition-colors">Edit</button>
-                        <button onClick={() => handleDeleteReview(r.review_id)}
+                        <button onClick={() => setPendingDeleteReviewId(r.review_id)}
                           className="text-xs text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition-colors">Delete</button>
                       </div>
                     )}
@@ -332,6 +366,22 @@ export default function RestaurantDetailsPage() {
                         ))}
                       </div>
                       <p className="text-sm text-gray-700 leading-relaxed">{r.comment}</p>
+                      {(() => {
+                        const photos = Array.isArray(r.photos) ? r.photos : (r.photo ? String(r.photo).split(',').filter(Boolean) : [])
+                        if (!photos.length) return null
+                        return (
+                          <div className="mt-3 flex gap-2 overflow-x-auto">
+                            {photos.map((p) => (
+                              <img
+                                key={p}
+                                src={`http://localhost:8000/uploads/${p}`}
+                                alt="review"
+                                className="h-20 w-20 object-cover rounded-lg border border-gray-100"
+                              />
+                            ))}
+                          </div>
+                        )
+                      })()}
                     </>
                   )}
                 </div>
@@ -340,6 +390,33 @@ export default function RestaurantDetailsPage() {
           </div>
         )}
       </div>
+
+      {pendingDeleteReviewId && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[1px] flex items-center justify-center px-4">
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl border border-gray-100 p-5">
+            <h3 className="text-base font-semibold text-gray-900">Delete review?</h3>
+            <p className="mt-2 text-sm text-gray-600">This action cannot be undone.</p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setPendingDeleteReviewId(null)}
+                disabled={deleteLoading}
+                className="px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteReview}
+                disabled={deleteLoading}
+                className="px-4 py-2 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+              >
+                {deleteLoading ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
