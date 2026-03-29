@@ -20,9 +20,10 @@ pwd_context = CryptContext(
     bcrypt__truncate_error=False
 )
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+SECRET_KEY = os.getenv("SECRET_KEY") or "dev-insecure-secret-change-me"
+ALGORITHM = os.getenv("ALGORITHM") or "HS256"
+_access = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(_access) if _access is not None and _access != "" else 30
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/user/login")
 
