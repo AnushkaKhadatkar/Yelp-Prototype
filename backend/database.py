@@ -1,27 +1,31 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
+"""MongoDB connection (Lab 2). Replaces SQLAlchemy SessionLocal."""
+
 import os
 
-# Load environment variables from .env
+from dotenv import load_dotenv
+from pymongo import MongoClient
+from pymongo.database import Database
+
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
+MONGODB_DB_NAME = os.getenv("MONGODB_DB_NAME", "yelp_db")
 
-# Create engine
-engine = create_engine(DATABASE_URL)
+_client: MongoClient | None = None
 
-# Create session
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base class for models
-Base = declarative_base()
+def get_mongo_client() -> MongoClient:
+    global _client
+    if _client is None:
+        _client = MongoClient(MONGODB_URI)
+    return _client
 
-# Dependency for getting DB session
+
+def get_database() -> Database:
+    return get_mongo_client()[MONGODB_DB_NAME]
+
+
 def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    """FastAPI dependency: yields PyMongo Database."""
+    db = get_database()
+    yield db
