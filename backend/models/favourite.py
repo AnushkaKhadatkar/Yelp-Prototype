@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, TIMESTAMP, UniqueConstraint
 from sqlalchemy.sql import func
-from database import Base
+from db_base import Base
 
 class Favourite(Base):
     __tablename__ = "favourites"
