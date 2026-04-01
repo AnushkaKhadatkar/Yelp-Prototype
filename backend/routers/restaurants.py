@@ -1,26 +1,20 @@
-# backend/routers/restaurants.py
-
-from fastapi import APIRouter, Depends, Query, UploadFile, File, Form, HTTPException
-from sqlalchemy.orm import Session
-from typing import List, Optional, Annotated
-from sqlalchemy import or_
 import os
 import shutil
+from datetime import datetime
+from typing import Annotated, List, Optional
+
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
+from pymongo.database import Database
 
 from database import get_db
-from models.restaurant import Restaurant
-from models.review import Review
-from models.user import User
-from schemas.restaurant import (
-    RestaurantListItem,
-    RestaurantDetailResponse
-)
+import mongo_collections as C
+from mongo_utils import next_id, restaurant_doc_to_detail_dict
+from schemas.restaurant import RestaurantDetailResponse
 from services.auth_service import get_current_user
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
 _SEARCH_FALLBACK_CUISINE = {
-    # Common food keywords → likely cuisine bucket in our dataset
     "burger": "American",
     "burgers": "American",
     "bbq": "American",
@@ -53,182 +47,145 @@ def _infer_cuisine_from_text(text: str) -> Optional[str]:
     return None
 
 
-# -----------------------
-# GET ALL RESTAURANTS
-# -----------------------
+def _review_entry(db: Database, review: dict) -> dict:
+    user = db[C.USERS].find_one({"_id": review["user_id"]})
+    user_name = user.get("name") if user else ""
+    photos = review.get("photos") or ""
+    ca = review.get("created_at")
+    return {
+        "review_id": review["_id"],
+        "user_id": review["user_id"],
+        "user_name": user_name,
+        "rating": review.get("rating"),
+        "comment": review.get("comment"),
+        "photo": photos,
+        "photos": photos.split(",") if photos else [],
+        "created_at": ca.isoformat() if hasattr(ca, "isoformat") and ca else None,
+    }
+
+
+def _list_restaurants_query(
+    db: Database,
+    *,
+    name: Optional[str],
+    search_term_value: Optional[str],
+    cuisine: Optional[str],
+    city: Optional[str],
+    zip_code: Optional[str],
+):
+    conds: list = []
+    if name:
+        conds.append({"name": {"$regex": name, "$options": "i"}})
+    if search_term_value:
+        st = search_term_value
+        conds.append(
+            {
+                "$or": [
+                    {"name": {"$regex": st, "$options": "i"}},
+                    {"description": {"$regex": st, "$options": "i"}},
+                    {"cuisine": {"$regex": st, "$options": "i"}},
+                    {"amenities": {"$regex": st, "$options": "i"}},
+                ]
+            }
+        )
+    if cuisine and cuisine != "All":
+        conds.append({"cuisine": cuisine})
+    if city:
+        conds.append({"city": {"$regex": city, "$options": "i"}})
+    if zip_code:
+        conds.append({"zip_code": zip_code})
+
+    if not conds:
+        return list(db[C.RESTAURANTS].find({}))
+    if len(conds) == 1:
+        return list(db[C.RESTAURANTS].find(conds[0]))
+    return list(db[C.RESTAURANTS].find({"$and": conds}))
+
+
 @router.get("", response_model=List[RestaurantDetailResponse])
 def get_restaurants(
     search: Optional[str] = Query(None),
-    name: Optional[str] = Query(None),   
+    name: Optional[str] = Query(None),
     cuisine: Optional[str] = Query(None),
     city: Optional[str] = Query(None),
     keyword: Optional[str] = Query(None),
     zip: Optional[str] = Query(None),
-    db: Session = Depends(get_db)
+    db: Database = Depends(get_db),
 ):
-    query = db.query(Restaurant)
-
-    # Explicit name filter (frontend may send `name`)
-    if name:
-        query = query.filter(Restaurant.name.ilike(f"%{name}%"))
-
     search_term_value = search or keyword
+    restaurants = _list_restaurants_query(
+        db,
+        name=name,
+        search_term_value=search_term_value,
+        cuisine=cuisine,
+        city=city,
+        zip_code=zip,
+    )
 
-    if search_term_value:
-        search_term = f"%{search_term_value}%"
-        query = query.filter(
-            or_(
-            Restaurant.name.ilike(search_term),
-            Restaurant.description.ilike(search_term),
-            Restaurant.cuisine.ilike(search_term),
-            Restaurant.amenities.ilike(search_term)
-            )
-        )
-
-    if cuisine and cuisine != "All":
-        query = query.filter(Restaurant.cuisine == cuisine)
-
-    if city:
-        query = query.filter(Restaurant.city.ilike(f"%{city}%"))
-
-    if zip:
-        query = query.filter(Restaurant.zip_code == zip)
-
-    restaurants = query.all()
-
-    # If the user's keyword produced no direct matches, do a small, user-friendly fallback:
-    # infer a cuisine bucket from common food words (e.g., "burger" → American).
     if (
         not restaurants
         and search_term_value
         and not cuisine
         and not name
     ):
-        inferred_cuisine = _infer_cuisine_from_text(search_term_value)
-        if inferred_cuisine:
-            fallback_query = db.query(Restaurant).filter(Restaurant.cuisine == inferred_cuisine)
-            if city:
-                fallback_query = fallback_query.filter(Restaurant.city.ilike(f"%{city}%"))
-            if zip:
-                fallback_query = fallback_query.filter(Restaurant.zip_code == zip)
-            restaurants = fallback_query.all()
+        inferred = _infer_cuisine_from_text(search_term_value)
+        if inferred:
+            restaurants = _list_restaurants_query(
+                db,
+                name=None,
+                search_term_value=None,
+                cuisine=inferred,
+                city=city,
+                zip_code=zip,
+            )
 
     result = []
-
     for restaurant in restaurants:
-
-        reviews_query = (
-            db.query(Review, User)
-            .join(User, Review.user_id == User.id)
-            .filter(Review.restaurant_id == restaurant.id)
-            .all()
-        )
-
-        reviews_list = [
+        rid = restaurant["_id"]
+        revs = list(db[C.REVIEWS].find({"restaurant_id": rid}))
+        reviews_list = [_review_entry(db, r) for r in revs]
+        photos = restaurant.get("photos") or ""
+        ar = restaurant.get("avg_rating")
+        result.append(
             {
-                "review_id": review.id,
-                "user_id": review.user_id,
-                "user_name": user.name,
-                "rating": review.rating,
-                "comment": review.comment,
-                "photo": review.photos,
-                "photos": review.photos.split(",") if review.photos else [],
-                "created_at": review.created_at.isoformat() if review.created_at else None,
+                "id": rid,
+                "name": restaurant.get("name"),
+                "cuisine": restaurant.get("cuisine"),
+                "address": restaurant.get("address"),
+                "city": restaurant.get("city"),
+                "description": restaurant.get("description"),
+                "hours": restaurant.get("hours"),
+                "contact_phone": restaurant.get("contact_phone"),
+                "pricing_tier": restaurant.get("price_tier"),
+                "amenities": restaurant.get("amenities"),
+                "photos": photos.split(",") if photos else [],
+                "avg_rating": float(ar) if ar is not None else 0,
+                "review_count": restaurant.get("review_count", 0),
+                "reviews": reviews_list,
             }
-            for review, user in reviews_query
-        ]
-
-        result.append({
-            "id": restaurant.id,
-            "name": restaurant.name,
-            "cuisine": restaurant.cuisine,
-            "address": restaurant.address,
-            "city": restaurant.city,
-            "description": restaurant.description,
-            "hours": restaurant.hours,
-            "contact_phone": restaurant.contact_phone,
-            "pricing_tier": restaurant.price_tier,
-            "amenities": restaurant.amenities,
-            "photos": restaurant.photos.split(",") if restaurant.photos else [],
-            "avg_rating": float(restaurant.avg_rating) if restaurant.avg_rating else 0,
-            "review_count": restaurant.review_count,
-            "reviews": reviews_list
-        })
-
+        )
     return result
 
-# -----------------------
-# GET RESTAURANT DETAILS
-# -----------------------
+
 @router.get("/{restaurant_id}", response_model=RestaurantDetailResponse)
-def get_restaurant_details(
-    restaurant_id: int,
-    db: Session = Depends(get_db)
-):
-    restaurant = db.query(Restaurant).filter(
-        Restaurant.id == restaurant_id
-    ).first()
-
+def get_restaurant_details(restaurant_id: int, db: Database = Depends(get_db)):
+    restaurant = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
     if not restaurant:
-        return {"detail": "Restaurant not found"}
+        raise HTTPException(status_code=404, detail="Restaurant not found")
 
-    reviews_query = (
-        db.query(Review, User)
-        .join(User, Review.user_id == User.id)
-        .filter(Review.restaurant_id == restaurant_id)
-        .all()
-    )
-
-    reviews_list = [
-        {
-            "review_id": review.id,
-            "user_id": review.user_id,
-            "user_name": user.name,
-            "rating": review.rating,
-            "comment": review.comment,
-            "photo": review.photos,
-            "photos": review.photos.split(",") if review.photos else [],
-            "created_at": review.created_at.isoformat() if review.created_at else None,
-        }
-        for review, user in reviews_query
-    ]
-
-    return {
-    "id": restaurant.id,
-    "name": restaurant.name,
-    "cuisine": restaurant.cuisine,
-    "address": restaurant.address,
-    "city": restaurant.city,
-    "state": restaurant.state,
-    "zip_code": restaurant.zip_code,
-    "description": restaurant.description,
-    "hours": restaurant.hours,
-    "contact_phone": restaurant.contact_phone,
-    "contact_email": restaurant.contact_email,
-    "pricing_tier": restaurant.price_tier,
-    "ambiance": restaurant.ambiance,
-    "amenities": restaurant.amenities,
-    "photos": restaurant.photos.split(",") if restaurant.photos else [],
-    "avg_rating": restaurant.avg_rating,
-    "review_count": restaurant.review_count,
-    "reviews": reviews_list
-}
+    revs = list(db[C.REVIEWS].find({"restaurant_id": restaurant_id}))
+    reviews_list = [_review_entry(db, r) for r in revs]
+    return restaurant_doc_to_detail_dict(restaurant, reviews_list)
 
 
-# -----------------------
-# CREATE RESTAURANT
-# -----------------------
 @router.post("")
 def create_restaurant(
-    # REQUIRED
     name: str = Form(...),
     cuisine: str = Form(...),
     address: str = Form(...),
     city: str = Form(...),
     state: str = Form(...),
     zip_code: str = Form(...),
-
-    # OPTIONAL
     contact_phone: Optional[str] = Form(None),
     contact_email: Optional[str] = Form(None),
     description: Optional[str] = Form(None),
@@ -236,75 +193,60 @@ def create_restaurant(
     pricing_tier: Optional[str] = Form(None),
     ambiance: Optional[str] = Form(None),
     amenities: Optional[str] = Form(None),
-
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
-    new_restaurant = Restaurant(
-        name=name,
-        cuisine=cuisine,
-        address=address,
-        city=city,
-        state=state,
-        zip_code=zip_code,
-        contact_phone=contact_phone,
-        contact_email=contact_email,
-        description=description,
-        hours=hours,
-        price_tier=pricing_tier,
-        ambiance=ambiance,
-        amenities=amenities,
-        owner_id=current_user.id,
-        avg_rating=0,
-        review_count=0
+    rid = next_id(db, "restaurants")
+    db[C.RESTAURANTS].insert_one(
+        {
+            "_id": rid,
+            "name": name,
+            "cuisine": cuisine,
+            "address": address,
+            "city": city,
+            "state": state,
+            "zip_code": zip_code,
+            "contact_phone": contact_phone,
+            "contact_email": contact_email,
+            "description": description,
+            "hours": hours,
+            "price_tier": pricing_tier,
+            "ambiance": ambiance,
+            "amenities": amenities,
+            "photos": None,
+            "owner_id": current_user.id,
+            "avg_rating": 0.0,
+            "review_count": 0,
+            "created_at": datetime.utcnow(),
+        }
     )
+    return {"message": "Restaurant created successfully", "restaurant_id": rid}
 
-    db.add(new_restaurant)
-    db.commit()
-    db.refresh(new_restaurant)
 
-    return {
-        "message": "Restaurant created successfully",
-        "restaurant_id": new_restaurant.id
-    }
-
-### RESTAURANT PHOTO
 @router.post("/{restaurant_id}/photos")
 def upload_restaurant_photos(
     restaurant_id: int,
     photos: Annotated[List[UploadFile], File()],
-    db: Session = Depends(get_db),
-    # current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
 ):
-    restaurant = db.query(Restaurant).filter(
-        Restaurant.id == restaurant_id
-    ).first()
-
+    restaurant = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
     if not restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
 
     upload_dir = "uploads"
     os.makedirs(upload_dir, exist_ok=True)
-
     photo_paths = []
-
     for photo in photos:
         file_path = os.path.join(upload_dir, photo.filename)
-
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(photo.file, buffer)
-
         photo_paths.append(photo.filename)
 
-    existing_photos = restaurant.photos.split(",") if restaurant.photos else []
-    all_photos = existing_photos + photo_paths
-
-    restaurant.photos = ",".join(all_photos)
-
-    db.commit()
-    db.refresh(restaurant)
-
-    return {
-        "message": "Photos uploaded successfully",
-        "photos": all_photos
-    }
+    existing = (restaurant.get("photos") or "").split(",") if restaurant.get("photos") else []
+    existing = [p for p in existing if p]
+    all_photos = existing + photo_paths
+    db[C.RESTAURANTS].update_one(
+        {"_id": restaurant_id},
+        {"$set": {"photos": ",".join(all_photos)}},
+    )
+    return {"message": "Photos uploaded successfully", "photos": all_photos}

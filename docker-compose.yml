@@ -1,36 +1,32 @@
-# Lab 2 Week 1 — four FastAPI services + MySQL (see docs/lab2-api-gap.md)
+# Lab 2 — four FastAPI services + MongoDB
 services:
-  mysql:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootsecret}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-yelp_db}
-      MYSQL_USER: ${MYSQL_USER:-yelp}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-yelppass}
-    volumes:
-      - mysql_data:/var/lib/mysql
+  mongodb:
+    image: mongo:7
     ports:
-      - "${MYSQL_HOST_PORT:-3307}:3306"
+      - "${MONGO_HOST_PORT:-27017}:27017"
+    volumes:
+      - mongo_data:/data/db
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" || exit 1"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 5s
       timeout: 5s
-      retries: 12
-      start_period: 20s
+      retries: 10
+      start_period: 15s
 
   user-service:
     build:
       context: ./backend
       dockerfile: docker/user-service/Dockerfile
     environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-yelp}:${MYSQL_PASSWORD:-yelppass}@mysql:3306/${MYSQL_DATABASE:-yelp_db}
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ALGORITHM: ${ALGORITHM:-HS256}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
     ports:
       - "${USER_SERVICE_PORT:-8001}:8000"
     depends_on:
-      mysql:
+      mongodb:
         condition: service_healthy
       restaurant-service:
         condition: service_started
@@ -40,14 +36,15 @@ services:
       context: ./backend
       dockerfile: docker/owner-service/Dockerfile
     environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-yelp}:${MYSQL_PASSWORD:-yelppass}@mysql:3306/${MYSQL_DATABASE:-yelp_db}
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ALGORITHM: ${ALGORITHM:-HS256}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
     ports:
       - "${OWNER_SERVICE_PORT:-8002}:8000"
     depends_on:
-      mysql:
+      mongodb:
         condition: service_healthy
       restaurant-service:
         condition: service_started
@@ -57,7 +54,8 @@ services:
       context: ./backend
       dockerfile: docker/restaurant-service/Dockerfile
     environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-yelp}:${MYSQL_PASSWORD:-yelppass}@mysql:3306/${MYSQL_DATABASE:-yelp_db}
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ALGORITHM: ${ALGORITHM:-HS256}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
@@ -68,7 +66,7 @@ services:
     volumes:
       - restaurant_uploads:/app/uploads
     depends_on:
-      mysql:
+      mongodb:
         condition: service_healthy
 
   review-service:
@@ -76,7 +74,8 @@ services:
       context: ./backend
       dockerfile: docker/review-service/Dockerfile
     environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-yelp}:${MYSQL_PASSWORD:-yelppass}@mysql:3306/${MYSQL_DATABASE:-yelp_db}
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ALGORITHM: ${ALGORITHM:-HS256}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
@@ -85,12 +84,12 @@ services:
     volumes:
       - review_uploads:/app/uploads
     depends_on:
-      mysql:
+      mongodb:
         condition: service_healthy
       restaurant-service:
         condition: service_started
 
 volumes:
-  mysql_data:
+  mongo_data:
   restaurant_uploads:
   review_uploads:
