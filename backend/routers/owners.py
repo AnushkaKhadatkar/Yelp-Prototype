@@ -1,66 +1,54 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
-from sqlalchemy.orm import Session
-from sqlalchemy import func
-from typing import List, Optional
 import os
 import shutil
+from datetime import datetime
+from typing import List, Optional
+
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from pydantic import BaseModel
+from pymongo.database import Database
 
 from database import get_db
-from models.user import User
-from models.restaurant import Restaurant
+import mongo_collections as C
+from mongo_utils import next_id
+from schemas.owner import (
+    OwnerDashboardResponse,
+    OwnerRestaurantResponse,
+    OwnerRestaurantReviewsResponse,
+    OwnerReviewItem,
+    DashboardReviewItem,
+)
 from services.auth_service import get_current_user
-from pydantic import BaseModel
-
-from schemas.owner import OwnerRestaurantResponse
-from schemas.owner import OwnerProfileResponse
-
-from models.review import Review
-from schemas.owner import OwnerRestaurantReviewsResponse, OwnerReviewItem
-
-from schemas.owner import OwnerDashboardResponse, DashboardReviewItem
-from models.review import Review
 
 router = APIRouter(prefix="/owner", tags=["Owner"])
 
 
-# =====================================================
-# GET OWNER PROFILE
-# =====================================================
-
 @router.get("/profile")
 def get_owner_profile(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     if current_user.role != "owner":
         raise HTTPException(status_code=403, detail="Not an owner")
 
-    restaurants = db.query(Restaurant).filter(
-        Restaurant.owner_id == current_user.id
-    ).all()
-
+    restaurants = list(db[C.RESTAURANTS].find({"owner_id": current_user.id}))
     return {
         "owner": {
             "id": current_user.id,
             "name": current_user.name,
-            "email": current_user.email
+            "email": current_user.email,
         },
         "restaurants": [
             {
-                "id": r.id,
-                "name": r.name,
-                "cuisine": r.cuisine,
-                "city": r.city,
-                "avg_rating": r.avg_rating
+                "id": r["_id"],
+                "name": r.get("name"),
+                "cuisine": r.get("cuisine"),
+                "city": r.get("city"),
+                "avg_rating": r.get("avg_rating"),
             }
             for r in restaurants
-        ]
+        ],
     }
 
-
-# =====================================================
-# UPDATE OWNER PROFILE
-# =====================================================
 
 class OwnerProfileUpdate(BaseModel):
     name: str
@@ -70,24 +58,18 @@ class OwnerProfileUpdate(BaseModel):
 @router.put("/profile")
 def update_owner_profile(
     data: OwnerProfileUpdate,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     if current_user.role != "owner":
         raise HTTPException(status_code=403, detail="Not an owner")
 
-    current_user.name = data.name
-    current_user.email = data.email
-
-    db.commit()
-    db.refresh(current_user)
-
+    db[C.USERS].update_one(
+        {"_id": current_user.id},
+        {"$set": {"name": data.name, "email": data.email, "updated_at": datetime.utcnow()}},
+    )
     return {"message": "Profile updated successfully"}
 
-
-# =====================================================
-# UPDATE OWNER RESTAURANT
-# =====================================================
 
 @router.put("/restaurant/{restaurant_id}")
 def update_owner_restaurant(
@@ -106,59 +88,49 @@ def update_owner_restaurant(
     amenities: Optional[str] = Form(None),
     ambiance: Optional[str] = Form(None),
     photos: Optional[List[UploadFile]] = File(None),
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
-    # Role check
     if current_user.role != "owner":
         raise HTTPException(status_code=403, detail="Not an owner")
 
-    restaurant = db.query(Restaurant).filter(
-        Restaurant.id == restaurant_id
-    ).first()
-
+    restaurant = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
     if not restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
-
-    # Ownership enforcement
-    if restaurant.owner_id != current_user.id:
+    if restaurant.get("owner_id") != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized")
 
-    # Update fields
-    restaurant.name = name
-    restaurant.cuisine = cuisine
-    restaurant.description = description
-    restaurant.address = address
-    restaurant.city = city
-    restaurant.state = state
-    restaurant.zip_code = zip_code
-    restaurant.contact_phone = contact_phone
-    restaurant.contact_email = contact_email
-    restaurant.hours = hours
-    restaurant.price_tier = pricing_tier
-    restaurant.amenities = amenities
-    restaurant.ambiance = ambiance
+    patch = {
+        "name": name,
+        "cuisine": cuisine,
+        "description": description,
+        "address": address,
+        "city": city,
+        "state": state,
+        "zip_code": zip_code,
+        "contact_phone": contact_phone,
+        "contact_email": contact_email,
+        "hours": hours,
+        "price_tier": pricing_tier,
+        "amenities": amenities,
+        "ambiance": ambiance,
+    }
 
-    # Handle photo uploads (append, do not replace)
     if photos:
         upload_dir = "uploads"
         os.makedirs(upload_dir, exist_ok=True)
-
         photo_paths = []
-
         for photo in photos:
             file_path = os.path.join(upload_dir, photo.filename)
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(photo.file, buffer)
             photo_paths.append(photo.filename)
+        existing = (restaurant.get("photos") or "").split(",") if restaurant.get("photos") else []
+        existing = [p for p in existing if p]
+        all_photos = existing + photo_paths
+        patch["photos"] = ",".join(all_photos)
 
-        existing_photos = restaurant.photos.split(",") if restaurant.photos else []
-        all_photos = existing_photos + photo_paths
-        restaurant.photos = ",".join(all_photos)
-
-    db.commit()
-    db.refresh(restaurant)
-
+    db[C.RESTAURANTS].update_one({"_id": restaurant_id}, {"$set": patch})
     return {"message": "Restaurant updated successfully"}
 
 
@@ -175,17 +147,15 @@ def create_owner_restaurant(
     pricing_tier: Optional[str] = Form(None),
     amenities: Optional[str] = Form(None),
     photos: List[UploadFile] = File(None),
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     if current_user.role != "owner":
         raise HTTPException(status_code=403, detail="Not an owner")
 
     upload_dir = "uploads"
     os.makedirs(upload_dir, exist_ok=True)
-
     photo_paths = []
-
     if photos:
         for photo in photos:
             file_path = os.path.join(upload_dir, photo.filename)
@@ -193,227 +163,195 @@ def create_owner_restaurant(
                 shutil.copyfileobj(photo.file, buffer)
             photo_paths.append(photo.filename)
 
-    restaurant = Restaurant(
-        name=name,
-        cuisine=cuisine,
-        description=description,
-        address=address,
-        city=city,
-        contact_phone=contact_phone,
-        contact_email=contact_email,
-        hours=hours,
-        price_tier=pricing_tier,
-        amenities=amenities,
-        photos=",".join(photo_paths) if photo_paths else None,
-        owner_id=current_user.id,
-        avg_rating=0,
-        review_count=0
+    rid = next_id(db, "restaurants")
+    db[C.RESTAURANTS].insert_one(
+        {
+            "_id": rid,
+            "name": name,
+            "cuisine": cuisine,
+            "description": description,
+            "address": address,
+            "city": city,
+            "contact_phone": contact_phone,
+            "contact_email": contact_email,
+            "hours": hours,
+            "price_tier": pricing_tier,
+            "amenities": amenities,
+            "photos": ",".join(photo_paths) if photo_paths else None,
+            "owner_id": current_user.id,
+            "avg_rating": 0.0,
+            "review_count": 0,
+            "created_at": datetime.utcnow(),
+        }
     )
-
-    db.add(restaurant)
-    db.commit()
-    db.refresh(restaurant)
-
+    doc = db[C.RESTAURANTS].find_one({"_id": rid})
     return {
-        "id": restaurant.id,
-        "name": restaurant.name,
-        "cuisine": restaurant.cuisine,
-        "description": restaurant.description,
-        "address": restaurant.address,
-        "city": restaurant.city,
-        "contact_phone": restaurant.contact_phone,
-        "contact_email": restaurant.contact_email,
-        "hours": restaurant.hours,
-        "pricing_tier": restaurant.price_tier,
-        "amenities": restaurant.amenities,
+        "id": doc["_id"],
+        "name": doc.get("name"),
+        "cuisine": doc.get("cuisine"),
+        "description": doc.get("description"),
+        "address": doc.get("address"),
+        "city": doc.get("city"),
+        "contact_phone": doc.get("contact_phone"),
+        "contact_email": doc.get("contact_email"),
+        "hours": doc.get("hours"),
+        "pricing_tier": doc.get("price_tier"),
+        "amenities": doc.get("amenities"),
         "photos": photo_paths,
-        "avg_rating": restaurant.avg_rating,
-        "review_count": restaurant.review_count
+        "avg_rating": doc.get("avg_rating"),
+        "review_count": doc.get("review_count"),
     }
+
 
 @router.post("/restaurants/{restaurant_id}/claim", response_model=OwnerRestaurantResponse)
 def claim_restaurant(
     restaurant_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     if current_user.role != "owner":
         raise HTTPException(status_code=403, detail="Not an owner")
 
-    restaurant = db.query(Restaurant).filter(
-        Restaurant.id == restaurant_id
-    ).first()
-
+    restaurant = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
     if not restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
-
-    if restaurant.owner_id == current_user.id:
+    if restaurant.get("owner_id") == current_user.id:
         raise HTTPException(status_code=400, detail="You already own this restaurant")
-
-    if restaurant.owner_id is not None:
+    if restaurant.get("owner_id") is not None:
         raise HTTPException(status_code=409, detail="Restaurant already claimed")
 
-    restaurant.owner_id = current_user.id
-    db.commit()
-    db.refresh(restaurant)
-
+    db[C.RESTAURANTS].update_one(
+        {"_id": restaurant_id}, {"$set": {"owner_id": current_user.id}}
+    )
+    doc = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
+    ph = doc.get("photos") or ""
     return {
-        "id": restaurant.id,
-        "name": restaurant.name,
-        "cuisine": restaurant.cuisine,
-        "description": restaurant.description,
-        "address": restaurant.address,
-        "city": restaurant.city,
-        "contact_phone": restaurant.contact_phone,
-        "contact_email": restaurant.contact_email,
-        "hours": restaurant.hours,
-        "pricing_tier": restaurant.price_tier,
-        "amenities": restaurant.amenities,
-        "photos": restaurant.photos.split(",") if restaurant.photos else [],
-        "avg_rating": restaurant.avg_rating,
-        "review_count": restaurant.review_count
+        "id": doc["_id"],
+        "name": doc.get("name"),
+        "cuisine": doc.get("cuisine"),
+        "description": doc.get("description"),
+        "address": doc.get("address"),
+        "city": doc.get("city"),
+        "contact_phone": doc.get("contact_phone"),
+        "contact_email": doc.get("contact_email"),
+        "hours": doc.get("hours"),
+        "pricing_tier": doc.get("price_tier"),
+        "amenities": doc.get("amenities"),
+        "photos": ph.split(",") if ph else [],
+        "avg_rating": doc.get("avg_rating"),
+        "review_count": doc.get("review_count"),
     }
+
 
 @router.get("/restaurants/{restaurant_id}/reviews", response_model=OwnerRestaurantReviewsResponse)
 def get_owner_restaurant_reviews(
     restaurant_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
-    # Must be owner
     if current_user.role != "owner":
         raise HTTPException(status_code=403, detail="Not an owner")
 
-    restaurant = db.query(Restaurant).filter(
-        Restaurant.id == restaurant_id
-    ).first()
-
+    restaurant = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
     if not restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
-
-    # Ownership check
-    if restaurant.owner_id != current_user.id:
+    if restaurant.get("owner_id") != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized")
 
-    reviews = (
-        db.query(Review, User)
-        .join(User, Review.user_id == User.id)
-        .filter(Review.restaurant_id == restaurant_id)
-        .all()
-    )
-
-    review_list = [
-        OwnerReviewItem(
-            review_id=review.id,
-            user_name=user.name,
-            rating=review.rating,
-            comment=review.comment,
-            created_at=review.created_at
+    reviews = list(db[C.REVIEWS].find({"restaurant_id": restaurant_id}))
+    review_list = []
+    for review in reviews:
+        user = db[C.USERS].find_one({"_id": review["user_id"]})
+        review_list.append(
+            OwnerReviewItem(
+                review_id=review["_id"],
+                user_name=user.get("name") if user else "",
+                rating=review.get("rating"),
+                comment=review.get("comment"),
+                created_at=review.get("created_at"),
+            )
         )
-        for review, user in reviews
-    ]
 
     return OwnerRestaurantReviewsResponse(
-        restaurant_id=restaurant.id,
-        restaurant_name=restaurant.name,
-        reviews=review_list
+        restaurant_id=restaurant["_id"],
+        restaurant_name=restaurant.get("name"),
+        reviews=review_list,
     )
+
 
 @router.get("/dashboard", response_model=OwnerDashboardResponse)
 def owner_dashboard(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     if current_user.role != "owner":
         raise HTTPException(status_code=403, detail="Not an owner")
 
-    # Get owner's restaurants
-    restaurants = db.query(Restaurant).filter(
-        Restaurant.owner_id == current_user.id
-    ).all()
-
-    restaurant_ids = [r.id for r in restaurants]
+    restaurants = list(db[C.RESTAURANTS].find({"owner_id": current_user.id}))
+    restaurant_ids = [r["_id"] for r in restaurants]
 
     if not restaurant_ids:
         return OwnerDashboardResponse(
             total_review_count=0,
             avg_rating=0.0,
-            ratings_distribution={1:0,2:0,3:0,4:0,5:0},
+            ratings_distribution={1: 0, 2: 0, 3: 0, 4: 0, 5: 0},
             recent_reviews=[],
-            sentiment_summary="No reviews yet."
+            sentiment_summary="No reviews yet.",
         )
 
-    # --------------------------------
-    # Total reviews
-    # --------------------------------
-    total_reviews = db.query(func.count(Review.id)).filter(
-        Review.restaurant_id.in_(restaurant_ids)
-    ).scalar()
+    match = {"restaurant_id": {"$in": restaurant_ids}}
+    total_reviews = db[C.REVIEWS].count_documents(match)
 
-    # --------------------------------
-    # Average rating (weighted)
-    # --------------------------------
-    avg_rating = db.query(func.avg(Review.rating)).filter(
-        Review.restaurant_id.in_(restaurant_ids)
-    ).scalar()
-
-    avg_rating = round(float(avg_rating), 2) if avg_rating else 0.0
-
-    # --------------------------------
-    # Ratings distribution
-    # --------------------------------
-    distribution_query = db.query(
-        Review.rating,
-        func.count(Review.id)
-    ).filter(
-        Review.restaurant_id.in_(restaurant_ids)
-    ).group_by(Review.rating).all()
-
-    ratings_distribution = {1:0,2:0,3:0,4:0,5:0}
-
-    for rating, count in distribution_query:
-        ratings_distribution[rating] = count
-
-    # --------------------------------
-    # Recent reviews (last 5)
-    # --------------------------------
-    recent = db.query(Review, Restaurant).join(
-        Restaurant, Review.restaurant_id == Restaurant.id
-    ).filter(
-        Review.restaurant_id.in_(restaurant_ids)
-    ).order_by(
-        Review.created_at.desc()
-    ).limit(5).all()
-
-    recent_reviews = [
-        DashboardReviewItem(
-            review_id=review.id,
-            restaurant_name=restaurant.name,
-            rating=review.rating,
-            comment=review.comment,
-            created_at=review.created_at
-        )
-        for review, restaurant in recent
+    pipeline_avg = [
+        {"$match": match},
+        {"$group": {"_id": None, "avg": {"$avg": "$rating"}}},
     ]
+    agg = list(db[C.REVIEWS].aggregate(pipeline_avg))
+    avg_rating = round(float(agg[0]["avg"]), 2) if agg and agg[0].get("avg") else 0.0
 
-    # --------------------------------
-    # Sentiment summary (simple version for now)
-    # --------------------------------
-    comments = db.query(Review.comment).filter(
-        Review.restaurant_id.in_(restaurant_ids)
-    ).all()
+    ratings_distribution = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+    for row in db[C.REVIEWS].aggregate(
+        [
+            {"$match": match},
+            {"$group": {"_id": "$rating", "c": {"$sum": 1}}},
+        ]
+    ):
+        r = row["_id"]
+        if r in ratings_distribution:
+            ratings_distribution[r] = int(row["c"])
 
-    all_comments = " ".join([c[0] for c in comments if c[0]])
+    recent = list(
+        db[C.REVIEWS]
+        .find(match)
+        .sort("created_at", -1)
+        .limit(5)
+    )
+    recent_reviews = []
+    for review in recent:
+        rest = db[C.RESTAURANTS].find_one({"_id": review["restaurant_id"]})
+        recent_reviews.append(
+            DashboardReviewItem(
+                review_id=review["_id"],
+                restaurant_name=rest.get("name") if rest else "",
+                rating=review.get("rating"),
+                comment=review.get("comment"),
+                created_at=review.get("created_at"),
+            )
+        )
 
+    comments = [r.get("comment") for r in db[C.REVIEWS].find(match)]
+    all_comments = " ".join([c for c in comments if c])
     if not all_comments:
         sentiment_summary = "No reviews available yet."
     else:
-        sentiment_summary = f"Overall sentiment appears positive based on {total_reviews} reviews."
+        sentiment_summary = (
+            f"Overall sentiment appears positive based on {total_reviews} reviews."
+        )
 
     return OwnerDashboardResponse(
         total_review_count=total_reviews,
         avg_rating=avg_rating,
         ratings_distribution=ratings_distribution,
         recent_reviews=recent_reviews,
-        sentiment_summary=sentiment_summary
+        sentiment_summary=sentiment_summary,
     )

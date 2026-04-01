@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Enum, ForeignKey, DECIMAL, TIMESTAMP
 from sqlalchemy.sql import func
-from database import Base
+from db_base import Base
 
 class Restaurant(Base):
     __tablename__ = "restaurants"

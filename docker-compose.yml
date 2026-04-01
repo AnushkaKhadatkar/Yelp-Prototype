@@ -1,0 +1,95 @@
+# Lab 2 — four FastAPI services + MongoDB
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "${MONGO_HOST_PORT:-27017}:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  user-service:
+    build:
+      context: ./backend
+      dockerfile: docker/user-service/Dockerfile
+    environment:
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+    ports:
+      - "${USER_SERVICE_PORT:-8001}:8000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      restaurant-service:
+        condition: service_started
+
+  owner-service:
+    build:
+      context: ./backend
+      dockerfile: docker/owner-service/Dockerfile
+    environment:
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+    ports:
+      - "${OWNER_SERVICE_PORT:-8002}:8000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      restaurant-service:
+        condition: service_started
+
+  restaurant-service:
+    build:
+      context: ./backend
+      dockerfile: docker/restaurant-service/Dockerfile
+    environment:
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+    ports:
+      - "${RESTAURANT_SERVICE_PORT:-8003}:8000"
+    volumes:
+      - restaurant_uploads:/app/uploads
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  review-service:
+    build:
+      context: ./backend
+      dockerfile: docker/review-service/Dockerfile
+    environment:
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+    ports:
+      - "${REVIEW_SERVICE_PORT:-8004}:8000"
+    volumes:
+      - review_uploads:/app/uploads
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      restaurant-service:
+        condition: service_started
+
+volumes:
+  mongo_data:
+  restaurant_uploads:
+  review_uploads:
