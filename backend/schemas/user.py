@@ -19,6 +19,7 @@ class TokenResponse(BaseModel):
     role: str
 
 class UserProfileResponse(BaseModel):
+    id: Optional[int] = None
     name: str
     email: EmailStr
     phone: Optional[str] = None
@@ -29,6 +30,7 @@ class UserProfileResponse(BaseModel):
     languages: Optional[str] = None
     gender: Optional[str] = None
     profile_pic: Optional[str] = None
+    createdAt: Optional[str] = None
 
 
 class UserProfileUpdate(BaseModel):

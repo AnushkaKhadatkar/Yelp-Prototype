@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey, TIMESTAMP
 from sqlalchemy.sql import func
-from database import Base
+from db_base import Base
 
 class Review(Base):
     __tablename__ = "reviews"

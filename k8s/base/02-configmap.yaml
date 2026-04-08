@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: yelp-backend-config
+  namespace: yelp-lab2
+data:
+  MONGODB_DB_NAME: "yelp_db"
+  ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_SECONDS: "86400"
+  KAFKA_ENABLED: "true"
+  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
