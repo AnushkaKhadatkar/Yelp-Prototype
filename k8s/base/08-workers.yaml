@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-worker
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: review-worker
+  template:
+    metadata:
+      labels:
+        app: review-worker
+    spec:
+      containers:
+        - name: review-worker
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "workers/review_worker.py"]
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-worker
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurant-worker
+  template:
+    metadata:
+      labels:
+        app: restaurant-worker
+    spec:
+      containers:
+        - name: restaurant-worker
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "workers/restaurant_worker.py"]
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
