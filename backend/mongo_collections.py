@@ -1,0 +1,12 @@
+"""MongoDB collection names (Lab 2)."""
+
+USERS = "users"
+SESSIONS = "sessions"
+RESTAURANTS = "restaurants"
+REVIEWS = "reviews"
+FAVOURITES = "favourites"
+USER_PREFERENCES = "user_preferences"
+PHOTOS = "photos"
+ACTIVITY_LOGS = "activity_logs"
+COUNTERS = "counters"
+EVENT_STATUS = "event_status"
