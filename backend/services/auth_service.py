@@ -1,33 +1,36 @@
 import os
+import uuid
 from datetime import datetime, timedelta
+from types import SimpleNamespace
 
 from dotenv import load_dotenv
-from jose import jwt, JWTError
-from passlib.context import CryptContext
-from sqlalchemy.orm import Session
-from fastapi import HTTPException, status, Depends
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from pymongo.database import Database
 
-from models.user import User
+import mongo_collections as C
 from database import get_db
+from mongo_utils import user_doc_to_namespace
 
 load_dotenv()
 
-# Password hashing
 pwd_context = CryptContext(
     schemes=["bcrypt"],
     deprecated="auto",
-    bcrypt__truncate_error=False
+    bcrypt__truncate_error=False,
 )
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+SECRET_KEY = os.getenv("SECRET_KEY") or "dev-insecure-secret-change-me"
+ALGORITHM = os.getenv("ALGORITHM") or "HS256"
+_access_seconds = os.getenv("ACCESS_TOKEN_EXPIRE_SECONDS")
+ACCESS_TOKEN_EXPIRE_SECONDS = (
+    int(_access_seconds) if _access_seconds is not None and _access_seconds != "" else 86400
+)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/user/login")
 
-
-# ----------------- PASSWORD -----------------
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)
@@ -37,54 +40,77 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-# ----------------- TOKEN -----------------
-
-def create_access_token(data: dict):
+def create_access_token(db: Database, data: dict) -> str:
+    """Issue JWT and persist server-side session (jti) with TTL-backed expires_at."""
+    jti = str(uuid.uuid4())
+    expire = datetime.utcnow() + timedelta(seconds=ACCESS_TOKEN_EXPIRE_SECONDS)
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    to_encode["jti"] = jti
+    to_encode["exp"] = expire
+    token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    db[C.SESSIONS].insert_one(
+        {
+            "_id": jti,
+            "user_id": int(data["sub"]),
+            "expires_at": expire,
+        }
+    )
+    return token
 
 
-# ----------------- AUTHENTICATION -----------------
+def get_token_ttl_seconds() -> int:
+    return ACCESS_TOKEN_EXPIRE_SECONDS
 
-def authenticate_user(db: Session, email: str, password: str):
-    user = db.query(User).filter(User.email == email).first()
 
-    if not user or not verify_password(password, user.password_hash):
+def authenticate_user(db: Database, email: str, password: str) -> SimpleNamespace:
+    doc = db[C.USERS].find_one({"email": email})
+    if not doc or not verify_password(password, doc.get("password_hash", "")):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid email or password"
+            detail="Invalid email or password",
         )
+    return user_doc_to_namespace(doc)
 
-    return user
-
-
-# ----------------- CURRENT USER -----------------
 
 def get_current_user(
     token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db)
+    db: Database = Depends(get_db),
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: str = payload.get("sub")
-
-        if user_id is None:
+        user_id = payload.get("sub")
+        jti = payload.get("jti")
+        if user_id is None or jti is None:
             raise credentials_exception
-
     except JWTError:
         raise credentials_exception
 
-    user = db.query(User).filter(User.id == int(user_id)).first()
-
-    if user is None:
+    sess = db[C.SESSIONS].find_one({"_id": jti})
+    if not sess:
         raise credentials_exception
 
-    return user
+    doc = db[C.USERS].find_one({"_id": int(user_id)})
+    if doc is None:
+        raise credentials_exception
+
+    return user_doc_to_namespace(doc)
+
+
+def decode_token_jti(token: str) -> str | None:
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload.get("jti")
+    except JWTError:
+        return None
+
+
+def decode_token_payload(token: str) -> dict | None:
+    try:
+        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
+        return None
