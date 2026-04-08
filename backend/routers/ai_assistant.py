@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, Request
-from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from pymongo.database import Database
 from typing import List, Optional
+
 from database import get_db
 from services import ai_service
 
@@ -37,14 +38,9 @@ class ChatResponse(BaseModel):
     recommended_restaurants: List[RestaurantRecommendation] = []
 
 
-def get_optional_user_id(request: Request, db: Session = Depends(get_db)):
-    """
-    Returns user_id if a valid JWT token is present, otherwise None.
-    Allows the chatbot to work for both logged-in and anonymous users.
-    """
+def get_optional_user_id(request: Request):
+    """Returns user_id if a valid JWT is present, else None."""
     try:
-        from services.auth_service import get_current_user
-        from fastapi.security import OAuth2PasswordBearer
         import os
         from jose import jwt, JWTError
 
@@ -67,37 +63,30 @@ def get_optional_user_id(request: Request, db: Session = Depends(get_db)):
 async def chat_with_assistant(
     request_body: ChatRequest,
     request: Request,
-    db: Session = Depends(get_db),
+    db: Database = Depends(get_db),
 ):
-    """
-    AI chatbot endpoint.
-    - Works for both logged-in and anonymous users
-    - Logged-in users get personalized recommendations from saved preferences
-    - Falls back to rule-based recommendations if no OpenAI key is configured
-    """
     try:
         history = [
             {"role": msg.role, "content": msg.content}
             for msg in (request_body.conversation_history or [])
         ]
 
-        user_id = get_optional_user_id(request, db)
+        user_id = get_optional_user_id(request)
 
         result = await ai_service.chat(
             user_id=user_id,
             message=request_body.message,
             history=history,
-            db=db
+            db=db,
         )
 
         return ChatResponse(
             response=result["response"],
-            recommended_restaurants=result.get("recommended_restaurants", [])
+            recommended_restaurants=result.get("recommended_restaurants", []),
         )
 
     except Exception as e:
-        # Return a friendly error instead of crashing
         return ChatResponse(
             response=f"I ran into an issue processing your request. Please try again! (Error: {str(e)[:100]})",
-            recommended_restaurants=[]
+            recommended_restaurants=[],
         )
