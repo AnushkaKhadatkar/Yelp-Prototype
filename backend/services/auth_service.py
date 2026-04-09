@@ -1,4 +1,7 @@
+import json
 import os
+import sys
+import time
 import uuid
 from datetime import datetime, timedelta
 from types import SimpleNamespace
@@ -29,7 +32,32 @@ ACCESS_TOKEN_EXPIRE_SECONDS = (
     int(_access_seconds) if _access_seconds is not None and _access_seconds != "" else 86400
 )
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/user/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/user/login", auto_error=False)
+
+
+def _auth_debug(message: str, data: dict, hypothesis_id: str) -> None:
+    # #region agent log
+    print(
+        json.dumps(
+            {
+                "sessionId": "8d5b23",
+                "hypothesisId": hypothesis_id,
+                "location": "services/auth_service.py:get_current_user",
+                "message": message,
+                "data": data,
+                "timestamp": int(time.time() * 1000),
+            },
+            ensure_ascii=False,
+        ),
+        file=sys.stderr,
+        flush=True,
+    )
+
+    # #endregion
+
+
+def auth_disabled_for_testing() -> bool:
+    return os.getenv("AUTH_DISABLED", "false").lower() in {"1", "true", "yes"}
 
 
 def hash_password(password: str) -> str:
@@ -73,9 +101,26 @@ def authenticate_user(db: Database, email: str, password: str) -> SimpleNamespac
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    token: str | None = Depends(oauth2_scheme),
     db: Database = Depends(get_db),
 ):
+    if token is None:
+        if auth_disabled_for_testing():
+            uid = int(os.getenv("AUTH_DISABLED_USER_ID", "1"))
+            _auth_debug("auth_bypass_user", {"user_id": uid}, "H8")
+            doc = db[C.USERS].find_one({"_id": uid})
+            if doc is None:
+                raise HTTPException(
+                    status_code=500,
+                    detail="AUTH_DISABLED_USER_ID does not exist in users collection",
+                )
+            return user_doc_to_namespace(doc)
+        _auth_debug("auth_no_bearer", {}, "H9")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
+
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
