@@ -12,24 +12,31 @@ import mongo_collections as C
 from schemas.preference import PreferenceResponse, PreferenceUpdate
 from schemas.user import UserHistoryResponse, UserProfileResponse, UserProfileUpdate
 from services.auth_service import get_current_user
+from services.kafka_bus import publish_event
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.get("/profile", response_model=UserProfileResponse)
 def get_profile(current_user=Depends(get_current_user)):
-    return UserProfileResponse(
-        name=current_user.name,
-        email=current_user.email,
-        phone=current_user.phone,
-        about=current_user.about,
-        city=current_user.city,
-        state=current_user.state,
-        country=current_user.country,
-        languages=current_user.languages,
-        gender=current_user.gender,
-        profile_pic=current_user.profile_pic,
+    created_at = (
+        current_user.created_at.isoformat()
+        if hasattr(current_user.created_at, "isoformat") and current_user.created_at
+        else None
     )
+    return {
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email,
+        "phone": current_user.phone,
+        "about": current_user.about,
+        "city": current_user.city,
+        "country": current_user.country,
+        "languages": current_user.languages,
+        "gender": current_user.gender,
+        "profile_pic": current_user.profile_pic,
+        "createdAt": created_at,
+    }
 
 
 @router.put("/profile")
@@ -44,6 +51,14 @@ def update_profile(
 
     raw["updated_at"] = datetime.utcnow()
     db[C.USERS].update_one({"_id": current_user.id}, {"$set": raw})
+    publish_event(
+        "user.updated",
+        {
+            "eventId": f"user-updated-{current_user.id}-{int(datetime.utcnow().timestamp())}",
+            "user_id": current_user.id,
+            "changed_fields": raw,
+        },
+    )
     doc = db[C.USERS].find_one({"_id": current_user.id})
     return {
         "message": "Profile updated successfully",
@@ -187,7 +202,7 @@ def add_favourite(
         {"user_id": current_user.id, "restaurant_id": restaurant_id}
     )
     if existing:
-        return {"message": "Already in favourites"}
+        return {"message": "Already in favourites", "restaurant_id": restaurant_id}
 
     from mongo_utils import next_id
 
@@ -199,7 +214,8 @@ def add_favourite(
             "restaurant_id": restaurant_id,
         }
     )
-    return {"message": "Added to favourites"}
+    return {"message": "Added to favourites", "restaurant_id": restaurant_id}
+
 
 
 @router.delete("/favourites/{restaurant_id}")
@@ -211,7 +227,7 @@ def remove_favourite(
     db[C.FAVOURITES].delete_one(
         {"user_id": current_user.id, "restaurant_id": restaurant_id}
     )
-    return {"message": "Removed from favourites"}
+    return {"message": "Removed from favourites", "restaurant_id": restaurant_id}
 
 
 @router.get("/history", response_model=UserHistoryResponse)

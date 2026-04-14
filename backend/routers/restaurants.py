@@ -1,5 +1,6 @@
 import os
 import shutil
+import uuid
 from datetime import datetime
 from typing import Annotated, List, Optional
 
@@ -10,7 +11,10 @@ from database import get_db
 import mongo_collections as C
 from mongo_utils import next_id, restaurant_doc_to_detail_dict
 from schemas.restaurant import RestaurantDetailResponse
+from services.event_status_service import create_event_status
 from services.auth_service import get_current_user
+from services.kafka_bus import publish_event
+from services.restaurant_worker_service import process_restaurant_event
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
@@ -102,7 +106,7 @@ def _list_restaurants_query(
     return list(db[C.RESTAURANTS].find({"$and": conds}))
 
 
-@router.get("", response_model=List[RestaurantDetailResponse])
+@router.get("")
 def get_restaurants(
     search: Optional[str] = Query(None),
     name: Optional[str] = Query(None),
@@ -110,6 +114,8 @@ def get_restaurants(
     city: Optional[str] = Query(None),
     keyword: Optional[str] = Query(None),
     zip: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100),
     db: Database = Depends(get_db),
 ):
     search_term_value = search or keyword
@@ -139,8 +145,12 @@ def get_restaurants(
                 zip_code=zip,
             )
 
+    total = len(restaurants)
+    start = (page - 1) * limit
+    end = start + limit
+    rows = restaurants[start:end]
     result = []
-    for restaurant in restaurants:
+    for restaurant in rows:
         rid = restaurant["_id"]
         revs = list(db[C.REVIEWS].find({"restaurant_id": rid}))
         reviews_list = [_review_entry(db, r) for r in revs]
@@ -158,13 +168,12 @@ def get_restaurants(
                 "contact_phone": restaurant.get("contact_phone"),
                 "pricing_tier": restaurant.get("price_tier"),
                 "amenities": restaurant.get("amenities"),
-                "photos": photos.split(",") if photos else [],
+                "photo": photos.split(",")[0] if photos else None,
                 "avg_rating": float(ar) if ar is not None else 0,
                 "review_count": restaurant.get("review_count", 0),
-                "reviews": reviews_list,
             }
         )
-    return result
+    return {"restaurants": result, "total": total, "page": page, "limit": limit}
 
 
 @router.get("/{restaurant_id}", response_model=RestaurantDetailResponse)
@@ -175,10 +184,17 @@ def get_restaurant_details(restaurant_id: int, db: Database = Depends(get_db)):
 
     revs = list(db[C.REVIEWS].find({"restaurant_id": restaurant_id}))
     reviews_list = [_review_entry(db, r) for r in revs]
-    return restaurant_doc_to_detail_dict(restaurant, reviews_list)
+    detail = restaurant_doc_to_detail_dict(restaurant, reviews_list)
+    detail["createdAt"] = (
+        restaurant.get("created_at").isoformat()
+        if restaurant.get("created_at") and hasattr(restaurant.get("created_at"), "isoformat")
+        else None
+    )
+    detail["contact"] = detail.get("contact_phone")
+    return detail
 
 
-@router.post("")
+@router.post("", status_code=202)
 def create_restaurant(
     name: str = Form(...),
     cuisine: str = Form(...),
@@ -197,30 +213,104 @@ def create_restaurant(
     current_user=Depends(get_current_user),
 ):
     rid = next_id(db, "restaurants")
-    db[C.RESTAURANTS].insert_one(
-        {
-            "_id": rid,
-            "name": name,
-            "cuisine": cuisine,
-            "address": address,
-            "city": city,
-            "state": state,
-            "zip_code": zip_code,
-            "contact_phone": contact_phone,
-            "contact_email": contact_email,
-            "description": description,
-            "hours": hours,
-            "price_tier": pricing_tier,
-            "ambiance": ambiance,
-            "amenities": amenities,
-            "photos": None,
-            "owner_id": current_user.id,
-            "avg_rating": 0.0,
-            "review_count": 0,
-            "created_at": datetime.utcnow(),
-        }
+    event_id = str(uuid.uuid4())
+    create_event_status(
+        db,
+        event_id=event_id,
+        entity_type="restaurant",
+        entity_id=rid,
+        status="processing",
     )
-    return {"message": "Restaurant created successfully", "restaurant_id": rid}
+    payload = {
+        "eventId": event_id,
+        "restaurant_id": rid,
+        "name": name,
+        "cuisine": cuisine,
+        "address": address,
+        "city": city,
+        "state": state,
+        "zip_code": zip_code,
+        "contact_phone": contact_phone,
+        "contact_email": contact_email,
+        "description": description,
+        "hours": hours,
+        "pricing_tier": pricing_tier,
+        "ambiance": ambiance,
+        "amenities": amenities,
+        "photos": None,
+        "owner_id": current_user.id,
+    }
+    if not publish_event("restaurant.created", payload):
+        process_restaurant_event(db, "restaurant.created", payload)
+    return {"message": "Restaurant queued", "restaurant_id": rid, "eventId": event_id}
+
+
+@router.put("/{restaurant_id}", status_code=202)
+def update_restaurant(
+    restaurant_id: int,
+    name: Optional[str] = Form(None),
+    cuisine: Optional[str] = Form(None),
+    address: Optional[str] = Form(None),
+    city: Optional[str] = Form(None),
+    contact: Optional[str] = Form(None),
+    description: Optional[str] = Form(None),
+    hours: Optional[str] = Form(None),
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    restaurant = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
+    if not restaurant:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    patch = {}
+    if name is not None:
+        patch["name"] = name
+    if cuisine is not None:
+        patch["cuisine"] = cuisine
+    if address is not None:
+        patch["address"] = address
+    if city is not None:
+        patch["city"] = city
+    if contact is not None:
+        patch["contact_phone"] = contact
+    if description is not None:
+        patch["description"] = description
+    if hours is not None:
+        patch["hours"] = hours
+    event_id = str(uuid.uuid4())
+    create_event_status(
+        db,
+        event_id=event_id,
+        entity_type="restaurant",
+        entity_id=restaurant_id,
+        status="processing",
+    )
+    payload = {"eventId": event_id, "restaurant_id": restaurant_id, "patch": patch}
+    if not publish_event("restaurant.updated", payload):
+        process_restaurant_event(db, "restaurant.updated", payload)
+    return {"message": "Restaurant update queued", "restaurant_id": restaurant_id, "eventId": event_id}
+
+
+@router.delete("/{restaurant_id}", status_code=202)
+def delete_restaurant(
+    restaurant_id: int,
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    restaurant = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
+    if not restaurant:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    event_id = str(uuid.uuid4())
+    create_event_status(
+        db,
+        event_id=event_id,
+        entity_type="restaurant",
+        entity_id=restaurant_id,
+        status="processing",
+    )
+    payload = {"eventId": event_id, "restaurant_id": restaurant_id}
+    if not publish_event("restaurant.deleted", payload):
+        process_restaurant_event(db, "restaurant.deleted", payload)
+    return {"message": "Restaurant delete queued", "eventId": event_id}
 
 
 @router.post("/{restaurant_id}/photos")

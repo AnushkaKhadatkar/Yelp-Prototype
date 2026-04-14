@@ -33,19 +33,11 @@ export const decodeJWT = (token) => {
   }
 }
 
-// Helper: OAuth2PasswordRequestForm needs form-encoded username + password
-const toOAuth2Form = (email, password) => {
-  const form = new URLSearchParams()
-  form.append('username', email)
-  form.append('password', password)
-  return form
-}
-
 // AUTH — correct routes from auth_user.py (prefix /auth/user) and auth_owner.py (prefix /auth/owner)
 export const signupUser  = (data) => API.post('/auth/user/signup',  data)
-export const loginUser   = (data) => API.post('/auth/user/login',   toOAuth2Form(data.email, data.password))
+export const loginUser   = (data) => API.post('/auth/user/login',   data)
 export const signupOwner = (data) => API.post('/auth/owner/signup', data)
-export const loginOwner  = (data) => API.post('/auth/owner/login',  toOAuth2Form(data.email, data.password))
+export const loginOwner  = (data) => API.post('/auth/owner/login',  data)
 export const logoutUser  = () => Promise.resolve()
 
 // USER PROFILE

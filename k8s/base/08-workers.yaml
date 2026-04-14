@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-worker
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: review-worker
+  template:
+    metadata:
+      labels:
+        app: review-worker
+    spec:
+      initContainers:
+        - name: wait-kafka
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              for i in $(seq 1 120); do
+                if nc -z kafka 9092; then exit 0; fi
+                sleep 2
+              done
+              exit 1
+      containers:
+        - name: review-worker
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "workers/review_worker.py"]
+          env:
+            - name: PYTHONPATH
+              value: /app
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-worker
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurant-worker
+  template:
+    metadata:
+      labels:
+        app: restaurant-worker
+    spec:
+      initContainers:
+        - name: wait-kafka
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              for i in $(seq 1 120); do
+                if nc -z kafka 9092; then exit 0; fi
+                sleep 2
+              done
+              exit 1
+      containers:
+        - name: restaurant-worker
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "workers/restaurant_worker.py"]
+          env:
+            - name: PYTHONPATH
+              value: /app
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-worker
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-worker
+  template:
+    metadata:
+      labels:
+        app: user-worker
+    spec:
+      initContainers:
+        - name: wait-kafka
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              for i in $(seq 1 120); do
+                if nc -z kafka 9092; then exit 0; fi
+                sleep 2
+              done
+              exit 1
+      containers:
+        - name: user-worker
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "workers/user_worker.py"]
+          env:
+            - name: PYTHONPATH
+              value: /app
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets

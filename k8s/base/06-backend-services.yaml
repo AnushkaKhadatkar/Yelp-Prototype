@@ -1,0 +1,206 @@
+# Four FastAPI services (same image; split by Lab 1 compose layout).
+# Build once: docker build -t yelp-lab2-backend:latest -f docker/restaurant-service/Dockerfile .
+# (from backend/ directory), then load into Minikube: minikube image load yelp-lab2-backend:latest
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: api
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 50
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: yelp-lab2
+spec:
+  selector:
+    app: user-service
+  ports:
+    - port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owner-service
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: owner-service
+  template:
+    metadata:
+      labels:
+        app: owner-service
+    spec:
+      containers:
+        - name: api
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 50
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: owner-service
+  namespace: yelp-lab2
+spec:
+  selector:
+    app: owner-service
+  ports:
+    - port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-service
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurant-service
+  template:
+    metadata:
+      labels:
+        app: restaurant-service
+    spec:
+      containers:
+        - name: api
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 50
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurant-service
+  namespace: yelp-lab2
+spec:
+  selector:
+    app: restaurant-service
+  ports:
+    - port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-service
+  namespace: yelp-lab2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: review-service
+  template:
+    metadata:
+      labels:
+        app: review-service
+    spec:
+      containers:
+        - name: api
+          image: yelp-lab2-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: yelp-backend-config
+            - secretRef:
+                name: yelp-backend-secrets
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 50
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: review-service
+  namespace: yelp-lab2
+spec:
+  selector:
+    app: review-service
+  ports:
+    - port: 8000
+      targetPort: 8000

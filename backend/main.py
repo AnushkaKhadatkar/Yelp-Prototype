@@ -2,13 +2,16 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from pymongo.errors import PyMongoError
 
-from database import get_database
+from database import MONGODB_DB_NAME, get_database
 from mongo_indexes import ensure_indexes
 from mongo_utils import ensure_all_counters
 
 from routers.auth_user import router as auth_user_router
+from routers.auth_common import router as auth_common_router
 from routers.users import router as users_router
 from routers.restaurants import router as restaurants_router
 from routers.reviews import router as reviews_router
@@ -38,6 +41,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_user_router)
+app.include_router(auth_common_router)
 app.include_router(users_router)
 app.include_router(restaurants_router)
 app.include_router(reviews_router)
@@ -49,3 +53,16 @@ app.include_router(ai_assistant_router)
 @app.get("/")
 def root():
     return {"message": "Yelp Backend is Running"}
+
+
+@app.get("/health/db")
+def health_db():
+    """Ping MongoDB (uses same URI as the app). Does not expose MONGODB_URI."""
+    try:
+        get_database().command("ping")
+    except PyMongoError as e:
+        return JSONResponse(
+            status_code=503,
+            content={"ok": False, "db": MONGODB_DB_NAME, "error": str(e)},
+        )
+    return {"ok": True, "db": MONGODB_DB_NAME}
