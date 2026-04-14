@@ -1,5 +1,6 @@
 import os
 import shutil
+import uuid
 from datetime import datetime
 from typing import List, Optional
 
@@ -18,6 +19,9 @@ from schemas.owner import (
     DashboardReviewItem,
 )
 from services.auth_service import get_current_user
+from services.event_status_service import create_event_status
+from services.kafka_bus import publish_event
+from services.restaurant_worker_service import process_restaurant_event
 
 router = APIRouter(prefix="/owner", tags=["Owner"])
 
@@ -32,12 +36,10 @@ def get_owner_profile(
 
     restaurants = list(db[C.RESTAURANTS].find({"owner_id": current_user.id}))
     return {
-        "owner": {
-            "id": current_user.id,
-            "name": current_user.name,
-            "email": current_user.email,
-        },
-        "restaurants": [
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email,
+        "restaurant_details": [
             {
                 "id": r["_id"],
                 "name": r.get("name"),
@@ -71,7 +73,7 @@ def update_owner_profile(
     return {"message": "Profile updated successfully"}
 
 
-@router.put("/restaurant/{restaurant_id}")
+@router.put("/restaurant/{restaurant_id}", status_code=202)
 def update_owner_restaurant(
     restaurant_id: int,
     name: str = Form(...),
@@ -130,11 +132,21 @@ def update_owner_restaurant(
         all_photos = existing + photo_paths
         patch["photos"] = ",".join(all_photos)
 
-    db[C.RESTAURANTS].update_one({"_id": restaurant_id}, {"$set": patch})
-    return {"message": "Restaurant updated successfully"}
+    event_id = str(uuid.uuid4())
+    create_event_status(
+        db,
+        event_id=event_id,
+        entity_type="restaurant",
+        entity_id=restaurant_id,
+        status="processing",
+    )
+    payload = {"eventId": event_id, "restaurant_id": restaurant_id, "patch": patch}
+    if not publish_event("restaurant.updated", payload):
+        process_restaurant_event(db, "restaurant.updated", payload)
+    return {"message": "Restaurant update queued", "restaurant_id": restaurant_id, "eventId": event_id}
 
 
-@router.post("/restaurants", response_model=OwnerRestaurantResponse)
+@router.post("/restaurants", status_code=202)
 def create_owner_restaurant(
     name: str = Form(...),
     cuisine: str = Form(...),
@@ -164,46 +176,36 @@ def create_owner_restaurant(
             photo_paths.append(photo.filename)
 
     rid = next_id(db, "restaurants")
-    db[C.RESTAURANTS].insert_one(
-        {
-            "_id": rid,
-            "name": name,
-            "cuisine": cuisine,
-            "description": description,
-            "address": address,
-            "city": city,
-            "contact_phone": contact_phone,
-            "contact_email": contact_email,
-            "hours": hours,
-            "price_tier": pricing_tier,
-            "amenities": amenities,
-            "photos": ",".join(photo_paths) if photo_paths else None,
-            "owner_id": current_user.id,
-            "avg_rating": 0.0,
-            "review_count": 0,
-            "created_at": datetime.utcnow(),
-        }
+    event_id = str(uuid.uuid4())
+    create_event_status(
+        db,
+        event_id=event_id,
+        entity_type="restaurant",
+        entity_id=rid,
+        status="processing",
     )
-    doc = db[C.RESTAURANTS].find_one({"_id": rid})
-    return {
-        "id": doc["_id"],
-        "name": doc.get("name"),
-        "cuisine": doc.get("cuisine"),
-        "description": doc.get("description"),
-        "address": doc.get("address"),
-        "city": doc.get("city"),
-        "contact_phone": doc.get("contact_phone"),
-        "contact_email": doc.get("contact_email"),
-        "hours": doc.get("hours"),
-        "pricing_tier": doc.get("price_tier"),
-        "amenities": doc.get("amenities"),
-        "photos": photo_paths,
-        "avg_rating": doc.get("avg_rating"),
-        "review_count": doc.get("review_count"),
+    payload = {
+        "eventId": event_id,
+        "restaurant_id": rid,
+        "name": name,
+        "cuisine": cuisine,
+        "description": description,
+        "address": address,
+        "city": city,
+        "contact_phone": contact_phone,
+        "contact_email": contact_email,
+        "hours": hours,
+        "pricing_tier": pricing_tier,
+        "amenities": amenities,
+        "photos": ",".join(photo_paths) if photo_paths else None,
+        "owner_id": current_user.id,
     }
+    if not publish_event("restaurant.created", payload):
+        process_restaurant_event(db, "restaurant.created", payload)
+    return {"message": "Restaurant queued", "restaurant_id": rid, "eventId": event_id}
 
 
-@router.post("/restaurants/{restaurant_id}/claim", response_model=OwnerRestaurantResponse)
+@router.post("/restaurants/{restaurant_id}/claim", status_code=202)
 def claim_restaurant(
     restaurant_id: int,
     db: Database = Depends(get_db),
@@ -220,27 +222,19 @@ def claim_restaurant(
     if restaurant.get("owner_id") is not None:
         raise HTTPException(status_code=409, detail="Restaurant already claimed")
 
-    db[C.RESTAURANTS].update_one(
-        {"_id": restaurant_id}, {"$set": {"owner_id": current_user.id}}
+    event_id = str(uuid.uuid4())
+    create_event_status(
+        db,
+        event_id=event_id,
+        entity_type="restaurant",
+        entity_id=restaurant_id,
+        status="processing",
     )
-    doc = db[C.RESTAURANTS].find_one({"_id": restaurant_id})
-    ph = doc.get("photos") or ""
-    return {
-        "id": doc["_id"],
-        "name": doc.get("name"),
-        "cuisine": doc.get("cuisine"),
-        "description": doc.get("description"),
-        "address": doc.get("address"),
-        "city": doc.get("city"),
-        "contact_phone": doc.get("contact_phone"),
-        "contact_email": doc.get("contact_email"),
-        "hours": doc.get("hours"),
-        "pricing_tier": doc.get("price_tier"),
-        "amenities": doc.get("amenities"),
-        "photos": ph.split(",") if ph else [],
-        "avg_rating": doc.get("avg_rating"),
-        "review_count": doc.get("review_count"),
-    }
+    payload = {"eventId": event_id, "restaurant_id": restaurant_id, "owner_id": current_user.id}
+    if not publish_event("restaurant.claimed", payload):
+        process_restaurant_event(db, "restaurant.claimed", payload)
+    return {"message": "Restaurant claim queued", "eventId": event_id}
+
 
 
 @router.get("/restaurants/{restaurant_id}/reviews", response_model=OwnerRestaurantReviewsResponse)

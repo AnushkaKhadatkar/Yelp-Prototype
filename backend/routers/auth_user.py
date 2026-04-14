@@ -1,18 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
 from pymongo.database import Database
 
 from database import get_db
 import mongo_collections as C
 from mongo_utils import log_activity, next_id
-from schemas.user import UserCreate
+from schemas.user import UserCreate, UserLogin
 from services.auth_service import (
     authenticate_user,
     create_access_token,
-    decode_token_jti,
+    get_token_ttl_seconds,
     hash_password,
 )
-from fastapi import Header
+from services.kafka_bus import publish_event
 
 router = APIRouter(prefix="/auth/user", tags=["Auth - User"])
 
@@ -33,36 +32,27 @@ def signup(user_data: UserCreate, db: Database = Depends(get_db)):
             "role": "user",
         }
     )
+    publish_event(
+        "user.created",
+        {"eventId": f"user-created-{uid}", "user_id": uid, "email": user_data.email, "name": user_data.name, "role": "user"},
+    )
     log_activity(db, user_id=uid, action="user_signup", resource="users")
-    return {"message": "User created successfully"}
+    return {"message": "User created successfully", "user_id": uid}
 
 
 @router.post("/login")
 def login(
-    form_data: OAuth2PasswordRequestForm = Depends(),
+    payload: UserLogin,
     db: Database = Depends(get_db),
 ):
-    user = authenticate_user(db, form_data.username, form_data.password)
+    user = authenticate_user(db, payload.email, payload.password)
     access_token = create_access_token(
         db, data={"sub": str(user.id), "role": user.role}
     )
     log_activity(db, user_id=user.id, action="user_login", resource="sessions")
     return {
-        "access_token": access_token,
-        "token_type": "bearer",
+        "token": access_token,
+        "user_id": user.id,
         "role": user.role,
+        "expiresIn": get_token_ttl_seconds(),
     }
-
-
-@router.post("/logout")
-def logout(
-    db: Database = Depends(get_db),
-    authorization: str | None = Header(None),
-):
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Missing bearer token")
-    token = authorization.replace("Bearer ", "", 1).strip()
-    jti = decode_token_jti(token)
-    if jti:
-        db[C.SESSIONS].delete_one({"_id": jti})
-    return {"message": "Logged out"}
