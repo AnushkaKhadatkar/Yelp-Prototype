@@ -3,56 +3,144 @@
 Migrate Lab 1 MySQL (same schema as SQLAlchemy models) into MongoDB collections.
 Preserves integer _id values. Password hashes are copied as-is (bcrypt).
 
-Usage (from repo root or backend/):
-  export DATABASE_URL=mysql+pymysql://user:pass@host:3306/yelp_db
-  export MONGODB_URI=mongodb://localhost:27017
-  export MONGODB_DB_NAME=yelp_db
-  python scripts/migrate_mysql_to_mongo.py
+Connection (pick one):
+
+  A) DATABASE_URL:
+     export DATABASE_URL=mysql+pymysql://user:pass@127.0.0.1:3307/yelp_db
+     Use the host port you mapped (often 3307 if MySQL is in Docker; not always 3306).
+
+  B) MYSQL_* (avoids URL-encoding special characters in passwords):
+     export MYSQL_HOST=127.0.0.1
+     export MYSQL_PORT=3307
+     export MYSQL_USER=yelp
+     export MYSQL_PASSWORD=yelppass
+     export MYSQL_DATABASE=yelp_db
+
+  Then:
+     export MONGODB_URI=mongodb://127.0.0.1:27017
+     export MONGODB_DB_NAME=yelp_db
+     python scripts/migrate_mysql_to_mongo.py
+
+If MySQL has no rows, load data first:
+
+     cd backend && python seed_data.py --fresh
+
+(Uses DATABASE_URL or MYSQL_* from .env; defaults: 15 users, 60 restaurants.) Or minimal SQL:
+
+     mysql ... < scripts/mysql_lab1_minimal_seed.sql
+
+Or: python scripts/migrate_mysql_to_mongo.py --allow-empty  (clears Mongo and leaves it empty)
 """
 
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_backend = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_scripts = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _backend)
+sys.path.insert(0, _scripts)
 
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from sqlalchemy.engine.url import make_url
 
 import mongo_collections as C
+from mysql_env import mysql_conn_params
 
 load_dotenv()
 
 
-def mysql_conn_params():
-    url = os.getenv("DATABASE_URL")
-    if not url:
-        raise SystemExit("DATABASE_URL is required (MySQL URL)")
-    u = make_url(url)
-    return {
-        "host": u.host or "localhost",
-        "port": u.port or 3306,
-        "user": u.username or "",
-        "password": u.password or "",
-        "database": u.database or "yelp_db",
-        "charset": "utf8mb4",
-    }
+def _mysql_count(cur, table: str) -> int | None:
+    """Return row count, or None if table is missing."""
+    from pymysql.err import ProgrammingError
+
+    try:
+        cur.execute(f"SELECT COUNT(*) AS c FROM `{table}`")
+        row = cur.fetchone()
+        if not row:
+            return 0
+        return int(row["c"] if isinstance(row, dict) else row[0])
+    except ProgrammingError:
+        return None
 
 
 def main():
     import pymysql
+    from pymysql.err import OperationalError
+
+    parser = argparse.ArgumentParser(description="Copy Lab 1 MySQL data into MongoDB.")
+    parser.add_argument(
+        "--allow-empty",
+        action="store_true",
+        help="Run even if MySQL has no users (will clear Mongo target collections).",
+    )
+    args = parser.parse_args()
 
     params = mysql_conn_params()
     mongo_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
     db_name = os.getenv("MONGODB_DB_NAME", "yelp_db")
 
-    my = pymysql.connect(**params)
-    mc = MongoClient(mongo_uri)
-    db = mc[db_name]
+    try:
+        my = pymysql.connect(**params)
+    except OperationalError as e:
+        code = e.args[0] if e.args else None
+        if code == 1045:
+            print(
+                "MySQL login failed (access denied). Check:\n"
+                "  - User/password match the server (try the same values you use in MySQL Workbench).\n"
+                "  - Port: Docker Compose often maps MySQL to host port 3307 — use "
+                "127.0.0.1:3307 in DATABASE_URL or MYSQL_PORT=3307.\n"
+                "  - If the DB only exists inside Docker, start that container first.\n"
+                "  - For special characters in the password, use MYSQL_HOST / MYSQL_USER / "
+                "MYSQL_PASSWORD instead of DATABASE_URL.\n",
+                file=sys.stderr,
+            )
+        elif code == 2003:
+            print(
+                "Cannot reach MySQL (connection refused). Check MYSQL_HOST/MYSQL_PORT "
+                "and that the MySQL server is running.\n",
+                file=sys.stderr,
+            )
+        raise
 
     cur = my.cursor(pymysql.cursors.DictCursor)
+
+    tables = ("users", "restaurants", "reviews", "favourites", "user_preferences")
+    counts = {t: _mysql_count(cur, t) for t in tables}
+    print(
+        f"MySQL source {params['user']}@{params['host']}:{params['port']}/{params['database']} — row counts:",
+        ", ".join(f"{t}={counts[t]}" for t in tables),
+    )
+
+    if counts["users"] is None:
+        print(
+            "\nMySQL tables are missing. Create schema + sample data, e.g. (adjust host/port/user/pass):\n"
+            "  mysql -h 127.0.0.1 -P 3307 -uyelp -pyelppass yelp_db < scripts/mysql_lab1_minimal_seed.sql\n"
+            "  or:  bash scripts/load-mysql-sample.sh   (from repo root, MySQL in Docker)\n",
+            file=sys.stderr,
+        )
+        cur.close()
+        my.close()
+        raise SystemExit(1)
+
+    if (counts["users"] or 0) == 0 and not args.allow_empty:
+        print(
+            "\nMySQL has no users — nothing to migrate (would wipe Mongo for no benefit).\n"
+            "Load data, then re-run:\n"
+            "  cd backend && python seed_data.py --fresh\n"
+            "  mysql -h 127.0.0.1 -P 3307 -uyelp -pyelppass yelp_db < scripts/mysql_lab1_minimal_seed.sql\n"
+            "  or:  bash scripts/load-mysql-sample.sh\n"
+            "Or force an empty migration:  python scripts/migrate_mysql_to_mongo.py --allow-empty\n",
+            file=sys.stderr,
+        )
+        cur.close()
+        my.close()
+        raise SystemExit(1)
+
+    mc = MongoClient(mongo_uri)
+    db = mc[db_name]
 
     # Clear target collections (idempotent re-run)
     for name in (

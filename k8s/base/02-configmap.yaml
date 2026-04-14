@@ -6,9 +6,6 @@ metadata:
 data:
   MONGODB_DB_NAME: "yelp_db"
   ALGORITHM: "HS256"
-  ACCESS_TOKEN_EXPIRE_SECONDS: "86400"
-  KAFKA_ENABLED: "true"
-  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
-  # Lab-only: allow POST/PUT without Bearer when true (uses AUTH_DISABLED_USER_ID from users).
-  AUTH_DISABLED: "false"
-  AUTH_DISABLED_USER_ID: "1"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+  GEMINI_API_KEY: ""
+  TAVILY_API_KEY: ""
