@@ -1,7 +1,11 @@
 import axios from 'axios'
 
+// Same-origin by default: Vite (dev) and nginx (Docker) proxy to microservices.
+// Set VITE_API_BASE_URL only when the API is on another origin.
+const baseURL = import.meta.env.VITE_API_BASE_URL ?? ''
+
 const API = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL,
 })
 
 API.interceptors.request.use((req) => {

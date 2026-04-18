@@ -89,6 +89,18 @@ services:
       restaurant-service:
         condition: service_started
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    depends_on:
+      - user-service
+      - owner-service
+      - restaurant-service
+      - review-service
+
 volumes:
   mongo_data:
   restaurant_uploads:
