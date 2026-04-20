@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { getRestaurantById, createReview, addFavourite, removeFavourite, claimRestaurant, updateReview, deleteReview, uploadReviewPhotos } from '../services/api'
 import { useAuth } from '../context/AuthContext'
+import { setSelectedRestaurant } from '../slices/restaurantSlice'
 import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { uploadPath } from '../utils/mediaUrl'
@@ -10,6 +12,7 @@ const DEFAULT_PHOTO = 'https://images.unsplash.com/photo-1517248135467-4c7edcad3
 
 export default function RestaurantDetailsPage() {
   const { id } = useParams()
+  const dispatch = useDispatch()
   const { user, isUser, isOwner } = useAuth()
   const navigate = useNavigate()
 
@@ -46,6 +49,7 @@ export default function RestaurantDetailsPage() {
       const res = await getRestaurantById(id)
       const data = res.data
       setRestaurant(data)
+      dispatch(setSelectedRestaurant(data))
       // Reviews are included in the restaurant detail response
       setReviews(data.reviews || [])
     } catch {
@@ -56,7 +60,10 @@ export default function RestaurantDetailsPage() {
 
   useEffect(() => {
     loadRestaurant()
-  }, [id])
+    return () => {
+      dispatch(setSelectedRestaurant(null))
+    }
+  }, [id, dispatch])
 
   const handleFav = async () => {
     if (!user) { navigate('/login'); return }

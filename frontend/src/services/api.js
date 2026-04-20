@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { logout } from '../slices/authSlice'
+import { getStore } from '../storeRef'
 
 // Same-origin by default: Vite (dev) and nginx (Docker) proxy to microservices.
 // Set VITE_API_BASE_URL only when the API is on another origin.
@@ -19,9 +21,7 @@ API.interceptors.response.use(
   (err) => {
     const isAuthRoute = err.config?.url?.includes('/auth/')
     if (err.response?.status === 401 && !isAuthRoute) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      window.location.href = '/login'
+      getStore()?.dispatch(logout())
     }
     return Promise.reject(err)
   }

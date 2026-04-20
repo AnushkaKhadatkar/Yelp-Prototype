@@ -18,9 +18,10 @@ export default function SignupPage() {
     try {
       await signupUser({ name: form.name, email: form.email, password: form.password })
       const res = await loginUser({ email: form.email, password: form.password })
-      const { access_token, role } = res.data
-      const payload = decodeJWT(access_token)
-      login({ id: payload.sub, email: form.email, name: form.name }, role || 'user', access_token)
+      const { role } = res.data
+      const token = res.data.access_token || res.data.token
+      const payload = decodeJWT(token)
+      login({ id: payload.sub, email: form.email, name: form.name }, role || 'user', token)
       navigate('/')
     } catch (e) {
       const detail = e.response?.data?.detail

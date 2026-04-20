@@ -18,9 +18,10 @@ export default function OwnerSignupPage() {
     try {
       await signupOwner({ name: form.name, email: form.email, password: form.password, restaurant_location: form.restaurant_location })
       const res = await loginOwner({ email: form.email, password: form.password })
-      const { access_token, role } = res.data
-      const payload = decodeJWT(access_token)
-      login({ id: payload.sub, email: form.email, name: form.name }, role || 'owner', access_token)
+      const { role } = res.data
+      const token = res.data.access_token || res.data.token
+      const payload = decodeJWT(token)
+      login({ id: payload.sub, email: form.email, name: form.name }, role || 'owner', token)
       navigate('/owner/dashboard')
     } catch (e) {
       const detail = e.response?.data?.detail

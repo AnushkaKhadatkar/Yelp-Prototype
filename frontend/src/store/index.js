@@ -12,4 +12,6 @@ export const store = configureStore({
     review: reviewReducer,
     favourites: favouritesReducer,
   },
+  // Browser Redux DevTools (extension) works in dev; no extra package required with RTK.
+  devTools: import.meta.env.DEV,
 })

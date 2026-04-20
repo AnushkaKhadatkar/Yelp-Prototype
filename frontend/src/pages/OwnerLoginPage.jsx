@@ -14,9 +14,10 @@ export default function OwnerLoginPage() {
     e.preventDefault(); setError(''); setLoading(true)
     try {
       const res = await loginOwner(form)
-      const { access_token, role } = res.data
-      const payload = decodeJWT(access_token)
-      login({ id: payload.sub, email: form.email, name: form.email.split('@')[0] }, role || 'owner', access_token)
+      const { role } = res.data
+      const token = res.data.access_token || res.data.token
+      const payload = decodeJWT(token)
+      login({ id: payload.sub, email: form.email, name: form.email.split('@')[0] }, role || 'owner', token)
       navigate('/owner/dashboard')
     } catch (e) {
       const detail = e.response?.data?.detail
