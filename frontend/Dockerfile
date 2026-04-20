@@ -1,4 +1,4 @@
-# Lab 2 — production build + nginx reverse proxy to backend services on the compose network
+# Lab 2 - production build + nginx reverse proxy to backend services on the compose network
 FROM node:20-alpine AS build
 WORKDIR /app
 
@@ -7,7 +7,7 @@ RUN npm ci
 
 COPY . .
 
-# Empty = same-origin (browser ? nginx ? upstreams). Override only if you terminate TLS elsewhere.
+# Empty = same-origin (browser -> nginx -> upstreams). Set via compose build.args (see docker-compose.yml).
 ARG VITE_API_BASE_URL=
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 

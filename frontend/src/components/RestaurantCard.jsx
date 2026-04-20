@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { addFavourite, removeFavourite } from '../services/api'
+import { uploadPath } from '../utils/mediaUrl'
 
 const CUISINE_COLORS = {
   Italian: ['#FEF3E2', '#B45309'], Chinese: ['#FEE2E2', '#B91C1C'],
@@ -67,7 +68,7 @@ export default function RestaurantCard({ restaurant, isFav = false, onFavToggle 
   const photo = restaurant.photos?.[0] || restaurant.photo
   const cuisinePhoto = CUISINE_PHOTOS[restaurant.cuisine] || DEFAULT_PHOTO
   const displayPhoto = (photo && !imgError)
-    ? `http://localhost:8000/uploads/${photo}`
+    ? uploadPath(photo)
     : cuisinePhoto
 
   const handleFav = async (e) => {

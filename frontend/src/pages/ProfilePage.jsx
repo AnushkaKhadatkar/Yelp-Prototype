@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { getUserProfile, updateUserProfile, uploadProfilePicture, getUserPreferences, updateUserPreferences } from '../services/api'
 import { useAuth } from '../context/AuthContext'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 const COUNTRIES = ['United States', 'Canada', 'United Kingdom', 'India', 'Australia', 'Germany', 'France', 'Japan', 'China', 'Brazil', 'Mexico', 'Italy', 'Spain', 'Other']
 const CUISINES_LIST = ['Italian', 'Chinese', 'Mexican', 'Indian', 'Japanese', 'American', 'French', 'Mediterranean', 'Thai', 'Korean', 'Vietnamese', 'Greek', 'Spanish']
@@ -58,8 +59,7 @@ export default function ProfilePage() {
         gender: d.gender || '',
       })
       if (d.profile_pic) {
-        const url = d.profile_pic.startsWith('http') ? d.profile_pic : `http://localhost:8000/${d.profile_pic}`
-        setPicUrl(url)
+        setPicUrl(toMediaUrl(d.profile_pic))
       }
       setProfileLoading(false)
     }).catch(() => setProfileLoading(false))

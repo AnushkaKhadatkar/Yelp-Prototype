@@ -37,7 +37,14 @@ export default function HomePage() {
     setLoading(true); setError('')
     try {
       const res = await getRestaurants(params)
-      setRestaurants(res.data || [])
+      const body = res.data
+      // Lab 2 contract: { restaurants, total, page, limit }
+      const list = Array.isArray(body?.restaurants)
+        ? body.restaurants
+        : Array.isArray(body)
+          ? body
+          : []
+      setRestaurants(list)
     } catch {
       setError('Could not connect to the server.')
     }

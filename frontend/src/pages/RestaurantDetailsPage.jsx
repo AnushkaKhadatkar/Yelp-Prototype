@@ -4,6 +4,7 @@ import { getRestaurantById, createReview, addFavourite, removeFavourite, claimRe
 import { useAuth } from '../context/AuthContext'
 import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
+import { uploadPath } from '../utils/mediaUrl'
 
 const DEFAULT_PHOTO = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80'
 
@@ -167,7 +168,7 @@ export default function RestaurantDetailsPage() {
           Hawaiian: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80',
         }
         const uploadedPhoto = !bannerImgError && restaurant.photos && restaurant.photos.length > 0
-          ? `http://localhost:8000/uploads/${restaurant.photos[0]}`
+          ? uploadPath(restaurant.photos[0])
           : null
         const bannerPhoto = uploadedPhoto || CUISINE_PHOTOS[restaurant.cuisine] || DEFAULT_PHOTO
         return (
@@ -374,7 +375,7 @@ export default function RestaurantDetailsPage() {
                             {photos.map((p) => (
                               <img
                                 key={p}
-                                src={`http://localhost:8000/uploads/${p}`}
+                                src={uploadPath(p)}
                                 alt="review"
                                 className="h-20 w-20 object-cover rounded-lg border border-gray-100"
                               />
