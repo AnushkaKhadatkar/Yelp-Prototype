@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getFavourites } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import {
   fetchRestaurants,
@@ -15,6 +14,17 @@ import {
   selectRestaurantFilters,
   selectRestaurantActiveFilter,
 } from '../selectors/restaurantSelectors'
+import {
+  selectFavouriteIds,
+  selectFavouritesPendingById,
+} from '../selectors/favouritesSelectors'
+import {
+  addFavouriteItem,
+  fetchFavourites,
+  optimisticAddFavourite,
+  optimisticRemoveFavourite,
+  removeFavouriteItem,
+} from '../slices/favouritesSlice'
 import RestaurantCard from '../components/RestaurantCard'
 import ChatbotPanel from '../components/ChatbotPanel'
 
@@ -42,21 +52,13 @@ export default function HomePage() {
   const filters = useSelector(selectRestaurantFilters)
   const activeFilter = useSelector(selectRestaurantActiveFilter)
 
-  const [favIds, setFavIds] = useState(new Set())
   const [chatOpen, setChatOpen] = useState(false)
-
-  const fetchFavs = async () => {
-    if (!isUser) return
-    try {
-      const res = await getFavourites()
-      setFavIds(new Set((res.data || []).map(r => r.id || r.restaurant_id)))
-    } catch {}
-  }
+  const favouriteIds = useSelector(selectFavouriteIds)
+  const pendingById = useSelector(selectFavouritesPendingById)
 
   useEffect(() => {
     dispatch(fetchRestaurants())
-    if (isUser) fetchFavs()
-    else setFavIds(new Set())
+    if (isUser) dispatch(fetchFavourites())
   }, [dispatch, user, isUser])
 
   const handleSearch = (e) => {
@@ -75,12 +77,15 @@ export default function HomePage() {
     dispatch(fetchRestaurants())
   }
 
-  const handleFavToggle = (id, isFav) => {
-    setFavIds(prev => {
-      const next = new Set(prev)
-      if (isFav) next.add(id); else next.delete(id)
-      return next
-    })
+  const handleFavToggle = async (id, isFav) => {
+    const rid = Number(id)
+    if (isFav) {
+      dispatch(optimisticAddFavourite(rid))
+      await dispatch(addFavouriteItem(rid))
+      return
+    }
+    dispatch(optimisticRemoveFavourite(rid))
+    await dispatch(removeFavouriteItem(rid))
   }
 
   const clearAllFilters = () => {
@@ -275,7 +280,8 @@ export default function HomePage() {
                     style={{ animationDelay: `${Math.min(i * 0.04, 0.3)}s`, opacity: 0 }}>
                     <RestaurantCard
                       restaurant={r}
-                      isFav={favIds.has(r.id)}
+                      isFav={favouriteIds.includes(Number(r.id))}
+                      favLoading={Boolean(pendingById[Number(r.id)])}
                       onFavToggle={handleFavToggle}
                     />
                   </div>
