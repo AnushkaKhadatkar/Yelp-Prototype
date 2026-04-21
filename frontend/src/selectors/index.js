@@ -16,5 +16,18 @@ export {
   selectRestaurantActiveFilter,
   selectSelectedRestaurant,
 } from './restaurantSelectors'
-export { selectReviewState } from './reviewSelectors'
-export { selectFavouritesState } from './favouritesSelectors'
+export {
+  selectReviewState,
+  selectReviewSubmitting,
+  selectReviewUpdating,
+  selectReviewDeleting,
+  selectReviewSubmitError,
+} from './reviewSelectors'
+export {
+  selectFavouritesState,
+  selectFavouriteItems,
+  selectFavouriteIds,
+  selectFavouritesLoading,
+  selectFavouritesError,
+  selectFavouritesPendingById,
+} from './favouritesSelectors'
