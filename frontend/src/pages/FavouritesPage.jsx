@@ -1,21 +1,30 @@
-import { useState, useEffect } from 'react'
-import { getFavourites } from '../services/api'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import RestaurantCard from '../components/RestaurantCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { Link } from 'react-router-dom'
+import { fetchFavourites, optimisticRemoveFavourite, removeFavouriteItem } from '../slices/favouritesSlice'
+import {
+  selectFavouriteItems,
+  selectFavouritesLoading,
+  selectFavouritesPendingById,
+} from '../selectors/favouritesSelectors'
 
 export default function FavouritesPage() {
-  const [favourites, setFavourites] = useState([])
-  const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
+  const favourites = useSelector(selectFavouriteItems)
+  const loading = useSelector(selectFavouritesLoading)
+  const pendingById = useSelector(selectFavouritesPendingById)
 
   useEffect(() => {
-    getFavourites()
-      .then(res => setFavourites(res.data || []))
-      .catch(() => {})
-      .finally(() => setLoading(false))
-  }, [])
+    dispatch(fetchFavourites())
+  }, [dispatch])
 
-  const handleFavToggle = (id) => setFavourites(prev => prev.filter(r => (r.id || r.restaurant_id) !== id))
+  const handleFavToggle = async (id) => {
+    const rid = Number(id)
+    dispatch(optimisticRemoveFavourite(rid))
+    await dispatch(removeFavouriteItem(rid))
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
@@ -41,6 +50,7 @@ export default function FavouritesPage() {
               <RestaurantCard
                 restaurant={{ ...r, id: r.id || r.restaurant_id }}
                 isFav={true}
+                favLoading={Boolean(pendingById[Number(r.id || r.restaurant_id)])}
                 onFavToggle={handleFavToggle}
               />
             </div>
