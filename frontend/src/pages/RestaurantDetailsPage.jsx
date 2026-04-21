@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { getRestaurantById, createReview, addFavourite, removeFavourite, claimRestaurant, updateReview, deleteReview, uploadReviewPhotos } from '../services/api'
+import { useDispatch, useSelector } from 'react-redux'
+import { getRestaurantById, claimRestaurant, uploadReviewPhotos } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import { setSelectedRestaurant } from '../slices/restaurantSlice'
+import {
+  addFavouriteItem,
+  optimisticAddFavourite,
+  optimisticRemoveFavourite,
+  removeFavouriteItem,
+} from '../slices/favouritesSlice'
+import { selectFavouriteIds, selectFavouritesPendingById } from '../selectors/favouritesSelectors'
+import {
+  removeReview,
+  submitReview,
+  updateReviewStatus,
+} from '../slices/reviewSlice'
 import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { uploadPath } from '../utils/mediaUrl'
@@ -15,14 +27,13 @@ export default function RestaurantDetailsPage() {
   const dispatch = useDispatch()
   const { user, isUser, isOwner } = useAuth()
   const navigate = useNavigate()
+  const favouriteIds = useSelector(selectFavouriteIds)
+  const favPendingById = useSelector(selectFavouritesPendingById)
 
   const [restaurant, setRestaurant] = useState(null)
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [isFav, setIsFav] = useState(false)
-  const [favLoading, setFavLoading] = useState(false)
-
   // New review form
   const [showReviewForm, setShowReviewForm] = useState(false)
   const [newRating, setNewRating] = useState(0)
@@ -67,12 +78,15 @@ export default function RestaurantDetailsPage() {
 
   const handleFav = async () => {
     if (!user) { navigate('/login'); return }
-    setFavLoading(true)
-    try {
-      if (isFav) { await removeFavourite(id); setIsFav(false) }
-      else { await addFavourite(id); setIsFav(true) }
-    } catch {}
-    setFavLoading(false)
+    const rid = Number(id)
+    const isFav = favouriteIds.includes(rid)
+    if (isFav) {
+      dispatch(optimisticRemoveFavourite(rid))
+      await dispatch(removeFavouriteItem(rid))
+      return
+    }
+    dispatch(optimisticAddFavourite(rid))
+    await dispatch(addFavouriteItem(rid))
   }
 
   const handleSubmitReview = async (e) => {
@@ -81,8 +95,13 @@ export default function RestaurantDetailsPage() {
     setReviewLoading(true)
     setReviewError('')
     try {
-      const res = await createReview(id, { rating: newRating, comment: newComment })
-      const reviewId = res?.data?.review_id
+      const result = await dispatch(
+        submitReview({ restaurantId: id, payload: { rating: newRating, comment: newComment } })
+      )
+      if (submitReview.rejected.match(result)) {
+        throw new Error(result.payload || 'Failed to submit review.')
+      }
+      const reviewId = result.payload?.reviewId
       if (reviewId && newPhotos && newPhotos.length > 0) {
         const fd = new FormData()
         newPhotos.forEach((f) => fd.append('photos', f))
@@ -95,19 +114,23 @@ export default function RestaurantDetailsPage() {
       setNewPhotos([])
       setShowReviewForm(false)
     } catch (e) {
-      const detail = e.response?.data?.detail
-      setReviewError(typeof detail === 'string' ? detail : 'Failed to submit review.')
+      setReviewError(e?.message || 'Failed to submit review.')
     }
     setReviewLoading(false)
   }
 
   const handleEditSave = async (reviewId) => {
     try {
-      await updateReview(reviewId, { rating: editRating, comment: editComment })
+      const result = await dispatch(
+        updateReviewStatus({ reviewId, payload: { rating: editRating, comment: editComment } })
+      )
+      if (updateReviewStatus.rejected.match(result)) {
+        throw new Error(result.payload || 'Failed to update review.')
+      }
       await loadRestaurant()
       setEditingReviewId(null)
     } catch (e) {
-      alert(e.response?.data?.detail || 'Failed to update review.')
+      alert(e.message || 'Failed to update review.')
     }
   }
 
@@ -115,11 +138,14 @@ export default function RestaurantDetailsPage() {
     if (!pendingDeleteReviewId) return
     setDeleteLoading(true)
     try {
-      await deleteReview(pendingDeleteReviewId)
+      const result = await dispatch(removeReview(pendingDeleteReviewId))
+      if (removeReview.rejected.match(result)) {
+        throw new Error(result.payload || 'Failed to delete review.')
+      }
       await loadRestaurant()
       setPendingDeleteReviewId(null)
     } catch (e) {
-      alert(e.response?.data?.detail || 'Failed to delete review.')
+      alert(e.message || 'Failed to delete review.')
     }
     setDeleteLoading(false)
   }
@@ -137,6 +163,8 @@ export default function RestaurantDetailsPage() {
   }
 
   const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''
+  const isFav = favouriteIds.includes(Number(id))
+  const favLoading = Boolean(favPendingById[Number(id)])
 
   if (loading) return <div className="max-w-4xl mx-auto px-4 py-8"><LoadingSpinner text="Loading restaurant..." /></div>
   if (error) return (
