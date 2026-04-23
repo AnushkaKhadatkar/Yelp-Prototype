@@ -147,3 +147,23 @@ cd backend && source venv/bin/activate && uvicorn main:app --reload --port 8000
 ```bash
 cd frontend && npm run dev
 ```
+
+---
+
+## Lab 2 JMeter Plans
+
+JMeter assets for Lab 2 are included:
+
+- `jmeter/week3-login-smoke.jmx` — initial 10-user smoke check for login
+- `jmeter/week4-load-suite.jmx` — Week 4 load suite for 100-500 users
+
+Guides:
+
+- `docs/jmeter-week3.md`
+- `docs/jmeter-week4.md`
+
+Typical Week 4 run example:
+
+```bash
+jmeter -n -t jmeter/week4-load-suite.jmx -JTHREADS=300 -JRAMP_UP=60 -JLOOPS=2 -JBASE_HOST=localhost -JBASE_PORT=8001 -l jmeter/results/week4/load-300.csv
+```
