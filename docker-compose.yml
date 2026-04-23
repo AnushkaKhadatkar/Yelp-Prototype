@@ -89,6 +89,24 @@ services:
       restaurant-service:
         condition: service_started
 
+<<<<<<< HEAD
+=======
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Baked in at `npm run build` (Vite). Default empty = relative URLs + nginx proxy.
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-${FRONTEND_API_BASE_URL:-}}
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    depends_on:
+      - user-service
+      - owner-service
+      - restaurant-service
+      - review-service
+
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 volumes:
   mongo_data:
   restaurant_uploads:

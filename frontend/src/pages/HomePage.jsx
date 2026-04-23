@@ -1,9 +1,40 @@
 import { useState, useEffect } from 'react'
+<<<<<<< HEAD
 import { getRestaurants, getFavourites } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import RestaurantCard from '../components/RestaurantCard'
 import ChatbotPanel from '../components/ChatbotPanel'
 import LoadingSpinner from '../components/LoadingSpinner'
+=======
+import { useDispatch, useSelector } from 'react-redux'
+import { useAuth } from '../context/AuthContext'
+import {
+  fetchRestaurants,
+  setFilters,
+  setActiveFilter,
+  clearFilters,
+} from '../slices/restaurantSlice'
+import {
+  selectRestaurantList,
+  selectRestaurantLoading,
+  selectRestaurantError,
+  selectRestaurantFilters,
+  selectRestaurantActiveFilter,
+} from '../selectors/restaurantSelectors'
+import {
+  selectFavouriteIds,
+  selectFavouritesPendingById,
+} from '../selectors/favouritesSelectors'
+import {
+  addFavouriteItem,
+  fetchFavourites,
+  optimisticAddFavourite,
+  optimisticRemoveFavourite,
+  removeFavouriteItem,
+} from '../slices/favouritesSlice'
+import RestaurantCard from '../components/RestaurantCard'
+import ChatbotPanel from '../components/ChatbotPanel'
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
 const CUISINES = ['Italian','Chinese','Mexican','Indian','Japanese','American','French','Mediterranean','Thai','Korean']
 
@@ -21,6 +52,7 @@ function SkeletonCard() {
 }
 
 export default function HomePage() {
+<<<<<<< HEAD
   const { user, isUser } = useAuth()
   const [restaurants, setRestaurants] = useState([])
   const [loading, setLoading] = useState(true)
@@ -95,6 +127,55 @@ export default function HomePage() {
   const clearFilters = () => {
     setSearch(''); setCity(''); setKeyword(''); setCuisine('')
     setActiveFilter('All'); fetchRestaurants()
+=======
+  const dispatch = useDispatch()
+  const { user, isUser } = useAuth()
+  const restaurants = useSelector(selectRestaurantList)
+  const loading = useSelector(selectRestaurantLoading)
+  const error = useSelector(selectRestaurantError)
+  const filters = useSelector(selectRestaurantFilters)
+  const activeFilter = useSelector(selectRestaurantActiveFilter)
+
+  const [chatOpen, setChatOpen] = useState(false)
+  const favouriteIds = useSelector(selectFavouriteIds)
+  const pendingById = useSelector(selectFavouritesPendingById)
+
+  useEffect(() => {
+    dispatch(fetchRestaurants())
+    if (isUser) dispatch(fetchFavourites())
+  }, [dispatch, user, isUser])
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    dispatch(fetchRestaurants())
+  }
+
+  const handleCuisineFilter = (c) => {
+    if (c === 'All') {
+      dispatch(setFilters({ cuisine: '' }))
+      dispatch(setActiveFilter('All'))
+    } else {
+      dispatch(setFilters({ cuisine: c }))
+      dispatch(setActiveFilter(c))
+    }
+    dispatch(fetchRestaurants())
+  }
+
+  const handleFavToggle = async (id, isFav) => {
+    const rid = Number(id)
+    if (isFav) {
+      dispatch(optimisticAddFavourite(rid))
+      await dispatch(addFavouriteItem(rid))
+      return
+    }
+    dispatch(optimisticRemoveFavourite(rid))
+    await dispatch(removeFavouriteItem(rid))
+  }
+
+  const clearAllFilters = () => {
+    dispatch(clearFilters())
+    dispatch(fetchRestaurants())
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
   }
 
   return (
@@ -134,8 +215,13 @@ export default function HomePage() {
                 </span>
                 <input
                   type="text"
+<<<<<<< HEAD
                   value={search}
                   onChange={e => setSearch(e.target.value)}
+=======
+                  value={filters.search}
+                  onChange={e => dispatch(setFilters({ search: e.target.value }))}
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                   placeholder="Restaurant or cuisine..."
                   className="input-field rounded-xl"
                   style={{ paddingLeft: 38, paddingTop: 12, paddingBottom: 12 }}
@@ -148,8 +234,13 @@ export default function HomePage() {
                 </span>
                 <input
                   type="text"
+<<<<<<< HEAD
                   value={city}
                   onChange={e => setCity(e.target.value)}
+=======
+                  value={filters.city}
+                  onChange={e => dispatch(setFilters({ city: e.target.value }))}
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                   placeholder="City or neighborhood..."
                   className="input-field rounded-xl"
                   style={{ paddingLeft: 38, paddingTop: 12, paddingBottom: 12 }}
@@ -169,8 +260,13 @@ export default function HomePage() {
                 </span>
                 <input
                   type="text"
+<<<<<<< HEAD
                   value={keyword}
                   onChange={e => setKeyword(e.target.value)}
+=======
+                  value={filters.keyword}
+                  onChange={e => dispatch(setFilters({ keyword: e.target.value }))}
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                   placeholder="Keywords: wifi, outdoor, romantic..."
                   className="input-field rounded-xl w-full"
                   style={{ paddingLeft: 34, paddingTop: 10, paddingBottom: 10, fontSize: 13 }}
@@ -178,8 +274,17 @@ export default function HomePage() {
               </div>
               <div className="flex-shrink-0 w-full sm:w-44 relative">
                 <select
+<<<<<<< HEAD
                   value={cuisine}
                   onChange={e => setCuisine(e.target.value)}
+=======
+                  value={filters.cuisine}
+                  onChange={(e) => {
+                    const v = e.target.value
+                    dispatch(setFilters({ cuisine: v }))
+                    dispatch(setActiveFilter(v ? v : 'All'))
+                  }}
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                   className="input-field rounded-xl w-full appearance-none"
                   style={{ paddingTop: 10, paddingBottom: 10, paddingRight: 28, fontSize: 13, cursor: 'pointer' }}
                 >
@@ -189,12 +294,21 @@ export default function HomePage() {
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
                   style={{ fontSize: 10, color: '#8C7E6E' }}>▼</span>
               </div>
+<<<<<<< HEAD
               {(search || city || keyword || cuisine) && (
                 <button type="button" onClick={clearFilters}
                   className="flex-shrink-0 px-3 py-2 rounded-xl transition-colors whitespace-nowrap"
                   style={{ fontSize: 13, color: '#8C7E6E', fontWeight: 500 }}
                   onMouseEnter={e => e.target.style.color = 'var(--red)'}
                   onMouseLeave={e => e.target.style.color = '#8C7E6E'}>
+=======
+              {(filters.search || filters.city || filters.keyword || filters.cuisine) && (
+                <button type="button" onClick={clearAllFilters}
+                  className="flex-shrink-0 px-3 py-2 rounded-xl transition-colors whitespace-nowrap"
+                  style={{ fontSize: 13, color: '#8C7E6E', fontWeight: 500 }}
+                  onMouseEnter={e => { e.target.style.color = 'var(--red)' }}
+                  onMouseLeave={e => { e.target.style.color = '#8C7E6E' }}>
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                   ✕ Clear
                 </button>
               )}
@@ -259,7 +373,11 @@ export default function HomePage() {
                 </div>
                 <p className="font-semibold text-[#1A1208] mb-2">Connection error</p>
                 <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 16 }}>{error}</p>
+<<<<<<< HEAD
                 <button className="btn-primary" onClick={() => fetchRestaurants()}>Try Again</button>
+=======
+                <button type="button" className="btn-primary" onClick={() => dispatch(fetchRestaurants())}>Try Again</button>
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
               </div>
             ) : restaurants.length === 0 ? (
               <div className="text-center py-24">
@@ -271,7 +389,11 @@ export default function HomePage() {
                 <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 20 }}>
                   Try adjusting your filters or search terms
                 </p>
+<<<<<<< HEAD
                 <button className="btn-ghost" onClick={clearFilters}>Clear all filters</button>
+=======
+                <button type="button" className="btn-ghost" onClick={clearAllFilters}>Clear all filters</button>
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -280,7 +402,12 @@ export default function HomePage() {
                     style={{ animationDelay: `${Math.min(i * 0.04, 0.3)}s`, opacity: 0 }}>
                     <RestaurantCard
                       restaurant={r}
+<<<<<<< HEAD
                       isFav={favIds.has(r.id)}
+=======
+                      isFav={favouriteIds.includes(Number(r.id))}
+                      favLoading={Boolean(pendingById[Number(r.id)])}
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                       onFavToggle={handleFavToggle}
                     />
                   </div>

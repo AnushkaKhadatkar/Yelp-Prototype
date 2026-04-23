@@ -1,7 +1,19 @@
 import axios from 'axios'
+<<<<<<< HEAD
 
 const API = axios.create({
   baseURL: 'http://localhost:8000',
+=======
+import { logout } from '../slices/authSlice'
+import { getStore } from '../storeRef'
+
+// Same-origin by default: Vite (dev) and nginx (Docker) proxy to microservices.
+// Set VITE_API_BASE_URL only when the API is on another origin.
+const baseURL = import.meta.env.VITE_API_BASE_URL ?? ''
+
+const API = axios.create({
+  baseURL,
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 })
 
 API.interceptors.request.use((req) => {
@@ -15,9 +27,13 @@ API.interceptors.response.use(
   (err) => {
     const isAuthRoute = err.config?.url?.includes('/auth/')
     if (err.response?.status === 401 && !isAuthRoute) {
+<<<<<<< HEAD
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       window.location.href = '/login'
+=======
+      getStore()?.dispatch(logout())
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
     }
     return Promise.reject(err)
   }

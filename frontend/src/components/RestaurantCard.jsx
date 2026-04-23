@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+<<<<<<< HEAD
 import { addFavourite, removeFavourite } from '../services/api'
+=======
+import { uploadPath } from '../utils/mediaUrl'
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
 const CUISINE_COLORS = {
   Italian: ['#FEF3E2', '#B45309'], Chinese: ['#FEE2E2', '#B91C1C'],
@@ -57,22 +61,38 @@ function StarDisplay({ rating, count }) {
   )
 }
 
+<<<<<<< HEAD
 export default function RestaurantCard({ restaurant, isFav = false, onFavToggle }) {
   const { user, isUser } = useAuth()
   const [fav, setFav] = useState(isFav)
   const [favLoading, setFavLoading] = useState(false)
+=======
+export default function RestaurantCard({
+  restaurant,
+  isFav = false,
+  onFavToggle,
+  favLoading: externalFavLoading = false,
+}) {
+  const { user, isUser } = useAuth()
+  const [isTogglingFav, setIsTogglingFav] = useState(false)
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
   const [imgError, setImgError] = useState(false)
 
   const colors = CUISINE_COLORS[restaurant.cuisine] || ['#F5F0E8', '#5C4A2A']
   const photo = restaurant.photos?.[0] || restaurant.photo
   const cuisinePhoto = CUISINE_PHOTOS[restaurant.cuisine] || DEFAULT_PHOTO
   const displayPhoto = (photo && !imgError)
+<<<<<<< HEAD
     ? `http://localhost:8000/uploads/${photo}`
+=======
+    ? uploadPath(photo)
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
     : cuisinePhoto
 
   const handleFav = async (e) => {
     e.preventDefault(); e.stopPropagation()
     if (!user || !isUser) return
+<<<<<<< HEAD
     setFavLoading(true)
     try {
       if (fav) await removeFavourite(restaurant.id)
@@ -82,6 +102,16 @@ export default function RestaurantCard({ restaurant, isFav = false, onFavToggle 
     } catch {}
     setFavLoading(false)
   }
+=======
+    if (externalFavLoading || isTogglingFav) return
+    setIsTogglingFav(true)
+    try {
+      onFavToggle && (await onFavToggle(restaurant.id, !isFav))
+    } catch {}
+    setIsTogglingFav(false)
+  }
+  const effectiveFavLoading = externalFavLoading || isTogglingFav
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
   return (
     <Link to={`/restaurants/${restaurant.id}`} className="block group">
@@ -92,9 +122,15 @@ export default function RestaurantCard({ restaurant, isFav = false, onFavToggle 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           {isUser && (
+<<<<<<< HEAD
             <button onClick={handleFav} disabled={favLoading}
               className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm ${fav ? 'bg-[#E8321A] text-white' : 'bg-white/90 backdrop-blur-sm text-[#8C7E6E] hover:text-[#E8321A] hover:scale-110'}`}>
               <span style={{ fontSize: 15 }}>{fav ? '♥' : '♡'}</span>
+=======
+            <button onClick={handleFav} disabled={effectiveFavLoading}
+              className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 shadow-sm ${isFav ? 'bg-[#E8321A] text-white' : 'bg-white/90 backdrop-blur-sm text-[#8C7E6E] hover:text-[#E8321A] hover:scale-110'} ${effectiveFavLoading ? 'opacity-70' : ''}`}>
+              <span style={{ fontSize: 15 }}>{isFav ? '♥' : '♡'}</span>
+>>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
             </button>
           )}
           <div className="absolute bottom-3 left-3">
