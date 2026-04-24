@@ -18,7 +18,8 @@ router = APIRouter(prefix="/auth/user", tags=["Auth - User"])
 
 @router.post("/signup")
 def signup(user_data: UserCreate, db: Database = Depends(get_db)):
-    if db[C.USERS].find_one({"email": user_data.email}):
+    normalized_email = user_data.email.strip().lower()
+    if db[C.USERS].find_one({"email": normalized_email}):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     uid = next_id(db, "users")
@@ -27,14 +28,14 @@ def signup(user_data: UserCreate, db: Database = Depends(get_db)):
         {
             "_id": uid,
             "name": user_data.name,
-            "email": user_data.email,
+            "email": normalized_email,
             "password_hash": hashed_pw,
             "role": "user",
         }
     )
     publish_event(
         "user.created",
-        {"eventId": f"user-created-{uid}", "user_id": uid, "email": user_data.email, "name": user_data.name, "role": "user"},
+        {"eventId": f"user-created-{uid}", "user_id": uid, "email": normalized_email, "name": user_data.name, "role": "user"},
     )
     log_activity(db, user_id=uid, action="user_signup", resource="users")
     return {"message": "User created successfully", "user_id": uid}

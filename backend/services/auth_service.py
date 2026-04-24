@@ -91,7 +91,8 @@ def get_token_ttl_seconds() -> int:
 
 
 def authenticate_user(db: Database, email: str, password: str) -> SimpleNamespace:
-    doc = db[C.USERS].find_one({"email": email})
+    normalized_email = (email or "").strip().lower()
+    doc = db[C.USERS].find_one({"email": normalized_email})
     if not doc or not verify_password(password, doc.get("password_hash", "")):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

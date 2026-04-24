@@ -115,7 +115,7 @@ def get_restaurants(
     keyword: Optional[str] = Query(None),
     zip: Optional[str] = Query(None),
     page: int = Query(1, ge=1),
-    limit: int = Query(20, ge=1, le=100),
+    limit: int = Query(100, ge=1, le=100),
     db: Database = Depends(get_db),
 ):
     search_term_value = search or keyword

@@ -19,7 +19,8 @@ router = APIRouter(prefix="/auth/owner", tags=["Auth - Owner"])
 
 @router.post("/signup")
 def owner_signup(owner_data: OwnerCreate, db: Database = Depends(get_db)):
-    if db[C.USERS].find_one({"email": owner_data.email}):
+    normalized_email = owner_data.email.strip().lower()
+    if db[C.USERS].find_one({"email": normalized_email}):
         raise HTTPException(status_code=400, detail="Email already registered")
 
     uid = next_id(db, "users")
@@ -28,7 +29,7 @@ def owner_signup(owner_data: OwnerCreate, db: Database = Depends(get_db)):
         {
             "_id": uid,
             "name": owner_data.name,
-            "email": owner_data.email,
+            "email": normalized_email,
             "password_hash": hashed_pw,
             "role": "owner",
             "restaurant_location": owner_data.restaurant_location,
@@ -39,7 +40,7 @@ def owner_signup(owner_data: OwnerCreate, db: Database = Depends(get_db)):
         {
             "eventId": f"user-created-{uid}",
             "user_id": uid,
-            "email": owner_data.email,
+            "email": normalized_email,
             "name": owner_data.name,
             "role": "owner",
         },

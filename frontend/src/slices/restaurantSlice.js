@@ -18,6 +18,8 @@ export const fetchRestaurants = createAsyncThunk(
     if (merged.city) params.city = merged.city
     if (merged.keyword) params.keyword = merged.keyword
     if (merged.cuisine) params.cuisine = merged.cuisine
+    // Lab view: fetch up to 100 so seeded dataset isn't truncated at backend default (20).
+    params.limit = merged.limit || 100
     try {
       const res = await getRestaurants(params)
       return res.data
