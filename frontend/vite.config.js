@@ -7,7 +7,11 @@ const proxyTo = {
   '^/auth/owner': 'http://127.0.0.1:8002',
   '^/auth': 'http://127.0.0.1:8001',
   '^/users': 'http://127.0.0.1:8001',
-  '^/owner': 'http://127.0.0.1:8002',
+  // Keep owner API proxy specific so browser refresh on frontend route
+  // /owner/restaurant is served by Vite SPA fallback (not backend 404).
+  '^/owner/profile': 'http://127.0.0.1:8002',
+  '^/owner/dashboard': 'http://127.0.0.1:8002',
+  '^/owner/restaurants': 'http://127.0.0.1:8002',
   '^/restaurants/\\d+/reviews': 'http://127.0.0.1:8004',
   '^/restaurants': 'http://127.0.0.1:8003',
   '^/reviews': 'http://127.0.0.1:8004',

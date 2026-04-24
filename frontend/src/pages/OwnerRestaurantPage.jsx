@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { getOwnerProfile } from '../services/api'
+import { getOwnerProfile, updateOwnerProfile } from '../services/api'
 import API from '../services/api'
 import LoadingSpinner from '../components/LoadingSpinner'
+import { useAuth } from '../context/AuthContext'
 
 const CUISINE_OPTIONS = ['Italian', 'Chinese', 'Mexican', 'Indian', 'Japanese', 'American', 'French', 'Mediterranean', 'Thai', 'Korean', 'Vietnamese', 'Greek', 'Spanish', 'Other']
 const PRICE_TIERS = ['$', '$$', '$$$', '$$$$']
@@ -32,6 +33,7 @@ async function waitForEventSaved(eventId, timeoutMs = 8000) {
 }
 
 export default function OwnerRestaurantPage() {
+  const { user, role, login } = useAuth()
   const [tab, setTab] = useState('profile')
   const [profile, setProfile] = useState({ name: '', email: '', restaurant_name: '', cuisine: '', description: '', location: '', contact: '', hours: '' })
   const [newRest, setNewRest] = useState({ name: '', cuisine: '', description: '', address: '', city: '', contact_phone: '', contact_email: '', hours: '', pricing_tier: '', amenities: '' })
@@ -76,6 +78,26 @@ export default function OwnerRestaurantPage() {
     const files = Array.from(e.target.files)
     setPhotos(files)
     setPhotosPreviews(files.map(f => URL.createObjectURL(f)))
+  }
+
+  const handleProfileSave = async (e) => {
+    e.preventDefault()
+    setSaving(true); setSuccess(''); setError('')
+    try {
+      await updateOwnerProfile({ name: profile.name, email: profile.email })
+      login(
+        { ...(user || {}), name: profile.name, email: profile.email },
+        role || 'owner',
+        localStorage.getItem('token')
+      )
+      setSuccess('Profile updated!')
+    } catch (e) {
+      const detail = e.response?.data?.detail
+      if (Array.isArray(detail)) setError(detail.map(d => d.msg).join(', '))
+      else setError(typeof detail === 'string' ? detail : 'Failed to update profile.')
+    }
+    setSaving(false)
+    setTimeout(() => setSuccess(''), 3000)
   }
 
   const handleAddRestaurant = async (e) => {
@@ -157,18 +179,18 @@ export default function OwnerRestaurantPage() {
 
       {/* Profile Tab */}
       {tab === 'profile' && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 space-y-5 shadow-sm">
+        <form onSubmit={handleProfileSave} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 space-y-5 shadow-sm">
           <h2 className="font-semibold text-gray-900">Owner Profile</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Your Name</label>
-              <input type="text" value={profile.name} readOnly
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-700" />
+              <input type="text" value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-200" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-              <input type="email" value={profile.email} readOnly
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-700" />
+              <input type="email" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-200" />
             </div>
           </div>
 
@@ -203,7 +225,11 @@ export default function OwnerRestaurantPage() {
             )}
           </div>
 
-        </div>
+          <button type="submit" disabled={saving}
+            className="px-8 py-3 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 disabled:opacity-50 transition-colors text-sm">
+            {saving ? 'Saving...' : 'Save Profile'}
+          </button>
+        </form>
       )}
 
       {/* Post New Restaurant Tab */}
