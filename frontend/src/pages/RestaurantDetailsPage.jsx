@@ -1,11 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-<<<<<<< HEAD
-import { getRestaurantById, createReview, addFavourite, removeFavourite, claimRestaurant, updateReview, deleteReview, uploadReviewPhotos } from '../services/api'
-import { useAuth } from '../context/AuthContext'
-import StarRating from '../components/StarRating'
-import LoadingSpinner from '../components/LoadingSpinner'
-=======
 import { useDispatch, useSelector } from 'react-redux'
 import { getRestaurantById, claimRestaurant, uploadReviewPhotos } from '../services/api'
 import { useAuth } from '../context/AuthContext'
@@ -25,33 +19,21 @@ import {
 import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { uploadPath } from '../utils/mediaUrl'
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
 const DEFAULT_PHOTO = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80'
 
 export default function RestaurantDetailsPage() {
   const { id } = useParams()
-<<<<<<< HEAD
-  const { user, isUser, isOwner } = useAuth()
-  const navigate = useNavigate()
-=======
   const dispatch = useDispatch()
   const { user, isUser, isOwner } = useAuth()
   const navigate = useNavigate()
   const favouriteIds = useSelector(selectFavouriteIds)
   const favPendingById = useSelector(selectFavouritesPendingById)
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
   const [restaurant, setRestaurant] = useState(null)
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-<<<<<<< HEAD
-  const [isFav, setIsFav] = useState(false)
-  const [favLoading, setFavLoading] = useState(false)
-
-=======
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
   // New review form
   const [showReviewForm, setShowReviewForm] = useState(false)
   const [newRating, setNewRating] = useState(0)
@@ -78,10 +60,7 @@ export default function RestaurantDetailsPage() {
       const res = await getRestaurantById(id)
       const data = res.data
       setRestaurant(data)
-<<<<<<< HEAD
-=======
       dispatch(setSelectedRestaurant(data))
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
       // Reviews are included in the restaurant detail response
       setReviews(data.reviews || [])
     } catch {
@@ -92,18 +71,6 @@ export default function RestaurantDetailsPage() {
 
   useEffect(() => {
     loadRestaurant()
-<<<<<<< HEAD
-  }, [id])
-
-  const handleFav = async () => {
-    if (!user) { navigate('/login'); return }
-    setFavLoading(true)
-    try {
-      if (isFav) { await removeFavourite(id); setIsFav(false) }
-      else { await addFavourite(id); setIsFav(true) }
-    } catch {}
-    setFavLoading(false)
-=======
     return () => {
       dispatch(setSelectedRestaurant(null))
     }
@@ -120,7 +87,6 @@ export default function RestaurantDetailsPage() {
     }
     dispatch(optimisticAddFavourite(rid))
     await dispatch(addFavouriteItem(rid))
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
   }
 
   const handleSubmitReview = async (e) => {
@@ -129,10 +95,6 @@ export default function RestaurantDetailsPage() {
     setReviewLoading(true)
     setReviewError('')
     try {
-<<<<<<< HEAD
-      const res = await createReview(id, { rating: newRating, comment: newComment })
-      const reviewId = res?.data?.review_id
-=======
       const result = await dispatch(
         submitReview({ restaurantId: id, payload: { rating: newRating, comment: newComment } })
       )
@@ -140,7 +102,6 @@ export default function RestaurantDetailsPage() {
         throw new Error(result.payload || 'Failed to submit review.')
       }
       const reviewId = result.payload?.reviewId
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
       if (reviewId && newPhotos && newPhotos.length > 0) {
         const fd = new FormData()
         newPhotos.forEach((f) => fd.append('photos', f))
@@ -153,25 +114,13 @@ export default function RestaurantDetailsPage() {
       setNewPhotos([])
       setShowReviewForm(false)
     } catch (e) {
-<<<<<<< HEAD
-      const detail = e.response?.data?.detail
-      setReviewError(typeof detail === 'string' ? detail : 'Failed to submit review.')
-=======
       setReviewError(e?.message || 'Failed to submit review.')
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
     }
     setReviewLoading(false)
   }
 
   const handleEditSave = async (reviewId) => {
     try {
-<<<<<<< HEAD
-      await updateReview(reviewId, { rating: editRating, comment: editComment })
-      await loadRestaurant()
-      setEditingReviewId(null)
-    } catch (e) {
-      alert(e.response?.data?.detail || 'Failed to update review.')
-=======
       const result = await dispatch(
         updateReviewStatus({ reviewId, payload: { rating: editRating, comment: editComment } })
       )
@@ -182,7 +131,6 @@ export default function RestaurantDetailsPage() {
       setEditingReviewId(null)
     } catch (e) {
       alert(e.message || 'Failed to update review.')
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
     }
   }
 
@@ -190,13 +138,6 @@ export default function RestaurantDetailsPage() {
     if (!pendingDeleteReviewId) return
     setDeleteLoading(true)
     try {
-<<<<<<< HEAD
-      await deleteReview(pendingDeleteReviewId)
-      await loadRestaurant()
-      setPendingDeleteReviewId(null)
-    } catch (e) {
-      alert(e.response?.data?.detail || 'Failed to delete review.')
-=======
       const result = await dispatch(removeReview(pendingDeleteReviewId))
       if (removeReview.rejected.match(result)) {
         throw new Error(result.payload || 'Failed to delete review.')
@@ -205,7 +146,6 @@ export default function RestaurantDetailsPage() {
       setPendingDeleteReviewId(null)
     } catch (e) {
       alert(e.message || 'Failed to delete review.')
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
     }
     setDeleteLoading(false)
   }
@@ -223,11 +163,8 @@ export default function RestaurantDetailsPage() {
   }
 
   const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''
-<<<<<<< HEAD
-=======
   const isFav = favouriteIds.includes(Number(id))
   const favLoading = Boolean(favPendingById[Number(id)])
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
   if (loading) return <div className="max-w-4xl mx-auto px-4 py-8"><LoadingSpinner text="Loading restaurant..." /></div>
   if (error) return (
@@ -266,11 +203,7 @@ export default function RestaurantDetailsPage() {
           Hawaiian: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80',
         }
         const uploadedPhoto = !bannerImgError && restaurant.photos && restaurant.photos.length > 0
-<<<<<<< HEAD
-          ? `http://localhost:8000/uploads/${restaurant.photos[0]}`
-=======
           ? uploadPath(restaurant.photos[0])
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
           : null
         const bannerPhoto = uploadedPhoto || CUISINE_PHOTOS[restaurant.cuisine] || DEFAULT_PHOTO
         return (
@@ -477,11 +410,7 @@ export default function RestaurantDetailsPage() {
                             {photos.map((p) => (
                               <img
                                 key={p}
-<<<<<<< HEAD
-                                src={`http://localhost:8000/uploads/${p}`}
-=======
                                 src={uploadPath(p)}
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                                 alt="review"
                                 className="h-20 w-20 object-cover rounded-lg border border-gray-100"
                               />

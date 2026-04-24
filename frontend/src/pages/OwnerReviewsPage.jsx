@@ -2,10 +2,7 @@ import { useState, useEffect } from 'react'
 import { getOwnerRestaurantReviews, getOwnerProfile } from '../services/api'
 import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
-<<<<<<< HEAD
-=======
 import { toMediaUrl } from '../utils/mediaUrl'
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
 export default function OwnerReviewsPage() {
   const [reviews, setReviews] = useState([])
@@ -151,11 +148,7 @@ export default function OwnerReviewsPage() {
                   {r.photos && r.photos.length > 0 && (
                     <div className="flex gap-2 mt-3">
                       {r.photos.map((p, i) => (
-<<<<<<< HEAD
-                        <img key={i} src={`http://localhost:8000${p}`} alt="review" className="w-16 h-16 object-cover rounded-lg" />
-=======
                         <img key={i} src={toMediaUrl(p)} alt="review" className="w-16 h-16 object-cover rounded-lg" />
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                       ))}
                     </div>
                   )}

@@ -14,16 +14,10 @@ export default function LoginPage() {
     e.preventDefault(); setError(''); setLoading(true)
     try {
       const res = await loginUser(form)
-<<<<<<< HEAD
-      const { access_token, role } = res.data
-      const payload = decodeJWT(access_token)
-      login({ id: payload.sub, email: form.email, name: form.email.split('@')[0] }, role || 'user', access_token)
-=======
       const { role } = res.data
       const token = res.data.access_token || res.data.token
       const payload = decodeJWT(token)
       login({ id: payload.sub, email: form.email, name: form.email.split('@')[0] }, role || 'user', token)
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
       navigate('/')
     } catch (e) {
       const detail = e.response?.data?.detail

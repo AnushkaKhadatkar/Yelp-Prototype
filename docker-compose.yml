@@ -1,4 +1,5 @@
-# Lab 2 — four FastAPI services + MongoDB
+# Lab 2 — MongoDB + Kafka (KRaft, no Zookeeper) + four FastAPI APIs + workers + frontend.
+# Kafka matches k8s/base/07-kafka.yaml. Modern Kafka 3.x does not require Zookeeper.
 services:
   mongodb:
     image: mongo:7
@@ -13,6 +14,74 @@ services:
       retries: 10
       start_period: 15s
 
+  kafka:
+    image: apache/kafka:3.7.2
+    hostname: kafka
+    ports:
+      - "${KAFKA_HOST_PORT:-9092}:9092"
+    environment:
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+      KAFKA_NODE_ID: "1"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1 || exit 1",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 40s
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "${KAFKA_UI_HOST_PORT:-8085}:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: yelp-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      DYNAMIC_CONFIG_ENABLED: "true"
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  restaurant-service:
+    build:
+      context: ./backend
+      dockerfile: docker/restaurant-service/Dockerfile
+    environment:
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+      KAFKA_ENABLED: ${KAFKA_ENABLED:-true}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    ports:
+      - "${RESTAURANT_SERVICE_PORT:-8003}:8000"
+    volumes:
+      - restaurant_uploads:/app/uploads
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
   user-service:
     build:
       context: ./backend
@@ -23,10 +92,14 @@ services:
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ALGORITHM: ${ALGORITHM:-HS256}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      KAFKA_ENABLED: ${KAFKA_ENABLED:-true}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "${USER_SERVICE_PORT:-8001}:8000"
     depends_on:
       mongodb:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
       restaurant-service:
         condition: service_started
@@ -41,33 +114,17 @@ services:
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ALGORITHM: ${ALGORITHM:-HS256}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      KAFKA_ENABLED: ${KAFKA_ENABLED:-true}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "${OWNER_SERVICE_PORT:-8002}:8000"
     depends_on:
       mongodb:
         condition: service_healthy
+      kafka:
+        condition: service_healthy
       restaurant-service:
         condition: service_started
-
-  restaurant-service:
-    build:
-      context: ./backend
-      dockerfile: docker/restaurant-service/Dockerfile
-    environment:
-      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
-      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
-      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
-      ALGORITHM: ${ALGORITHM:-HS256}
-      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
-      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
-      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
-    ports:
-      - "${RESTAURANT_SERVICE_PORT:-8003}:8000"
-    volumes:
-      - restaurant_uploads:/app/uploads
-    depends_on:
-      mongodb:
-        condition: service_healthy
 
   review-service:
     build:
@@ -79,6 +136,8 @@ services:
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ALGORITHM: ${ALGORITHM:-HS256}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      KAFKA_ENABLED: ${KAFKA_ENABLED:-true}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "${REVIEW_SERVICE_PORT:-8004}:8000"
     volumes:
@@ -86,17 +145,70 @@ services:
     depends_on:
       mongodb:
         condition: service_healthy
+      kafka:
+        condition: service_healthy
       restaurant-service:
         condition: service_started
 
-<<<<<<< HEAD
-=======
+  review-worker:
+    build:
+      context: ./backend
+      dockerfile: docker/review-service/Dockerfile
+    command: ["python", "workers/review_worker.py"]
+    environment:
+      PYTHONPATH: /app
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      review-service:
+        condition: service_started
+
+  restaurant-worker:
+    build:
+      context: ./backend
+      dockerfile: docker/restaurant-service/Dockerfile
+    command: ["python", "workers/restaurant_worker.py"]
+    environment:
+      PYTHONPATH: /app
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      restaurant-service:
+        condition: service_started
+
+  user-worker:
+    build:
+      context: ./backend
+      dockerfile: docker/user-service/Dockerfile
+    command: ["python", "workers/user_worker.py"]
+    environment:
+      PYTHONPATH: /app
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongodb:27017}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-yelp_db}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # Baked in at `npm run build` (Vite). Default empty = relative URLs + nginx proxy.
         VITE_API_BASE_URL: ${VITE_API_BASE_URL:-${FRONTEND_API_BASE_URL:-}}
     ports:
       - "${FRONTEND_PORT:-3000}:80"
@@ -106,8 +218,8 @@ services:
       - restaurant-service
       - review-service
 
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 volumes:
   mongo_data:
+  kafka_data:
   restaurant_uploads:
   review_uploads:

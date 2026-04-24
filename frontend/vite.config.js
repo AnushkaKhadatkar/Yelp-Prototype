@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-<<<<<<< HEAD
-=======
 // Local dev: proxy API paths to Lab 2 microservices (same routing idea as frontend/nginx.conf).
 const proxyTo = {
   '^/auth/user': 'http://127.0.0.1:8001',
@@ -25,22 +23,10 @@ const proxy = Object.fromEntries(
   ])
 )
 
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-<<<<<<< HEAD
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  }
-=======
     proxy,
   },
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 })

@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-import { useState, useEffect } from 'react'
-import { getFavourites } from '../services/api'
-import RestaurantCard from '../components/RestaurantCard'
-import LoadingSpinner from '../components/LoadingSpinner'
-import { Link } from 'react-router-dom'
-
-export default function FavouritesPage() {
-  const [favourites, setFavourites] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    getFavourites()
-      .then(res => setFavourites(res.data || []))
-      .catch(() => {})
-      .finally(() => setLoading(false))
-  }, [])
-
-  const handleFavToggle = (id) => setFavourites(prev => prev.filter(r => (r.id || r.restaurant_id) !== id))
-=======
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import RestaurantCard from '../components/RestaurantCard'
@@ -45,7 +25,6 @@ export default function FavouritesPage() {
     dispatch(optimisticRemoveFavourite(rid))
     await dispatch(removeFavouriteItem(rid))
   }
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
@@ -71,10 +50,7 @@ export default function FavouritesPage() {
               <RestaurantCard
                 restaurant={{ ...r, id: r.id || r.restaurant_id }}
                 isFav={true}
-<<<<<<< HEAD
-=======
                 favLoading={Boolean(pendingById[Number(r.id || r.restaurant_id)])}
->>>>>>> 6a0d87b982ed2764a05a3a8d85b4960a6814e0ea
                 onFavToggle={handleFavToggle}
               />
             </div>
