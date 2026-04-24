@@ -50,6 +50,8 @@ export default function RestaurantDetailsPage() {
   // Claim
   const [claimLoading, setClaimLoading] = useState(false)
   const [claimed, setClaimed] = useState(false)
+  const [showClaimConfirm, setShowClaimConfirm] = useState(false)
+  const [claimNotice, setClaimNotice] = useState({ type: '', message: '' })
   const [bannerImgError, setBannerImgError] = useState(false)
   const [pendingDeleteReviewId, setPendingDeleteReviewId] = useState(null)
   const [deleteLoading, setDeleteLoading] = useState(false)
@@ -151,13 +153,15 @@ export default function RestaurantDetailsPage() {
   }
 
   const handleClaim = async () => {
-    if (!window.confirm('Claim this restaurant?')) return
+    setShowClaimConfirm(false)
+    setClaimNotice({ type: '', message: '' })
     setClaimLoading(true)
     try {
       await claimRestaurant(id)
       setClaimed(true)
+      setClaimNotice({ type: 'success', message: 'Restaurant claimed successfully.' })
     } catch (e) {
-      alert(e.response?.data?.detail || 'Failed to claim restaurant.')
+      setClaimNotice({ type: 'error', message: e.response?.data?.detail || 'Failed to claim restaurant.' })
     }
     setClaimLoading(false)
   }
@@ -221,7 +225,7 @@ export default function RestaurantDetailsPage() {
           </div>
         )}
         {isOwner && !restaurant.owner_id && !claimed && (
-          <button onClick={handleClaim} disabled={claimLoading}
+          <button onClick={() => setShowClaimConfirm(true)} disabled={claimLoading}
             className="absolute top-4 right-4 px-4 py-2 bg-white text-gray-800 text-sm font-medium rounded-xl shadow-md hover:bg-gray-50 transition-colors">
             {claimLoading ? 'Claiming...' : '🏷️ Claim Restaurant'}
           </button>
@@ -232,6 +236,19 @@ export default function RestaurantDetailsPage() {
       </div>
         )
       })()}
+
+      {claimNotice.message && (
+        <div
+          className="mb-4 px-4 py-3 rounded-xl text-sm border"
+          style={
+            claimNotice.type === 'success'
+              ? { background: 'rgba(34,197,94,0.08)', borderColor: 'rgba(34,197,94,0.3)', color: '#15803d' }
+              : { background: 'rgba(232,50,26,0.08)', borderColor: 'rgba(232,50,26,0.2)', color: 'var(--red)' }
+          }
+        >
+          {claimNotice.message}
+        </div>
+      )}
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
@@ -448,6 +465,35 @@ export default function RestaurantDetailsPage() {
                 className="px-4 py-2 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
               >
                 {deleteLoading ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showClaimConfirm && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[1px] flex items-center justify-center px-4">
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl border border-gray-100 p-5">
+            <h3 className="text-base font-semibold text-gray-900">Claim this restaurant?</h3>
+            <p className="mt-2 text-sm text-gray-600">
+              This will link the restaurant to your owner account.
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowClaimConfirm(false)}
+                disabled={claimLoading}
+                className="px-4 py-2 text-sm rounded-lg text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleClaim}
+                disabled={claimLoading}
+                className="px-4 py-2 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+              >
+                {claimLoading ? 'Claiming...' : 'Claim'}
               </button>
             </div>
           </div>

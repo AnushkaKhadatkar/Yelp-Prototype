@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { logoutUser } from '../services/api'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 export default function Navbar() {
   const { user, role, logout, isOwner } = useAuth()
@@ -40,6 +41,9 @@ export default function Navbar() {
       )}
     </Link>
   )
+  const avatarUrl = user?.profile_pic
+    ? (user.profile_pic.startsWith('http') ? user.profile_pic : toMediaUrl(user.profile_pic))
+    : ''
 
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -90,18 +94,26 @@ export default function Navbar() {
                 {!isOwner && (
                   <Link to="/profile"
                     className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl hover:bg-[rgba(26,18,8,0.04)] transition-colors">
-                    <div className="w-8 h-8 bg-[#E8321A] rounded-full flex items-center justify-center shadow-sm">
-                      <span className="text-white font-semibold text-xs">
-                        {user.name?.[0]?.toUpperCase() || 'U'}
-                      </span>
+                    <div className="w-8 h-8 bg-[#E8321A] rounded-full overflow-hidden flex items-center justify-center shadow-sm">
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt="profile" className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-white font-semibold text-xs">
+                          {user.name?.[0]?.toUpperCase() || 'U'}
+                        </span>
+                      )}
                     </div>
                     <span className="text-sm font-medium text-[#3D3426]">{user.name}</span>
                   </Link>
                 )}
                 {isOwner && (
                   <div className="flex items-center gap-2 px-3 py-1.5">
-                    <div className="w-8 h-8 bg-[#1A1208] rounded-full flex items-center justify-center">
-                      <span className="text-white font-semibold text-xs">{user.name?.[0]?.toUpperCase()}</span>
+                    <div className="w-8 h-8 bg-[#1A1208] rounded-full overflow-hidden flex items-center justify-center">
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt="owner profile" className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-white font-semibold text-xs">{user.name?.[0]?.toUpperCase()}</span>
+                      )}
                     </div>
                     <span className="text-sm font-medium text-[#3D3426]">{user.name}</span>
                   </div>

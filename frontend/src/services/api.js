@@ -80,6 +80,8 @@ export const getHistory = () => API.get('/users/history')
 // OWNER
 export const getOwnerProfile          = ()       => API.get('/owner/profile')
 export const updateOwnerProfile       = (data)   => API.put('/owner/profile', data)
+export const uploadOwnerProfilePicture = (formData) =>
+  API.post('/owner/profile/picture', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
 export const createOwnerRestaurant    = (data)   => API.post('/owner/restaurants', data)
 export const claimRestaurant          = (id)     => API.post(`/owner/restaurants/${id}/claim`)
 export const getOwnerDashboard        = ()       => API.get('/owner/dashboard')

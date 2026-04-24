@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { getOwnerProfile, updateOwnerProfile } from '../services/api'
+import { Link } from 'react-router-dom'
+import { getOwnerProfile, updateOwnerProfile, uploadOwnerProfilePicture } from '../services/api'
 import API from '../services/api'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { useAuth } from '../context/AuthContext'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 const CUISINE_OPTIONS = ['Italian', 'Chinese', 'Mexican', 'Indian', 'Japanese', 'American', 'French', 'Mediterranean', 'Thai', 'Korean', 'Vietnamese', 'Greek', 'Spanish', 'Other']
 const PRICE_TIERS = ['$', '$$', '$$$', '$$$$']
@@ -12,6 +14,7 @@ function normalizeOwnerProfilePayload(data) {
     id: data?.id,
     name: data?.name,
     email: data?.email,
+    profile_pic: data?.profile_pic,
   }
   const restaurants = data?.restaurants || data?.restaurant_details || []
   return { owner, restaurants }
@@ -51,8 +54,16 @@ export default function OwnerRestaurantPage() {
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
+  const [ownerPicUrl, setOwnerPicUrl] = useState('')
+  const [uploadingOwnerPic, setUploadingOwnerPic] = useState(false)
+  const ownerPicRef = useRef()
 
   useEffect(() => {
+    // Keep UI usable even if profile fetch fails transiently.
+    if (user?.name || user?.email) {
+      setProfile((p) => ({ ...p, name: user?.name || '', email: user?.email || '' }))
+    }
+    if (user?.profile_pic) setOwnerPicUrl(toMediaUrl(user.profile_pic))
     getOwnerProfile()
       .then((res) => {
         const { owner, restaurants } = normalizeOwnerProfilePayload(res.data)
@@ -69,15 +80,43 @@ export default function OwnerRestaurantPage() {
           contact: rest.contact_phone || '',
           hours: rest.hours || '',
         })
+        if (owner.profile_pic) setOwnerPicUrl(toMediaUrl(owner.profile_pic))
       })
-      .catch(() => {})
+      .catch(() => {
+        setError('Could not load owner profile. Check owner-service port-forward on 8002.')
+      })
       .finally(() => setLoading(false))
-  }, [])
+  }, [user?.name, user?.email, user?.profile_pic])
 
   const handlePhotoSelect = (e) => {
     const files = Array.from(e.target.files)
     setPhotos(files)
     setPhotosPreviews(files.map(f => URL.createObjectURL(f)))
+  }
+
+  const handleOwnerPicUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    e.target.value = ''
+    setUploadingOwnerPic(true)
+    setError('')
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await uploadOwnerProfilePicture(formData)
+      const imageUrl = toMediaUrl(res?.data?.image_url || '')
+      setOwnerPicUrl(imageUrl)
+      login(
+        { ...(user || {}), profile_pic: res?.data?.image_url || user?.profile_pic },
+        role || 'owner',
+        localStorage.getItem('token')
+      )
+      setSuccess('Profile photo updated!')
+    } catch {
+      setError('Failed to upload profile photo.')
+    }
+    setUploadingOwnerPic(false)
+    setTimeout(() => setSuccess(''), 3000)
   }
 
   const handleProfileSave = async (e) => {
@@ -181,6 +220,32 @@ export default function OwnerRestaurantPage() {
       {tab === 'profile' && (
         <form onSubmit={handleProfileSave} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 space-y-5 shadow-sm">
           <h2 className="font-semibold text-gray-900">Owner Profile</h2>
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-red-100 border-2 border-red-200 flex items-center justify-center">
+              {ownerPicUrl ? (
+                <img src={ownerPicUrl} alt="owner profile" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-red-600 font-semibold text-xl">{profile.name?.[0]?.toUpperCase() || 'O'}</span>
+              )}
+            </div>
+            <div>
+              <button
+                type="button"
+                onClick={() => ownerPicRef.current?.click()}
+                disabled={uploadingOwnerPic}
+                className="px-4 py-2 rounded-lg text-sm bg-gray-100 hover:bg-gray-200 text-gray-700"
+              >
+                {uploadingOwnerPic ? 'Uploading...' : 'Upload Photo'}
+              </button>
+              <input
+                ref={ownerPicRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleOwnerPicUpload}
+              />
+            </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Your Name</label>
@@ -215,10 +280,10 @@ export default function OwnerRestaurantPage() {
                       <p className="font-medium text-gray-900 text-sm">{r.name}</p>
                       <p className="text-xs text-gray-400">{r.cuisine} · {r.city} · ⭐ {r.avg_rating || 0}</p>
                     </div>
-                    <a href={`/restaurants/${r.id}`}
+                    <Link to={`/restaurants/${r.id}`}
                       className="text-xs text-red-600 font-medium hover:underline px-3 py-1.5 bg-red-50 rounded-lg">
                       View →
-                    </a>
+                    </Link>
                   </div>
                 ))}
               </div>

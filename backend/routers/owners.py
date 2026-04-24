@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from pydantic import BaseModel
 from pymongo.database import Database
 
@@ -39,6 +39,7 @@ def get_owner_profile(
         "id": current_user.id,
         "name": current_user.name,
         "email": current_user.email,
+        "profile_pic": current_user.profile_pic,
         "restaurant_details": [
             {
                 "id": r["_id"],
@@ -71,6 +72,32 @@ def update_owner_profile(
         {"$set": {"name": data.name, "email": data.email, "updated_at": datetime.utcnow()}},
     )
     return {"message": "Profile updated successfully"}
+
+
+@router.post("/profile/picture")
+def upload_owner_profile_picture(
+    request: Request,
+    file: UploadFile = File(...),
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    if current_user.role != "owner":
+        raise HTTPException(status_code=403, detail="Not an owner")
+
+    upload_dir = "uploads"
+    os.makedirs(upload_dir, exist_ok=True)
+    _, ext = os.path.splitext(file.filename or "")
+    safe_name = f"owner-{current_user.id}-{uuid.uuid4().hex}{ext or '.jpg'}"
+    file_path = os.path.join(upload_dir, safe_name)
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    image_url = f"{request.base_url}uploads/{safe_name}"
+
+    db[C.USERS].update_one(
+        {"_id": current_user.id},
+        {"$set": {"profile_pic": image_url, "updated_at": datetime.utcnow()}},
+    )
+    return {"message": "Owner profile picture uploaded", "image_url": image_url}
 
 
 @router.put("/restaurant/{restaurant_id}", status_code=202)
