@@ -1,10 +1,35 @@
 import { useState, useEffect, useRef } from 'react'
-import { getOwnerProfile, updateOwnerProfile, createOwnerRestaurant } from '../services/api'
+import { getOwnerProfile } from '../services/api'
 import API from '../services/api'
 import LoadingSpinner from '../components/LoadingSpinner'
 
 const CUISINE_OPTIONS = ['Italian', 'Chinese', 'Mexican', 'Indian', 'Japanese', 'American', 'French', 'Mediterranean', 'Thai', 'Korean', 'Vietnamese', 'Greek', 'Spanish', 'Other']
 const PRICE_TIERS = ['$', '$$', '$$$', '$$$$']
+
+function normalizeOwnerProfilePayload(data) {
+  const owner = data?.owner || {
+    id: data?.id,
+    name: data?.name,
+    email: data?.email,
+  }
+  const restaurants = data?.restaurants || data?.restaurant_details || []
+  return { owner, restaurants }
+}
+
+async function waitForEventSaved(eventId, timeoutMs = 8000) {
+  if (!eventId) return
+  const start = Date.now()
+  while (Date.now() - start < timeoutMs) {
+    try {
+      const res = await API.get(`/events/status/${eventId}`)
+      const status = res?.data?.status
+      if (status === 'saved' || status === 'failed') return
+    } catch {
+      // ignore transient 404 while worker has not written status yet
+    }
+    await new Promise((r) => setTimeout(r, 400))
+  }
+}
 
 export default function OwnerRestaurantPage() {
   const [tab, setTab] = useState('profile')
@@ -28,11 +53,10 @@ export default function OwnerRestaurantPage() {
   useEffect(() => {
     getOwnerProfile()
       .then((res) => {
-        const d = res.data
-        const owner = d.owner || {}
-        const rest = (d.restaurants && d.restaurants[0]) || {}
+        const { owner, restaurants } = normalizeOwnerProfilePayload(res.data)
+        const rest = restaurants[0] || {}
         setMyRestaurantId(rest.id || null)
-        setMyRestaurants(d.restaurants || [])
+        setMyRestaurants(restaurants)
         setProfile({
           name: owner.name || '',
           email: owner.email || '',
@@ -47,19 +71,6 @@ export default function OwnerRestaurantPage() {
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
-
-  const handleProfileSave = async (e) => {
-    e.preventDefault()
-    setSaving(true); setSuccess(''); setError('')
-    try {
-      await updateOwnerProfile({ name: profile.name, email: profile.email })
-      setSuccess('Profile updated!')
-    } catch (e) {
-      setError(e.response?.data?.detail || 'Failed to update.')
-    }
-    setSaving(false)
-    setTimeout(() => setSuccess(''), 3000)
-  }
 
   const handlePhotoSelect = (e) => {
     const files = Array.from(e.target.files)
@@ -86,9 +97,15 @@ export default function OwnerRestaurantPage() {
       // Attach photos
       photos.forEach(photo => formData.append('photos', photo))
 
-      await API.post('/owner/restaurants', formData, {
+      const createRes = await API.post('/owner/restaurants', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
+      await waitForEventSaved(createRes?.data?.eventId)
+      // Refresh owner restaurants after async create is accepted.
+      const refreshed = await getOwnerProfile()
+      const { restaurants } = normalizeOwnerProfilePayload(refreshed.data)
+      setMyRestaurants(restaurants)
+      setMyRestaurantId(restaurants[0]?.id || null)
       setSuccess('Restaurant posted successfully!')
       setNewRest({ name: '', cuisine: '', description: '', address: '', city: '', contact_phone: '', contact_email: '', hours: '', pricing_tier: '', amenities: '' })
       setPhotos([])
@@ -140,18 +157,18 @@ export default function OwnerRestaurantPage() {
 
       {/* Profile Tab */}
       {tab === 'profile' && (
-        <form onSubmit={handleProfileSave} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 space-y-5 shadow-sm">
+        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 space-y-5 shadow-sm">
           <h2 className="font-semibold text-gray-900">Owner Profile</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Your Name</label>
-              <input type="text" value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-200" />
+              <input type="text" value={profile.name} readOnly
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-700" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-              <input type="email" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-200" />
+              <input type="email" value={profile.email} readOnly
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-700" />
             </div>
           </div>
 
@@ -186,11 +203,7 @@ export default function OwnerRestaurantPage() {
             )}
           </div>
 
-          <button type="submit" disabled={saving}
-            className="px-8 py-3 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 disabled:opacity-50 transition-colors text-sm">
-            {saving ? 'Saving...' : 'Save Profile'}
-          </button>
-        </form>
+        </div>
       )}
 
       {/* Post New Restaurant Tab */}

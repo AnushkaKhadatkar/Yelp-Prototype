@@ -4,6 +4,10 @@ import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { toMediaUrl } from '../utils/mediaUrl'
 
+function normalizeOwnerRestaurants(data) {
+  return data?.restaurants || data?.restaurant_details || []
+}
+
 export default function OwnerReviewsPage() {
   const [reviews, setReviews] = useState([])
   const [restaurants, setRestaurants] = useState([])
@@ -16,7 +20,7 @@ export default function OwnerReviewsPage() {
     getOwnerProfile()
       .then((res) => {
         console.log('Owner profile data:', res.data)
-        const rests = res.data.restaurants || []
+        const rests = normalizeOwnerRestaurants(res.data)
         setRestaurants(rests)
         const id = rests[0]?.id
         console.log('Restaurant ID found:', id)
