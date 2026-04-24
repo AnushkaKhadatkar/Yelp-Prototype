@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { getOwnerRestaurantReviews, getOwnerProfile } from '../services/api'
 import StarRating from '../components/StarRating'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { toMediaUrl } from '../utils/mediaUrl'
+import { uploadPath } from '../utils/mediaUrl'
 
 function normalizeOwnerRestaurants(data) {
   return data?.restaurants || data?.restaurant_details || []
@@ -152,7 +152,7 @@ export default function OwnerReviewsPage() {
                   {r.photos && r.photos.length > 0 && (
                     <div className="flex gap-2 mt-3">
                       {r.photos.map((p, i) => (
-                        <img key={i} src={toMediaUrl(p)} alt="review" className="w-16 h-16 object-cover rounded-lg" />
+                        <img key={i} src={uploadPath(p, 'review')} alt="review" className="w-16 h-16 object-cover rounded-lg" />
                       ))}
                     </div>
                   )}

@@ -71,6 +71,26 @@ export default function RestaurantDetailsPage() {
     setLoading(false)
   }
 
+  const uploadReviewPhotosWithRetry = async (reviewId, formData, retries = 8, delayMs = 500) => {
+    let lastError
+    for (let i = 0; i < retries; i += 1) {
+      try {
+        await uploadReviewPhotos(reviewId, formData)
+        return true
+      } catch (e) {
+        lastError = e
+        // Review is created asynchronously; wait for worker to persist then retry.
+        if (e?.response?.status === 404) {
+          await new Promise((r) => setTimeout(r, delayMs))
+          continue
+        }
+        throw e
+      }
+    }
+    if (lastError) throw lastError
+    return false
+  }
+
   useEffect(() => {
     loadRestaurant()
     return () => {
@@ -107,7 +127,7 @@ export default function RestaurantDetailsPage() {
       if (reviewId && newPhotos && newPhotos.length > 0) {
         const fd = new FormData()
         newPhotos.forEach((f) => fd.append('photos', f))
-        await uploadReviewPhotos(reviewId, fd)
+        await uploadReviewPhotosWithRetry(reviewId, fd)
       }
       // Reload restaurant to get updated reviews + avg_rating
       await loadRestaurant()
@@ -116,7 +136,8 @@ export default function RestaurantDetailsPage() {
       setNewPhotos([])
       setShowReviewForm(false)
     } catch (e) {
-      setReviewError(e?.message || 'Failed to submit review.')
+      const detail = e?.response?.data?.detail
+      setReviewError(typeof detail === 'string' ? detail : (e?.message || 'Failed to submit review.'))
     }
     setReviewLoading(false)
   }
@@ -427,7 +448,7 @@ export default function RestaurantDetailsPage() {
                             {photos.map((p) => (
                               <img
                                 key={p}
-                                src={uploadPath(p)}
+                                src={uploadPath(p, 'review')}
                                 alt="review"
                                 className="h-20 w-20 object-cover rounded-lg border border-gray-100"
                               />

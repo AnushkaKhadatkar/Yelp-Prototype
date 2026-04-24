@@ -4,7 +4,7 @@ import shutil
 from datetime import datetime
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, Request, UploadFile
 from pymongo.database import Database
 
 from database import get_db
@@ -78,20 +78,24 @@ def update_profile(
 
 @router.post("/profile/picture")
 def upload_profile_picture(
+    request: Request,
     file: UploadFile = File(...),
     db: Database = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
     upload_dir = "uploads"
     os.makedirs(upload_dir, exist_ok=True)
-    file_path = os.path.join(upload_dir, file.filename)
+    _, ext = os.path.splitext(file.filename or "")
+    safe_name = f"user-{current_user.id}-{int(datetime.utcnow().timestamp())}{ext or '.jpg'}"
+    file_path = os.path.join(upload_dir, safe_name)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+    image_url = f"{request.base_url}uploads/{safe_name}"
 
     db[C.USERS].update_one(
-        {"_id": current_user.id}, {"$set": {"profile_pic": file_path}}
+        {"_id": current_user.id}, {"$set": {"profile_pic": image_url}}
     )
-    return {"message": "Profile picture uploaded", "image_url": file_path}
+    return {"message": "Profile picture uploaded", "image_url": image_url}
 
 
 def parse_list(val: Any):

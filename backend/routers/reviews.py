@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 from typing import List
 
-from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile
 from pymongo.database import Database
 
 from database import get_db
@@ -85,6 +85,7 @@ def update_review(
 @router.post("/reviews/{review_id}/photos")
 def upload_review_photos(
     review_id: int,
+    request: Request,
     photos: List[UploadFile] = File(...),
     db: Database = Depends(get_db),
     current_user=Depends(get_current_user),
@@ -99,10 +100,12 @@ def upload_review_photos(
     os.makedirs(upload_dir, exist_ok=True)
     photo_paths = []
     for photo in photos:
-        file_path = os.path.join(upload_dir, photo.filename)
+        _, ext = os.path.splitext(photo.filename or "")
+        safe_name = f"review-{review_id}-{uuid.uuid4().hex}{ext or '.jpg'}"
+        file_path = os.path.join(upload_dir, safe_name)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(photo.file, buffer)
-        photo_paths.append(photo.filename)
+        photo_paths.append(f"{request.base_url}uploads/{safe_name}")
 
     db[C.REVIEWS].update_one(
         {"_id": review_id},

@@ -141,9 +141,14 @@ export default function ProfilePage() {
     formData.append('file', file)
     setPicLoading(true)
     try {
-      await uploadProfilePicture(formData)
+      const res = await uploadProfilePicture(formData)
       const localUrl = URL.createObjectURL(file)
       setPicUrl(localUrl)
+      login(
+        { ...(user || {}), profile_pic: res?.data?.image_url || user?.profile_pic },
+        role,
+        localStorage.getItem('token')
+      )
     } catch (err) {
       setError('Failed to upload photo.')
     }
