@@ -20,10 +20,23 @@ const proxyTo = {
   '^/uploads': 'http://127.0.0.1:8003',
 }
 
+function spaAwareProxy(target) {
+  return {
+    target,
+    changeOrigin: true,
+    bypass(req) {
+      const accept = req.headers?.accept || ''
+      // Let browser page navigations hit Vite's SPA fallback instead of API proxy.
+      if (accept.includes('text/html')) return req.url
+      return undefined
+    },
+  }
+}
+
 const proxy = Object.fromEntries(
   Object.entries(proxyTo).map(([path, target]) => [
     path,
-    { target, changeOrigin: true },
+    path === '^/restaurants' ? spaAwareProxy(target) : { target, changeOrigin: true },
   ])
 )
 

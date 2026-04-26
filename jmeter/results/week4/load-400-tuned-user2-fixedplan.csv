@@ -1,0 +1,1201 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1777239462530,1040,POST /auth/user/login,200,OK,Week4 Load Group 1-1,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1033,0,38
+1777239462857,717,POST /auth/user/login,200,OK,Week4 Load Group 1-2,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,717,0,2
+1777239463623,112,GET /restaurants (search),200,OK,Week4 Load Group 1-1,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,112,0,1
+1777239463621,125,GET /restaurants (search),200,OK,Week4 Load Group 1-2,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,125,0,3
+1777239463747,94,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-2,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,94,0,1
+1777239463739,103,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-1,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,103,0,3
+1777239463306,706,POST /auth/user/login,200,OK,Week4 Load Group 1-3,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,706,0,1
+1777239464014,51,GET /restaurants (search),200,OK,Week4 Load Group 1-3,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,50,0,2
+1777239464066,25,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-3,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,25,0,0
+1777239463757,501,POST /auth/user/login,200,OK,Week4 Load Group 1-4,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,501,0,1
+1777239464259,13,GET /restaurants (search),200,OK,Week4 Load Group 1-4,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239464273,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-4,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239464206,468,POST /auth/user/login,200,OK,Week4 Load Group 1-5,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,467,0,1
+1777239464675,89,GET /restaurants (search),200,OK,Week4 Load Group 1-5,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,88,0,0
+1777239464764,21,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-5,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,20,0,1
+1777239464653,578,POST /auth/user/login,200,OK,Week4 Load Group 1-6,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,578,0,2
+1777239465234,15,GET /restaurants (search),200,OK,Week4 Load Group 1-6,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,15,0,0
+1777239465250,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-6,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,11,0,1
+1777239465100,546,POST /auth/user/login,200,OK,Week4 Load Group 1-7,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,546,0,1
+1777239465647,32,GET /restaurants (search),200,OK,Week4 Load Group 1-7,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,32,0,1
+1777239465680,19,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-7,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,18,0,1
+1777239465558,552,POST /auth/user/login,200,OK,Week4 Load Group 1-8,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,552,0,1
+1777239466112,22,GET /restaurants (search),200,OK,Week4 Load Group 1-8,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,22,0,0
+1777239466135,16,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-8,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,15,0,1
+1777239466008,568,POST /auth/user/login,200,OK,Week4 Load Group 1-9,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,567,0,2
+1777239466578,48,GET /restaurants (search),200,OK,Week4 Load Group 1-9,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,48,0,1
+1777239466627,72,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-9,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,72,0,1
+1777239466456,788,POST /auth/user/login,200,OK,Week4 Load Group 1-10,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,788,0,1
+1777239467245,41,GET /restaurants (search),200,OK,Week4 Load Group 1-10,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,41,0,1
+1777239467287,31,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-10,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,31,0,2
+1777239466906,565,POST /auth/user/login,200,OK,Week4 Load Group 1-11,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,564,0,1
+1777239467472,42,GET /restaurants (search),200,OK,Week4 Load Group 1-11,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,42,0,1
+1777239467515,24,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-11,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,24,0,1
+1777239467356,823,POST /auth/user/login,200,OK,Week4 Load Group 1-12,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,823,0,1
+1777239468180,56,GET /restaurants (search),200,OK,Week4 Load Group 1-12,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,56,0,1
+1777239468239,65,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-12,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,64,0,1
+1777239467807,793,POST /auth/user/login,200,OK,Week4 Load Group 1-13,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,793,0,1
+1777239468602,56,GET /restaurants (search),200,OK,Week4 Load Group 1-13,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,56,0,1
+1777239468660,31,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-13,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,31,0,2
+1777239468251,667,POST /auth/user/login,200,OK,Week4 Load Group 1-14,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,667,0,1
+1777239468920,41,GET /restaurants (search),200,OK,Week4 Load Group 1-14,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,41,0,1
+1777239468962,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-14,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,22,0,1
+1777239468705,536,POST /auth/user/login,200,OK,Week4 Load Group 1-15,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,535,0,1
+1777239469242,20,GET /restaurants (search),200,OK,Week4 Load Group 1-15,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,20,0,1
+1777239469263,16,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-15,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,15,0,1
+1777239469155,519,POST /auth/user/login,200,OK,Week4 Load Group 1-16,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,519,0,1
+1777239469675,17,GET /restaurants (search),200,OK,Week4 Load Group 1-16,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239469692,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-16,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,13,0,1
+1777239469607,490,POST /auth/user/login,200,OK,Week4 Load Group 1-17,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,490,0,1
+1777239470098,24,GET /restaurants (search),200,OK,Week4 Load Group 1-17,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,24,0,1
+1777239470124,14,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-17,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,14,0,1
+1777239470055,497,POST /auth/user/login,200,OK,Week4 Load Group 1-18,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,497,0,1
+1777239470556,37,GET /restaurants (search),200,OK,Week4 Load Group 1-18,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,37,0,1
+1777239470594,19,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-18,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,19,0,1
+1777239470506,505,POST /auth/user/login,200,OK,Week4 Load Group 1-19,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,505,0,2
+1777239471012,33,GET /restaurants (search),200,OK,Week4 Load Group 1-19,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,32,0,1
+1777239471046,12,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-19,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,12,0,0
+1777239470951,499,POST /auth/user/login,200,OK,Week4 Load Group 1-20,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,498,0,0
+1777239471451,19,GET /restaurants (search),200,OK,Week4 Load Group 1-20,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,19,0,1
+1777239471472,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-20,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239471400,572,POST /auth/user/login,200,OK,Week4 Load Group 1-21,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,571,0,1
+1777239471981,685,GET /restaurants (search),200,OK,Week4 Load Group 1-21,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,685,0,1
+1777239472668,108,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-21,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,107,0,3
+1777239471855,1697,POST /auth/user/login,200,OK,Week4 Load Group 1-22,text,true,,401,265,4,4,http://localhost:8003/auth/user/login,1697,0,3
+1777239473555,76,GET /restaurants (search),200,OK,Week4 Load Group 1-22,text,true,,1409,150,4,4,http://localhost:8004/restaurants?search=pizza&city=San+Jose,76,0,1
+1777239473632,102,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-22,text,true,,279,489,5,5,http://localhost:8001/restaurants/2/reviews,101,0,2
+1777239472341,2040,POST /auth/user/login,200,OK,Week4 Load Group 1-23,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,2040,0,4
+1777239472753,1768,POST /auth/user/login,200,OK,Week4 Load Group 1-24,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,1768,0,2
+1777239474382,306,GET /restaurants (search),200,OK,Week4 Load Group 1-23,text,true,,1409,150,6,6,http://localhost:8004/restaurants?search=pizza&city=San+Jose,306,0,2
+1777239474692,108,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-23,text,true,,279,489,6,6,http://localhost:8001/restaurants/2/reviews,107,0,1
+1777239474524,361,GET /restaurants (search),200,OK,Week4 Load Group 1-24,text,true,,1409,150,5,5,http://localhost:8004/restaurants?search=pizza&city=San+Jose,361,0,1
+1777239474886,32,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-24,text,true,,279,489,5,5,http://localhost:8001/restaurants/2/reviews,32,0,1
+1777239473204,2479,POST /auth/user/login,200,OK,Week4 Load Group 1-25,text,true,,401,265,6,6,http://localhost:8003/auth/user/login,2478,0,54
+1777239475685,432,GET /restaurants (search),200,OK,Week4 Load Group 1-25,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,432,0,1
+1777239473655,2482,POST /auth/user/login,200,OK,Week4 Load Group 1-26,text,true,,401,265,7,7,http://localhost:8003/auth/user/login,2482,0,1
+1777239476139,122,GET /restaurants (search),200,OK,Week4 Load Group 1-26,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,121,0,1
+1777239476119,184,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-25,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,184,0,2
+1777239476263,325,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-26,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,325,0,2
+1777239474556,2162,POST /auth/user/login,200,OK,Week4 Load Group 1-28,text,true,,401,265,6,6,http://localhost:8003/auth/user/login,2162,0,1
+1777239474106,2619,POST /auth/user/login,200,OK,Week4 Load Group 1-27,text,true,,401,265,6,6,http://localhost:8003/auth/user/login,2619,0,3
+1777239476721,44,GET /restaurants (search),200,OK,Week4 Load Group 1-28,text,true,,1409,150,6,6,http://localhost:8004/restaurants?search=pizza&city=San+Jose,44,0,2
+1777239476726,43,GET /restaurants (search),200,OK,Week4 Load Group 1-27,text,true,,1409,150,6,6,http://localhost:8004/restaurants?search=pizza&city=San+Jose,43,0,1
+1777239476771,37,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-27,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,37,0,1
+1777239476766,42,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-28,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,42,0,2
+1777239475013,1820,POST /auth/user/login,200,OK,Week4 Load Group 1-29,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,1820,0,2
+1777239476835,41,GET /restaurants (search),200,OK,Week4 Load Group 1-29,text,true,,1409,150,5,5,http://localhost:8004/restaurants?search=pizza&city=San+Jose,41,0,1
+1777239476877,21,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-29,text,true,,279,489,5,5,http://localhost:8001/restaurants/2/reviews,21,0,0
+1777239475905,1151,POST /auth/user/login,200,OK,Week4 Load Group 1-31,text,true,,401,265,4,4,http://localhost:8003/auth/user/login,1151,0,27
+1777239477058,23,GET /restaurants (search),200,OK,Week4 Load Group 1-31,text,true,,1409,150,4,4,http://localhost:8004/restaurants?search=pizza&city=San+Jose,23,0,1
+1777239475455,1665,POST /auth/user/login,200,OK,Week4 Load Group 1-30,text,true,,401,265,4,4,http://localhost:8003/auth/user/login,1664,0,1
+1777239477082,42,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-31,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,42,0,1
+1777239477122,37,GET /restaurants (search),200,OK,Week4 Load Group 1-30,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,37,0,1
+1777239477160,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-30,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,22,0,0
+1777239476357,840,POST /auth/user/login,200,OK,Week4 Load Group 1-32,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,840,0,1
+1777239477198,25,GET /restaurants (search),200,OK,Week4 Load Group 1-32,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,25,0,1
+1777239477224,15,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-32,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,15,0,1
+1777239476804,648,POST /auth/user/login,200,OK,Week4 Load Group 1-33,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,647,0,1
+1777239477453,57,GET /restaurants (search),200,OK,Week4 Load Group 1-33,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,57,0,1
+1777239477512,57,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-33,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,57,0,1
+1777239477266,1044,POST /auth/user/login,200,OK,Week4 Load Group 1-34,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1044,0,1
+1777239478312,53,GET /restaurants (search),200,OK,Week4 Load Group 1-34,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,53,0,1
+1777239478367,208,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-34,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,208,0,1
+1777239477710,1357,POST /auth/user/login,200,OK,Week4 Load Group 1-35,text,true,,401,265,4,4,http://localhost:8003/auth/user/login,1357,0,1
+1777239479070,53,GET /restaurants (search),200,OK,Week4 Load Group 1-35,text,true,,1409,150,4,4,http://localhost:8004/restaurants?search=pizza&city=San+Jose,53,0,3
+1777239479125,138,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-35,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,138,0,6
+1777239478168,1314,POST /auth/user/login,200,OK,Week4 Load Group 1-36,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1314,0,2
+1777239479484,49,GET /restaurants (search),200,OK,Week4 Load Group 1-36,text,true,,1409,150,4,4,http://localhost:8004/restaurants?search=pizza&city=San+Jose,49,0,1
+1777239479534,74,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-36,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,74,0,1
+1777239478607,1109,POST /auth/user/login,200,OK,Week4 Load Group 1-37,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1109,0,1
+1777239479717,68,GET /restaurants (search),200,OK,Week4 Load Group 1-37,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,68,0,1
+1777239479787,70,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-37,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,70,0,2
+1777239479057,843,POST /auth/user/login,200,OK,Week4 Load Group 1-38,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,843,0,1
+1777239479902,80,GET /restaurants (search),200,OK,Week4 Load Group 1-38,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,79,0,5
+1777239479983,68,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-38,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,68,0,0
+1777239479502,1014,POST /auth/user/login,200,OK,Week4 Load Group 1-39,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1013,0,2
+1777239480517,99,GET /restaurants (search),200,OK,Week4 Load Group 1-39,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,99,0,1
+1777239480617,26,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-39,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,26,0,1
+1777239479954,963,POST /auth/user/login,200,OK,Week4 Load Group 1-40,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,963,0,1
+1777239480919,35,GET /restaurants (search),200,OK,Week4 Load Group 1-40,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,34,0,1
+1777239480955,75,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-40,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,75,0,2
+1777239480405,797,POST /auth/user/login,200,OK,Week4 Load Group 1-41,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,796,0,5
+1777239481202,66,GET /restaurants (search),200,OK,Week4 Load Group 1-41,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,66,0,1
+1777239481269,18,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-41,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,18,0,1
+1777239480854,625,POST /auth/user/login,200,OK,Week4 Load Group 1-42,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,625,0,2
+1777239481481,45,GET /restaurants (search),200,OK,Week4 Load Group 1-42,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,44,0,1
+1777239481527,31,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-42,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,31,0,1
+1777239481301,559,POST /auth/user/login,200,OK,Week4 Load Group 1-43,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,559,0,1
+1777239481861,21,GET /restaurants (search),200,OK,Week4 Load Group 1-43,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,20,0,1
+1777239481883,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-43,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,17,0,1
+1777239481753,532,POST /auth/user/login,200,OK,Week4 Load Group 1-44,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,532,0,4
+1777239482288,16,GET /restaurants (search),200,OK,Week4 Load Group 1-44,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239482306,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-44,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239482208,464,POST /auth/user/login,200,OK,Week4 Load Group 1-45,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,463,0,1
+1777239482673,24,GET /restaurants (search),200,OK,Week4 Load Group 1-45,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,24,0,1
+1777239482698,21,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-45,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,20,0,2
+1777239482654,501,POST /auth/user/login,200,OK,Week4 Load Group 1-46,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,501,0,2
+1777239483156,23,GET /restaurants (search),200,OK,Week4 Load Group 1-46,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,22,0,1
+1777239483180,19,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-46,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,19,0,1
+1777239483107,529,POST /auth/user/login,200,OK,Week4 Load Group 1-47,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,529,0,1
+1777239483638,32,GET /restaurants (search),200,OK,Week4 Load Group 1-47,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,32,0,1
+1777239483671,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-47,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239483557,529,POST /auth/user/login,200,OK,Week4 Load Group 1-48,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,529,0,2
+1777239484088,48,GET /restaurants (search),200,OK,Week4 Load Group 1-48,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,48,0,2
+1777239484139,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-48,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,13,0,1
+1777239484007,521,POST /auth/user/login,200,OK,Week4 Load Group 1-49,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,521,0,2
+1777239484529,18,GET /restaurants (search),200,OK,Week4 Load Group 1-49,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,18,0,0
+1777239484548,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-49,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,11,0,1
+1777239484457,444,POST /auth/user/login,200,OK,Week4 Load Group 1-50,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,443,0,1
+1777239484902,23,GET /restaurants (search),200,OK,Week4 Load Group 1-50,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,23,0,2
+1777239484926,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-50,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239484907,565,POST /auth/user/login,200,OK,Week4 Load Group 1-51,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,565,0,1
+1777239485474,60,GET /restaurants (search),200,OK,Week4 Load Group 1-51,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,60,0,1
+1777239485535,28,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-51,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,27,0,3
+1777239485352,692,POST /auth/user/login,200,OK,Week4 Load Group 1-52,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,692,0,1
+1777239486045,16,GET /restaurants (search),200,OK,Week4 Load Group 1-52,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,0
+1777239486061,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-52,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,17,0,1
+1777239485812,531,POST /auth/user/login,200,OK,Week4 Load Group 1-53,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,531,0,2
+1777239486343,12,GET /restaurants (search),200,OK,Week4 Load Group 1-53,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239486356,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-53,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,11,0,1
+1777239486254,351,POST /auth/user/login,200,OK,Week4 Load Group 1-54,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,350,0,1
+1777239486606,9,GET /restaurants (search),200,OK,Week4 Load Group 1-54,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239486616,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-54,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239486703,281,POST /auth/user/login,200,OK,Week4 Load Group 1-55,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,281,0,1
+1777239486986,9,GET /restaurants (search),200,OK,Week4 Load Group 1-55,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239486996,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-55,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239487154,361,POST /auth/user/login,200,OK,Week4 Load Group 1-56,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,361,0,1
+1777239487517,109,GET /restaurants (search),200,OK,Week4 Load Group 1-56,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,109,0,1
+1777239487627,26,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-56,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,26,0,1
+1777239487606,600,POST /auth/user/login,200,OK,Week4 Load Group 1-57,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,600,0,1
+1777239488208,50,GET /restaurants (search),200,OK,Week4 Load Group 1-57,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,49,0,1
+1777239488259,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-57,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,17,0,1
+1777239488055,650,POST /auth/user/login,200,OK,Week4 Load Group 1-58,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,649,0,1
+1777239488707,52,GET /restaurants (search),200,OK,Week4 Load Group 1-58,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,52,0,1
+1777239488760,37,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-58,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,37,0,1
+1777239488502,655,POST /auth/user/login,200,OK,Week4 Load Group 1-59,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,655,0,1
+1777239489161,53,GET /restaurants (search),200,OK,Week4 Load Group 1-59,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,52,0,1
+1777239489215,51,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-59,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,51,0,1
+1777239488950,816,POST /auth/user/login,200,OK,Week4 Load Group 1-60,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,815,0,1
+1777239489768,35,GET /restaurants (search),200,OK,Week4 Load Group 1-60,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,35,0,1
+1777239489804,26,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-60,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,26,0,2
+1777239489402,709,POST /auth/user/login,200,OK,Week4 Load Group 1-61,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,709,0,2
+1777239490113,28,GET /restaurants (search),200,OK,Week4 Load Group 1-61,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,28,0,1
+1777239490142,18,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-61,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,18,0,0
+1777239489854,540,POST /auth/user/login,200,OK,Week4 Load Group 1-62,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,540,0,1
+1777239490395,23,GET /restaurants (search),200,OK,Week4 Load Group 1-62,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,23,0,1
+1777239490419,16,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-62,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,15,0,1
+1777239490306,493,POST /auth/user/login,200,OK,Week4 Load Group 1-63,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,492,0,2
+1777239490800,23,GET /restaurants (search),200,OK,Week4 Load Group 1-63,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,23,0,2
+1777239490824,20,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-63,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,20,0,1
+1777239490750,490,POST /auth/user/login,200,OK,Week4 Load Group 1-64,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,490,0,2
+1777239491241,14,GET /restaurants (search),200,OK,Week4 Load Group 1-64,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,14,0,1
+1777239491257,15,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-64,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,15,0,0
+1777239491206,395,POST /auth/user/login,200,OK,Week4 Load Group 1-65,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,395,0,3
+1777239491603,12,GET /restaurants (search),200,OK,Week4 Load Group 1-65,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239491616,19,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-65,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,19,0,1
+1777239491652,342,POST /auth/user/login,200,OK,Week4 Load Group 1-66,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,342,0,1
+1777239491994,10,GET /restaurants (search),200,OK,Week4 Load Group 1-66,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239492006,12,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-66,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,12,0,1
+1777239492104,397,POST /auth/user/login,200,OK,Week4 Load Group 1-67,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,397,0,1
+1777239492502,19,GET /restaurants (search),200,OK,Week4 Load Group 1-67,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,18,0,1
+1777239492522,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-67,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239492553,472,POST /auth/user/login,200,OK,Week4 Load Group 1-68,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,472,0,1
+1777239493026,12,GET /restaurants (search),200,OK,Week4 Load Group 1-68,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,0
+1777239493039,110,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-68,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,109,0,1
+1777239493006,506,POST /auth/user/login,200,OK,Week4 Load Group 1-69,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,506,0,1
+1777239493512,18,GET /restaurants (search),200,OK,Week4 Load Group 1-69,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,18,0,1
+1777239493531,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-69,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,9,0,0
+1777239493455,434,POST /auth/user/login,200,OK,Week4 Load Group 1-70,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,434,0,1
+1777239493890,10,GET /restaurants (search),200,OK,Week4 Load Group 1-70,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239493901,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-70,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239493905,339,POST /auth/user/login,200,OK,Week4 Load Group 1-71,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,339,0,0
+1777239494246,11,GET /restaurants (search),200,OK,Week4 Load Group 1-71,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239494258,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-71,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239494350,343,POST /auth/user/login,200,OK,Week4 Load Group 1-72,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,343,0,1
+1777239494694,27,GET /restaurants (search),200,OK,Week4 Load Group 1-72,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,27,0,1
+1777239494722,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-72,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239494804,280,POST /auth/user/login,200,OK,Week4 Load Group 1-73,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,2
+1777239495086,8,GET /restaurants (search),200,OK,Week4 Load Group 1-73,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239495095,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-73,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239495255,308,POST /auth/user/login,200,OK,Week4 Load Group 1-74,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,307,0,1
+1777239495564,22,GET /restaurants (search),200,OK,Week4 Load Group 1-74,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,22,0,1
+1777239495589,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-74,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239495705,421,POST /auth/user/login,200,OK,Week4 Load Group 1-75,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,420,0,1
+1777239496127,21,GET /restaurants (search),200,OK,Week4 Load Group 1-75,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,20,0,1
+1777239496148,21,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-75,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,21,0,1
+1777239496153,490,POST /auth/user/login,200,OK,Week4 Load Group 1-76,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,490,0,1
+1777239496644,22,GET /restaurants (search),200,OK,Week4 Load Group 1-76,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,22,0,0
+1777239496666,14,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-76,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,14,0,1
+1777239496606,412,POST /auth/user/login,200,OK,Week4 Load Group 1-77,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,412,0,1
+1777239497020,10,GET /restaurants (search),200,OK,Week4 Load Group 1-77,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,2
+1777239497031,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-77,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239497052,302,POST /auth/user/login,200,OK,Week4 Load Group 1-78,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,301,0,1
+1777239497355,9,GET /restaurants (search),200,OK,Week4 Load Group 1-78,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239497365,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-78,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,2
+1777239497503,303,POST /auth/user/login,200,OK,Week4 Load Group 1-79,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,302,0,1
+1777239497807,16,GET /restaurants (search),200,OK,Week4 Load Group 1-79,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239497824,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-79,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239497955,461,POST /auth/user/login,200,OK,Week4 Load Group 1-80,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,461,0,0
+1777239498416,18,GET /restaurants (search),200,OK,Week4 Load Group 1-80,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,1
+1777239498434,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-80,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239498405,540,POST /auth/user/login,200,OK,Week4 Load Group 1-81,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,540,0,1
+1777239498946,15,GET /restaurants (search),200,OK,Week4 Load Group 1-81,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,15,0,1
+1777239498961,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-81,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239498858,409,POST /auth/user/login,200,OK,Week4 Load Group 1-82,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,409,0,1
+1777239499268,12,GET /restaurants (search),200,OK,Week4 Load Group 1-82,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239499280,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-82,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239499302,345,POST /auth/user/login,200,OK,Week4 Load Group 1-83,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,345,0,1
+1777239499648,11,GET /restaurants (search),200,OK,Week4 Load Group 1-83,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239499660,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-83,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239499755,566,POST /auth/user/login,200,OK,Week4 Load Group 1-84,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,566,0,1
+1777239500323,43,GET /restaurants (search),200,OK,Week4 Load Group 1-84,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,42,0,1
+1777239500366,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-84,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,17,0,1
+1777239500205,528,POST /auth/user/login,200,OK,Week4 Load Group 1-85,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,528,0,2
+1777239500734,25,GET /restaurants (search),200,OK,Week4 Load Group 1-85,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,25,0,2
+1777239500760,23,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-85,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,23,0,1
+1777239500655,379,POST /auth/user/login,200,OK,Week4 Load Group 1-86,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,379,0,0
+1777239501036,11,GET /restaurants (search),200,OK,Week4 Load Group 1-86,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,2
+1777239501048,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-86,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239501101,280,POST /auth/user/login,200,OK,Week4 Load Group 1-87,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,2
+1777239501382,8,GET /restaurants (search),200,OK,Week4 Load Group 1-87,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239501391,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-87,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239501555,279,POST /auth/user/login,200,OK,Week4 Load Group 1-88,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,1
+1777239501836,13,GET /restaurants (search),200,OK,Week4 Load Group 1-88,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,2
+1777239501850,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-88,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239502003,715,POST /auth/user/login,200,OK,Week4 Load Group 1-89,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,715,0,1
+1777239502720,102,GET /restaurants (search),200,OK,Week4 Load Group 1-89,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,101,0,1
+1777239502824,24,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-89,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,24,0,2
+1777239502477,1096,POST /auth/user/login,200,OK,Week4 Load Group 1-90,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1096,0,2
+1777239503575,1150,GET /restaurants (search),200,OK,Week4 Load Group 1-90,text,true,,1409,150,6,6,http://localhost:8004/restaurants?search=pizza&city=San+Jose,1150,0,1
+1777239504730,2126,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-90,text,true,,279,489,10,10,http://localhost:8001/restaurants/2/reviews,2126,0,2
+1777239502900,4456,POST /auth/user/login,200,OK,Week4 Load Group 1-91,text,true,,401,265,10,10,http://localhost:8003/auth/user/login,4456,0,1
+1777239507360,267,GET /restaurants (search),200,OK,Week4 Load Group 1-91,text,true,,1409,150,11,11,http://localhost:8004/restaurants?search=pizza&city=San+Jose,266,0,1
+1777239507628,96,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-91,text,true,,279,489,11,11,http://localhost:8001/restaurants/2/reviews,96,0,1
+1777239503352,5040,POST /auth/user/login,200,OK,Week4 Load Group 1-92,text,true,,401,265,12,12,http://localhost:8003/auth/user/login,5040,0,2
+1777239508394,105,GET /restaurants (search),200,OK,Week4 Load Group 1-92,text,true,,1409,150,12,12,http://localhost:8004/restaurants?search=pizza&city=San+Jose,105,0,1
+1777239508500,48,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-92,text,true,,279,489,12,12,http://localhost:8001/restaurants/2/reviews,48,0,1
+1777239504254,4296,POST /auth/user/login,200,OK,Week4 Load Group 1-94,text,true,,401,265,11,11,http://localhost:8003/auth/user/login,4295,0,1
+1777239508550,31,GET /restaurants (search),200,OK,Week4 Load Group 1-94,text,true,,1409,150,11,11,http://localhost:8004/restaurants?search=pizza&city=San+Jose,31,0,1
+1777239508582,16,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-94,text,true,,279,489,11,11,http://localhost:8001/restaurants/2/reviews,16,0,1
+1777239504711,4250,POST /auth/user/login,200,OK,Week4 Load Group 1-95,text,true,,401,265,11,11,http://localhost:8003/auth/user/login,4250,0,1
+1777239508963,70,GET /restaurants (search),200,OK,Week4 Load Group 1-95,text,true,,1409,150,11,11,http://localhost:8004/restaurants?search=pizza&city=San+Jose,70,0,1
+1777239509034,38,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-95,text,true,,279,489,11,11,http://localhost:8001/restaurants/2/reviews,37,0,1
+1777239505634,3548,POST /auth/user/login,200,OK,Week4 Load Group 1-97,text,true,,401,265,10,10,http://localhost:8003/auth/user/login,3548,0,2
+1777239503825,5364,POST /auth/user/login,200,OK,Week4 Load Group 1-93,text,true,,401,265,10,10,http://localhost:8003/auth/user/login,5364,0,1
+1777239509183,34,GET /restaurants (search),200,OK,Week4 Load Group 1-97,text,true,,1409,150,11,11,http://localhost:8004/restaurants?search=pizza&city=San+Jose,34,0,1
+1777239509190,79,GET /restaurants (search),200,OK,Week4 Load Group 1-93,text,true,,1409,150,11,11,http://localhost:8004/restaurants?search=pizza&city=San+Jose,31,0,1
+1777239509218,57,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-97,text,true,,279,489,11,11,http://localhost:8001/restaurants/2/reviews,56,0,1
+1777239506955,2332,POST /auth/user/login,200,OK,Week4 Load Group 1-100,text,true,,401,265,10,10,http://localhost:8003/auth/user/login,2332,0,1
+1777239509270,21,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-93,text,true,,279,489,10,10,http://localhost:8001/restaurants/2/reviews,21,0,1
+1777239506519,2785,POST /auth/user/login,200,OK,Week4 Load Group 1-99,text,true,,401,265,9,9,http://localhost:8003/auth/user/login,2785,0,3
+1777239509288,25,GET /restaurants (search),200,OK,Week4 Load Group 1-100,text,true,,1409,150,9,9,http://localhost:8004/restaurants?search=pizza&city=San+Jose,25,0,1
+1777239509305,24,GET /restaurants (search),200,OK,Week4 Load Group 1-99,text,true,,1409,150,9,9,http://localhost:8004/restaurants?search=pizza&city=San+Jose,24,0,1
+1777239509314,27,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-100,text,true,,279,489,9,9,http://localhost:8001/restaurants/2/reviews,27,0,1
+1777239509330,28,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-99,text,true,,279,489,8,8,http://localhost:8001/restaurants/2/reviews,28,0,2
+1777239505162,4215,POST /auth/user/login,200,OK,Week4 Load Group 1-96,text,true,,401,265,7,7,http://localhost:8003/auth/user/login,4215,0,13
+1777239509379,37,GET /restaurants (search),200,OK,Week4 Load Group 1-96,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,37,0,2
+1777239509417,24,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-96,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,23,0,1
+1777239506057,3536,POST /auth/user/login,200,OK,Week4 Load Group 1-98,text,true,,401,265,6,6,http://localhost:8003/auth/user/login,3536,0,3
+1777239509594,73,GET /restaurants (search),200,OK,Week4 Load Group 1-98,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,73,0,2
+1777239509667,42,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-98,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,42,0,1
+1777239508755,971,POST /auth/user/login,200,OK,Week4 Load Group 1-104,text,true,,401,265,6,6,http://localhost:8003/auth/user/login,971,0,1
+1777239509728,36,GET /restaurants (search),200,OK,Week4 Load Group 1-104,text,true,,1409,150,6,6,http://localhost:8004/restaurants?search=pizza&city=San+Jose,36,0,0
+1777239509765,37,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-104,text,true,,279,489,6,6,http://localhost:8001/restaurants/2/reviews,37,0,1
+1777239507857,1962,POST /auth/user/login,200,OK,Week4 Load Group 1-102,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,1962,0,1
+1777239507402,2438,POST /auth/user/login,200,OK,Week4 Load Group 1-101,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,2438,0,1
+1777239508302,1574,POST /auth/user/login,200,OK,Week4 Load Group 1-103,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,1574,0,1
+1777239509820,65,GET /restaurants (search),200,OK,Week4 Load Group 1-102,text,true,,1409,150,5,5,http://localhost:8004/restaurants?search=pizza&city=San+Jose,65,0,1
+1777239509841,60,GET /restaurants (search),200,OK,Week4 Load Group 1-101,text,true,,1409,150,5,5,http://localhost:8004/restaurants?search=pizza&city=San+Jose,60,0,1
+1777239509877,50,GET /restaurants (search),200,OK,Week4 Load Group 1-103,text,true,,1409,150,5,5,http://localhost:8004/restaurants?search=pizza&city=San+Jose,50,0,1
+1777239509886,70,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-102,text,true,,279,489,5,5,http://localhost:8001/restaurants/2/reviews,70,0,1
+1777239509902,85,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-101,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,85,0,0
+1777239509928,65,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-103,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,65,0,0
+1777239509198,1050,POST /auth/user/login,200,OK,Week4 Load Group 1-105,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1050,0,1
+1777239510252,79,GET /restaurants (search),200,OK,Week4 Load Group 1-105,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,78,0,1
+1777239510333,29,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-105,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,29,0,1
+1777239509648,1007,POST /auth/user/login,200,OK,Week4 Load Group 1-106,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1006,0,1
+1777239510656,12,GET /restaurants (search),200,OK,Week4 Load Group 1-106,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239510669,26,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-106,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,26,0,1
+1777239510104,885,POST /auth/user/login,200,OK,Week4 Load Group 1-107,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,884,0,1
+1777239510990,59,GET /restaurants (search),200,OK,Week4 Load Group 1-107,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,59,0,1
+1777239511050,99,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-107,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,99,0,0
+1777239510559,621,POST /auth/user/login,200,OK,Week4 Load Group 1-108,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,620,0,1
+1777239511180,28,GET /restaurants (search),200,OK,Week4 Load Group 1-108,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,28,0,1
+1777239511209,40,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-108,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,39,0,1
+1777239511002,711,POST /auth/user/login,200,OK,Week4 Load Group 1-109,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,710,0,1
+1777239511714,40,GET /restaurants (search),200,OK,Week4 Load Group 1-109,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,40,0,1
+1777239511756,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-109,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,21,0,1
+1777239511453,615,POST /auth/user/login,200,OK,Week4 Load Group 1-110,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,615,0,1
+1777239512069,37,GET /restaurants (search),200,OK,Week4 Load Group 1-110,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,37,0,1
+1777239512107,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-110,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239511902,536,POST /auth/user/login,200,OK,Week4 Load Group 1-111,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,536,0,1
+1777239512439,20,GET /restaurants (search),200,OK,Week4 Load Group 1-111,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,20,0,2
+1777239512460,28,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-111,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,28,0,0
+1777239512357,508,POST /auth/user/login,200,OK,Week4 Load Group 1-112,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,508,0,1
+1777239512867,50,GET /restaurants (search),200,OK,Week4 Load Group 1-112,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,50,0,2
+1777239512918,27,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-112,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,27,0,2
+1777239512801,575,POST /auth/user/login,200,OK,Week4 Load Group 1-113,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,574,0,1
+1777239513377,29,GET /restaurants (search),200,OK,Week4 Load Group 1-113,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,29,0,1
+1777239513407,30,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-113,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,30,0,1
+1777239513249,498,POST /auth/user/login,200,OK,Week4 Load Group 1-114,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,498,0,2
+1777239513748,17,GET /restaurants (search),200,OK,Week4 Load Group 1-114,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,1
+1777239513766,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-114,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,11,0,0
+1777239513699,418,POST /auth/user/login,200,OK,Week4 Load Group 1-115,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,418,0,2
+1777239514120,8,GET /restaurants (search),200,OK,Week4 Load Group 1-115,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239514128,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-115,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239514152,292,POST /auth/user/login,200,OK,Week4 Load Group 1-116,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,292,0,0
+1777239514444,7,GET /restaurants (search),200,OK,Week4 Load Group 1-116,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,1
+1777239514452,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-116,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239514600,277,POST /auth/user/login,200,OK,Week4 Load Group 1-117,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,276,0,1
+1777239514877,13,GET /restaurants (search),200,OK,Week4 Load Group 1-117,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239514890,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-117,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239515059,308,POST /auth/user/login,200,OK,Week4 Load Group 1-118,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,308,0,1
+1777239515368,31,GET /restaurants (search),200,OK,Week4 Load Group 1-118,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,31,0,1
+1777239515400,18,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-118,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,18,0,1
+1777239515501,474,POST /auth/user/login,200,OK,Week4 Load Group 1-119,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,474,0,1
+1777239515976,19,GET /restaurants (search),200,OK,Week4 Load Group 1-119,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,18,0,0
+1777239515995,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-119,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,13,0,1
+1777239515952,499,POST /auth/user/login,200,OK,Week4 Load Group 1-120,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,499,0,1
+1777239516452,16,GET /restaurants (search),200,OK,Week4 Load Group 1-120,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239516468,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-120,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239516400,395,POST /auth/user/login,200,OK,Week4 Load Group 1-121,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,395,0,1
+1777239516796,13,GET /restaurants (search),200,OK,Week4 Load Group 1-121,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,0
+1777239516809,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-121,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239516853,380,POST /auth/user/login,200,OK,Week4 Load Group 1-122,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,380,0,1
+1777239517234,13,GET /restaurants (search),200,OK,Week4 Load Group 1-122,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,1
+1777239517248,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-122,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,0
+1777239517304,602,POST /auth/user/login,200,OK,Week4 Load Group 1-123,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,602,0,1
+1777239517907,42,GET /restaurants (search),200,OK,Week4 Load Group 1-123,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,42,0,1
+1777239517950,25,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-123,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,24,0,0
+1777239517754,638,POST /auth/user/login,200,OK,Week4 Load Group 1-124,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,638,0,1
+1777239518393,18,GET /restaurants (search),200,OK,Week4 Load Group 1-124,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,18,0,1
+1777239518412,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-124,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,17,0,1
+1777239518205,493,POST /auth/user/login,200,OK,Week4 Load Group 1-125,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,493,0,4
+1777239518699,12,GET /restaurants (search),200,OK,Week4 Load Group 1-125,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,0
+1777239518711,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-125,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239518655,338,POST /auth/user/login,200,OK,Week4 Load Group 1-126,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,338,0,1
+1777239518994,8,GET /restaurants (search),200,OK,Week4 Load Group 1-126,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239519002,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-126,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239519105,269,POST /auth/user/login,200,OK,Week4 Load Group 1-127,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,269,0,1
+1777239519375,8,GET /restaurants (search),200,OK,Week4 Load Group 1-127,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239519384,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-127,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239519554,273,POST /auth/user/login,200,OK,Week4 Load Group 1-128,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,1
+1777239519828,8,GET /restaurants (search),200,OK,Week4 Load Group 1-128,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239519837,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-128,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239520014,286,POST /auth/user/login,200,OK,Week4 Load Group 1-129,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,285,0,1
+1777239520301,28,GET /restaurants (search),200,OK,Week4 Load Group 1-129,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,28,0,2
+1777239520330,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-129,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239520465,343,POST /auth/user/login,200,OK,Week4 Load Group 1-130,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,343,0,0
+1777239520809,31,GET /restaurants (search),200,OK,Week4 Load Group 1-130,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,31,0,1
+1777239520841,12,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-130,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,12,0,0
+1777239520908,583,POST /auth/user/login,200,OK,Week4 Load Group 1-131,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,583,0,8
+1777239521492,24,GET /restaurants (search),200,OK,Week4 Load Group 1-131,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,24,0,0
+1777239521517,16,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-131,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,16,0,0
+1777239521353,476,POST /auth/user/login,200,OK,Week4 Load Group 1-132,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,476,0,2
+1777239521830,17,GET /restaurants (search),200,OK,Week4 Load Group 1-132,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,1
+1777239521848,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-132,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,13,0,1
+1777239521807,388,POST /auth/user/login,200,OK,Week4 Load Group 1-133,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,387,0,1
+1777239522195,10,GET /restaurants (search),200,OK,Week4 Load Group 1-133,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239522206,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-133,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239522253,355,POST /auth/user/login,200,OK,Week4 Load Group 1-134,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,355,0,1
+1777239522607,22,GET /restaurants (search),200,OK,Week4 Load Group 1-134,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,22,0,1
+1777239522629,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-134,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239522701,313,POST /auth/user/login,200,OK,Week4 Load Group 1-135,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,313,0,0
+1777239523015,9,GET /restaurants (search),200,OK,Week4 Load Group 1-135,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239523024,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-135,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239523166,270,POST /auth/user/login,200,OK,Week4 Load Group 1-136,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,1
+1777239523437,8,GET /restaurants (search),200,OK,Week4 Load Group 1-136,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239523445,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-136,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239523597,284,POST /auth/user/login,200,OK,Week4 Load Group 1-137,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,284,0,1
+1777239523882,32,GET /restaurants (search),200,OK,Week4 Load Group 1-137,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,32,0,1
+1777239523915,16,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-137,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,16,0,0
+1777239524051,353,POST /auth/user/login,200,OK,Week4 Load Group 1-138,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,353,0,1
+1777239524405,12,GET /restaurants (search),200,OK,Week4 Load Group 1-138,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239524418,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-138,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239524514,400,POST /auth/user/login,200,OK,Week4 Load Group 1-139,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,400,0,1
+1777239524915,16,GET /restaurants (search),200,OK,Week4 Load Group 1-139,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239524931,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-139,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,1
+1777239525007,376,POST /auth/user/login,200,OK,Week4 Load Group 1-140,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,375,0,1
+1777239525384,9,GET /restaurants (search),200,OK,Week4 Load Group 1-140,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239525393,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-140,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239525440,275,POST /auth/user/login,200,OK,Week4 Load Group 1-141,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,0
+1777239525716,10,GET /restaurants (search),200,OK,Week4 Load Group 1-141,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,0
+1777239525727,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-141,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239525873,273,POST /auth/user/login,200,OK,Week4 Load Group 1-142,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,1
+1777239526147,12,GET /restaurants (search),200,OK,Week4 Load Group 1-142,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,2
+1777239526159,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-142,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239526323,434,POST /auth/user/login,200,OK,Week4 Load Group 1-143,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,433,0,0
+1777239526757,47,GET /restaurants (search),200,OK,Week4 Load Group 1-143,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,47,0,1
+1777239526805,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-143,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,21,0,1
+1777239526763,529,POST /auth/user/login,200,OK,Week4 Load Group 1-144,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,529,0,1
+1777239527293,19,GET /restaurants (search),200,OK,Week4 Load Group 1-144,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,19,0,1
+1777239527313,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-144,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,17,0,1
+1777239527208,492,POST /auth/user/login,200,OK,Week4 Load Group 1-145,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,492,0,1
+1777239527702,47,GET /restaurants (search),200,OK,Week4 Load Group 1-145,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,47,0,1
+1777239527750,42,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-145,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,42,0,1
+1777239527659,520,POST /auth/user/login,200,OK,Week4 Load Group 1-146,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,520,0,1
+1777239528180,20,GET /restaurants (search),200,OK,Week4 Load Group 1-146,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,20,0,1
+1777239528201,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-146,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,9,0,0
+1777239528102,415,POST /auth/user/login,200,OK,Week4 Load Group 1-147,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,415,0,1
+1777239528518,11,GET /restaurants (search),200,OK,Week4 Load Group 1-147,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239528529,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-147,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239528551,370,POST /auth/user/login,200,OK,Week4 Load Group 1-148,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,370,0,0
+1777239528921,10,GET /restaurants (search),200,OK,Week4 Load Group 1-148,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239528931,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-148,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239529003,268,POST /auth/user/login,200,OK,Week4 Load Group 1-149,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,268,0,1
+1777239529273,8,GET /restaurants (search),200,OK,Week4 Load Group 1-149,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239529282,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-149,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239529452,275,POST /auth/user/login,200,OK,Week4 Load Group 1-150,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,1
+1777239529727,14,GET /restaurants (search),200,OK,Week4 Load Group 1-150,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,14,0,1
+1777239529742,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-150,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239529902,289,POST /auth/user/login,200,OK,Week4 Load Group 1-151,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,289,0,1
+1777239530191,8,GET /restaurants (search),200,OK,Week4 Load Group 1-151,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239530200,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-151,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239530353,265,POST /auth/user/login,200,OK,Week4 Load Group 1-152,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,265,0,1
+1777239530619,9,GET /restaurants (search),200,OK,Week4 Load Group 1-152,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239530629,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-152,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239530803,307,POST /auth/user/login,200,OK,Week4 Load Group 1-153,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,306,0,1
+1777239531111,38,GET /restaurants (search),200,OK,Week4 Load Group 1-153,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,38,0,0
+1777239531149,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-153,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,17,0,1
+1777239531251,567,POST /auth/user/login,200,OK,Week4 Load Group 1-154,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,567,0,1
+1777239531819,21,GET /restaurants (search),200,OK,Week4 Load Group 1-154,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,21,0,1
+1777239531841,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-154,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,11,0,0
+1777239531710,729,POST /auth/user/login,200,OK,Week4 Load Group 1-155,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,728,0,6
+1777239532440,58,GET /restaurants (search),200,OK,Week4 Load Group 1-155,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,57,0,2
+1777239532499,57,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-155,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,57,0,1
+1777239532151,1114,POST /auth/user/login,200,OK,Week4 Load Group 1-156,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1114,0,1
+1777239533267,75,GET /restaurants (search),200,OK,Week4 Load Group 1-156,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,75,0,2
+1777239533343,38,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-156,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,38,0,1
+1777239532602,2070,POST /auth/user/login,200,OK,Week4 Load Group 1-157,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,2070,0,1
+1777239533051,1651,POST /auth/user/login,200,OK,Week4 Load Group 1-158,text,true,,401,265,5,5,http://localhost:8003/auth/user/login,1651,0,1
+1777239534674,469,GET /restaurants (search),200,OK,Week4 Load Group 1-157,text,true,,1409,150,6,6,http://localhost:8004/restaurants?search=pizza&city=San+Jose,469,0,1
+1777239534703,699,GET /restaurants (search),200,OK,Week4 Load Group 1-158,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,699,0,1
+1777239535404,156,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-158,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,156,0,1
+1777239535145,416,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-157,text,true,,279,489,6,6,http://localhost:8001/restaurants/2/reviews,414,0,34
+1777239533506,2864,POST /auth/user/login,200,OK,Week4 Load Group 1-159,text,true,,401,265,7,7,http://localhost:8003/auth/user/login,2864,0,7
+1777239536373,60,GET /restaurants (search),200,OK,Week4 Load Group 1-159,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,58,0,0
+1777239536434,45,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-159,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,45,0,1
+1777239534404,2285,POST /auth/user/login,200,OK,Week4 Load Group 1-161,text,true,,401,265,7,7,http://localhost:8003/auth/user/login,2285,0,0
+1777239533950,2741,POST /auth/user/login,200,OK,Week4 Load Group 1-160,text,true,,401,265,7,7,http://localhost:8003/auth/user/login,2741,0,2
+1777239536690,44,GET /restaurants (search),200,OK,Week4 Load Group 1-161,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,44,0,1
+1777239534868,1871,POST /auth/user/login,200,OK,Week4 Load Group 1-162,text,true,,401,265,7,7,http://localhost:8003/auth/user/login,1871,0,2
+1777239536693,56,GET /restaurants (search),200,OK,Week4 Load Group 1-160,text,true,,1409,150,7,7,http://localhost:8004/restaurants?search=pizza&city=San+Jose,56,0,1
+1777239535304,1445,POST /auth/user/login,200,OK,Week4 Load Group 1-163,text,true,,401,265,7,7,http://localhost:8003/auth/user/login,1445,0,1
+1777239536736,37,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-161,text,true,,279,489,7,7,http://localhost:8001/restaurants/2/reviews,36,0,1
+1777239536740,39,GET /restaurants (search),200,OK,Week4 Load Group 1-162,text,true,,1409,150,6,6,http://localhost:8004/restaurants?search=pizza&city=San+Jose,39,0,1
+1777239536750,29,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-160,text,true,,279,489,6,6,http://localhost:8001/restaurants/2/reviews,29,0,1
+1777239536750,40,GET /restaurants (search),200,OK,Week4 Load Group 1-163,text,true,,1409,150,5,5,http://localhost:8004/restaurants?search=pizza&city=San+Jose,40,0,1
+1777239536780,30,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-162,text,true,,279,489,5,5,http://localhost:8001/restaurants/2/reviews,29,0,1
+1777239536791,27,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-163,text,true,,279,489,4,4,http://localhost:8001/restaurants/2/reviews,27,0,1
+1777239535756,1100,POST /auth/user/login,200,OK,Week4 Load Group 1-164,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1100,0,8
+1777239536858,42,GET /restaurants (search),200,OK,Week4 Load Group 1-164,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,42,0,1
+1777239536901,20,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-164,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,20,0,1
+1777239536223,733,POST /auth/user/login,200,OK,Week4 Load Group 1-165,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,733,0,23
+1777239536957,30,GET /restaurants (search),200,OK,Week4 Load Group 1-165,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,30,0,1
+1777239536988,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-165,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,9,0,0
+1777239536652,560,POST /auth/user/login,200,OK,Week4 Load Group 1-166,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,560,0,2
+1777239537213,16,GET /restaurants (search),200,OK,Week4 Load Group 1-166,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239537229,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-166,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239537102,512,POST /auth/user/login,200,OK,Week4 Load Group 1-167,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,512,0,1
+1777239537615,17,GET /restaurants (search),200,OK,Week4 Load Group 1-167,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,1
+1777239537632,25,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-167,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,24,0,1
+1777239537550,885,POST /auth/user/login,200,OK,Week4 Load Group 1-168,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,885,0,1
+1777239538437,15,GET /restaurants (search),200,OK,Week4 Load Group 1-168,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,15,0,1
+1777239538453,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-168,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,11,0,1
+1777239538004,653,POST /auth/user/login,200,OK,Week4 Load Group 1-169,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,653,0,1
+1777239538658,23,GET /restaurants (search),200,OK,Week4 Load Group 1-169,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,23,0,1
+1777239538682,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-169,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,12,0,1
+1777239538453,562,POST /auth/user/login,200,OK,Week4 Load Group 1-170,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,562,0,1
+1777239539016,34,GET /restaurants (search),200,OK,Week4 Load Group 1-170,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,34,0,1
+1777239539051,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-170,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,21,0,1
+1777239538901,542,POST /auth/user/login,200,OK,Week4 Load Group 1-171,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,542,0,1
+1777239539446,61,GET /restaurants (search),200,OK,Week4 Load Group 1-171,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,60,0,1
+1777239539508,25,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-171,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,25,0,1
+1777239539350,747,POST /auth/user/login,200,OK,Week4 Load Group 1-172,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,746,0,3
+1777239540100,38,GET /restaurants (search),200,OK,Week4 Load Group 1-172,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,38,0,1
+1777239540139,18,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-172,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,18,0,0
+1777239539801,666,POST /auth/user/login,200,OK,Week4 Load Group 1-173,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,666,0,2
+1777239540469,229,GET /restaurants (search),200,OK,Week4 Load Group 1-173,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,229,0,2
+1777239540700,61,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-173,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,61,0,1
+1777239540252,806,POST /auth/user/login,200,OK,Week4 Load Group 1-174,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,806,0,1
+1777239541059,30,GET /restaurants (search),200,OK,Week4 Load Group 1-174,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,30,0,1
+1777239541090,27,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-174,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,27,0,0
+1777239540702,641,POST /auth/user/login,200,OK,Week4 Load Group 1-175,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,641,0,1
+1777239541344,19,GET /restaurants (search),200,OK,Week4 Load Group 1-175,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,19,0,0
+1777239541364,16,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-175,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,16,0,1
+1777239541152,498,POST /auth/user/login,200,OK,Week4 Load Group 1-176,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,498,0,2
+1777239541651,13,GET /restaurants (search),200,OK,Week4 Load Group 1-176,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,1
+1777239541665,18,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-176,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,18,0,1
+1777239541603,544,POST /auth/user/login,200,OK,Week4 Load Group 1-177,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,544,0,2
+1777239542149,26,GET /restaurants (search),200,OK,Week4 Load Group 1-177,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,26,0,1
+1777239542176,20,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-177,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,20,0,0
+1777239542051,415,POST /auth/user/login,200,OK,Week4 Load Group 1-178,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,415,0,1
+1777239542467,15,GET /restaurants (search),200,OK,Week4 Load Group 1-178,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,15,0,1
+1777239542482,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-178,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239542504,382,POST /auth/user/login,200,OK,Week4 Load Group 1-179,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,382,0,1
+1777239542888,11,GET /restaurants (search),200,OK,Week4 Load Group 1-179,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239542900,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-179,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239542953,341,POST /auth/user/login,200,OK,Week4 Load Group 1-180,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,341,0,1
+1777239543294,10,GET /restaurants (search),200,OK,Week4 Load Group 1-180,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239543304,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-180,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239543399,276,POST /auth/user/login,200,OK,Week4 Load Group 1-181,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,276,0,1
+1777239543675,10,GET /restaurants (search),200,OK,Week4 Load Group 1-181,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239543686,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-181,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239543855,306,POST /auth/user/login,200,OK,Week4 Load Group 1-182,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,306,0,1
+1777239544162,9,GET /restaurants (search),200,OK,Week4 Load Group 1-182,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239544171,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-182,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,0
+1777239544302,273,POST /auth/user/login,200,OK,Week4 Load Group 1-183,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,2
+1777239544576,8,GET /restaurants (search),200,OK,Week4 Load Group 1-183,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239544585,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-183,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239544757,278,POST /auth/user/login,200,OK,Week4 Load Group 1-184,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239545036,8,GET /restaurants (search),200,OK,Week4 Load Group 1-184,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,2
+1777239545044,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-184,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239545203,265,POST /auth/user/login,200,OK,Week4 Load Group 1-185,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,265,0,0
+1777239545472,8,GET /restaurants (search),200,OK,Week4 Load Group 1-185,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239545480,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-185,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239545650,275,POST /auth/user/login,200,OK,Week4 Load Group 1-186,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,1
+1777239545926,10,GET /restaurants (search),200,OK,Week4 Load Group 1-186,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239545937,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-186,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239546105,270,POST /auth/user/login,200,OK,Week4 Load Group 1-187,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,1
+1777239546376,9,GET /restaurants (search),200,OK,Week4 Load Group 1-187,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239546386,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-187,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239546553,270,POST /auth/user/login,200,OK,Week4 Load Group 1-188,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,2
+1777239546824,9,GET /restaurants (search),200,OK,Week4 Load Group 1-188,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239546833,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-188,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239547001,286,POST /auth/user/login,200,OK,Week4 Load Group 1-189,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,286,0,2
+1777239547289,9,GET /restaurants (search),200,OK,Week4 Load Group 1-189,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239547299,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-189,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,0
+1777239547453,515,POST /auth/user/login,200,OK,Week4 Load Group 1-190,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,515,0,2
+1777239547971,104,GET /restaurants (search),200,OK,Week4 Load Group 1-190,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,104,0,1
+1777239548076,54,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-190,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,54,0,1
+1777239547899,583,POST /auth/user/login,200,OK,Week4 Load Group 1-191,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,582,0,1
+1777239548483,30,GET /restaurants (search),200,OK,Week4 Load Group 1-191,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,30,0,1
+1777239548514,83,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-191,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,83,0,1
+1777239548353,607,POST /auth/user/login,200,OK,Week4 Load Group 1-192,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,607,0,2
+1777239548961,30,GET /restaurants (search),200,OK,Week4 Load Group 1-192,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,30,0,1
+1777239548992,14,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-192,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,14,0,1
+1777239548808,407,POST /auth/user/login,200,OK,Week4 Load Group 1-193,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,407,0,2
+1777239549217,11,GET /restaurants (search),200,OK,Week4 Load Group 1-193,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239549229,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-193,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239549254,282,POST /auth/user/login,200,OK,Week4 Load Group 1-194,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,282,0,1
+1777239549537,8,GET /restaurants (search),200,OK,Week4 Load Group 1-194,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239549546,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-194,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239549706,272,POST /auth/user/login,200,OK,Week4 Load Group 1-195,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,0
+1777239549980,8,GET /restaurants (search),200,OK,Week4 Load Group 1-195,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239549988,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-195,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239550151,288,POST /auth/user/login,200,OK,Week4 Load Group 1-196,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,288,0,1
+1777239550440,8,GET /restaurants (search),200,OK,Week4 Load Group 1-196,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239550449,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-196,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239550602,263,POST /auth/user/login,200,OK,Week4 Load Group 1-197,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,263,0,1
+1777239550867,9,GET /restaurants (search),200,OK,Week4 Load Group 1-197,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239550876,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-197,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239551050,282,POST /auth/user/login,200,OK,Week4 Load Group 1-198,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,282,0,0
+1777239551333,9,GET /restaurants (search),200,OK,Week4 Load Group 1-198,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239551342,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-198,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239551507,280,POST /auth/user/login,200,OK,Week4 Load Group 1-199,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,280,0,4
+1777239551788,10,GET /restaurants (search),200,OK,Week4 Load Group 1-199,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,0
+1777239551799,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-199,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239551951,278,POST /auth/user/login,200,OK,Week4 Load Group 1-200,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,1
+1777239552230,9,GET /restaurants (search),200,OK,Week4 Load Group 1-200,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239552239,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-200,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239552402,270,POST /auth/user/login,200,OK,Week4 Load Group 1-201,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,1
+1777239552673,9,GET /restaurants (search),200,OK,Week4 Load Group 1-201,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239552683,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-201,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239552854,279,POST /auth/user/login,200,OK,Week4 Load Group 1-202,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,1
+1777239553134,7,GET /restaurants (search),200,OK,Week4 Load Group 1-202,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239553142,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-202,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239553300,287,POST /auth/user/login,200,OK,Week4 Load Group 1-203,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,287,0,2
+1777239553588,9,GET /restaurants (search),200,OK,Week4 Load Group 1-203,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239553598,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-203,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239553752,281,POST /auth/user/login,200,OK,Week4 Load Group 1-204,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,281,0,2
+1777239554034,8,GET /restaurants (search),200,OK,Week4 Load Group 1-204,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239554042,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-204,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239554200,275,POST /auth/user/login,200,OK,Week4 Load Group 1-205,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,0
+1777239554475,14,GET /restaurants (search),200,OK,Week4 Load Group 1-205,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,14,0,2
+1777239554489,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-205,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239554653,308,POST /auth/user/login,200,OK,Week4 Load Group 1-206,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,308,0,1
+1777239554964,13,GET /restaurants (search),200,OK,Week4 Load Group 1-206,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,1
+1777239554978,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-206,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239555103,312,POST /auth/user/login,200,OK,Week4 Load Group 1-207,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,312,0,1
+1777239555416,9,GET /restaurants (search),200,OK,Week4 Load Group 1-207,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239555426,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-207,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239555554,260,POST /auth/user/login,200,OK,Week4 Load Group 1-208,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,260,0,1
+1777239555815,7,GET /restaurants (search),200,OK,Week4 Load Group 1-208,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,1
+1777239555823,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-208,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239556003,279,POST /auth/user/login,200,OK,Week4 Load Group 1-209,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,1
+1777239556283,9,GET /restaurants (search),200,OK,Week4 Load Group 1-209,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239556292,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-209,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239556455,256,POST /auth/user/login,200,OK,Week4 Load Group 1-210,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,256,0,0
+1777239556713,10,GET /restaurants (search),200,OK,Week4 Load Group 1-210,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239556723,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-210,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239556902,281,POST /auth/user/login,200,OK,Week4 Load Group 1-211,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,281,0,1
+1777239557184,9,GET /restaurants (search),200,OK,Week4 Load Group 1-211,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239557193,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-211,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239557352,280,POST /auth/user/login,200,OK,Week4 Load Group 1-212,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,280,0,1
+1777239557633,9,GET /restaurants (search),200,OK,Week4 Load Group 1-212,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239557643,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-212,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239557801,288,POST /auth/user/login,200,OK,Week4 Load Group 1-213,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,288,0,2
+1777239558090,9,GET /restaurants (search),200,OK,Week4 Load Group 1-213,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239558100,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-213,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239558255,289,POST /auth/user/login,200,OK,Week4 Load Group 1-214,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,289,0,1
+1777239558545,10,GET /restaurants (search),200,OK,Week4 Load Group 1-214,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239558556,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-214,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239558704,273,POST /auth/user/login,200,OK,Week4 Load Group 1-215,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,2
+1777239558978,9,GET /restaurants (search),200,OK,Week4 Load Group 1-215,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239558988,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-215,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239559153,275,POST /auth/user/login,200,OK,Week4 Load Group 1-216,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,1
+1777239559430,12,GET /restaurants (search),200,OK,Week4 Load Group 1-216,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,0
+1777239559443,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-216,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239559605,267,POST /auth/user/login,200,OK,Week4 Load Group 1-217,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,267,0,1
+1777239559872,12,GET /restaurants (search),200,OK,Week4 Load Group 1-217,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239559885,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-217,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239560051,267,POST /auth/user/login,200,OK,Week4 Load Group 1-218,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,0
+1777239560320,9,GET /restaurants (search),200,OK,Week4 Load Group 1-218,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239560329,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-218,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239560501,269,POST /auth/user/login,200,OK,Week4 Load Group 1-219,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,269,0,0
+1777239560771,9,GET /restaurants (search),200,OK,Week4 Load Group 1-219,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239560781,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-219,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239560951,289,POST /auth/user/login,200,OK,Week4 Load Group 1-220,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,289,0,1
+1777239561242,13,GET /restaurants (search),200,OK,Week4 Load Group 1-220,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,0
+1777239561255,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-220,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239561401,266,POST /auth/user/login,200,OK,Week4 Load Group 1-221,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,2
+1777239561668,9,GET /restaurants (search),200,OK,Week4 Load Group 1-221,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239561677,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-221,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239561850,308,POST /auth/user/login,200,OK,Week4 Load Group 1-222,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,307,0,1
+1777239562158,12,GET /restaurants (search),200,OK,Week4 Load Group 1-222,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239562171,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-222,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,0
+1777239562304,724,POST /auth/user/login,200,OK,Week4 Load Group 1-223,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,723,0,0
+1777239563028,49,GET /restaurants (search),200,OK,Week4 Load Group 1-223,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,49,0,0
+1777239563078,69,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-223,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,69,0,0
+1777239562751,810,POST /auth/user/login,200,OK,Week4 Load Group 1-224,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,810,0,1
+1777239563563,69,GET /restaurants (search),200,OK,Week4 Load Group 1-224,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,69,0,1
+1777239563633,24,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-224,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,24,0,2
+1777239563200,880,POST /auth/user/login,200,OK,Week4 Load Group 1-225,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,880,0,1
+1777239564082,45,GET /restaurants (search),200,OK,Week4 Load Group 1-225,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,44,0,2
+1777239564127,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-225,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,22,0,1
+1777239563652,901,POST /auth/user/login,200,OK,Week4 Load Group 1-226,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,900,0,1
+1777239564554,56,GET /restaurants (search),200,OK,Week4 Load Group 1-226,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,56,0,1
+1777239564611,21,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-226,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,21,0,1
+1777239564101,690,POST /auth/user/login,200,OK,Week4 Load Group 1-227,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,690,0,1
+1777239564791,10,GET /restaurants (search),200,OK,Week4 Load Group 1-227,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239564802,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-227,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239564554,416,POST /auth/user/login,200,OK,Week4 Load Group 1-228,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,416,0,2
+1777239564971,11,GET /restaurants (search),200,OK,Week4 Load Group 1-228,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239564982,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-228,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239565002,298,POST /auth/user/login,200,OK,Week4 Load Group 1-229,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,298,0,2
+1777239565300,12,GET /restaurants (search),200,OK,Week4 Load Group 1-229,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239565313,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-229,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,0
+1777239565453,269,POST /auth/user/login,200,OK,Week4 Load Group 1-230,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,269,0,0
+1777239565722,8,GET /restaurants (search),200,OK,Week4 Load Group 1-230,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239565731,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-230,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239565899,283,POST /auth/user/login,200,OK,Week4 Load Group 1-231,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,283,0,1
+1777239566183,9,GET /restaurants (search),200,OK,Week4 Load Group 1-231,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239566192,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-231,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239566353,282,POST /auth/user/login,200,OK,Week4 Load Group 1-232,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,281,0,1
+1777239566636,8,GET /restaurants (search),200,OK,Week4 Load Group 1-232,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239566644,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-232,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239566802,277,POST /auth/user/login,200,OK,Week4 Load Group 1-233,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239567080,11,GET /restaurants (search),200,OK,Week4 Load Group 1-233,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239567091,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-233,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239567252,306,POST /auth/user/login,200,OK,Week4 Load Group 1-234,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,306,0,1
+1777239567559,13,GET /restaurants (search),200,OK,Week4 Load Group 1-234,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,0
+1777239567572,15,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-234,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,15,0,1
+1777239567699,409,POST /auth/user/login,200,OK,Week4 Load Group 1-235,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,409,0,1
+1777239568108,10,GET /restaurants (search),200,OK,Week4 Load Group 1-235,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239568118,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-235,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239568155,278,POST /auth/user/login,200,OK,Week4 Load Group 1-236,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,1
+1777239568434,8,GET /restaurants (search),200,OK,Week4 Load Group 1-236,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239568443,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-236,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239568605,273,POST /auth/user/login,200,OK,Week4 Load Group 1-237,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,0
+1777239568878,8,GET /restaurants (search),200,OK,Week4 Load Group 1-237,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239568887,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-237,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239569065,266,POST /auth/user/login,200,OK,Week4 Load Group 1-238,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,0
+1777239569332,8,GET /restaurants (search),200,OK,Week4 Load Group 1-238,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239569341,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-238,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239569503,277,POST /auth/user/login,200,OK,Week4 Load Group 1-239,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,0
+1777239569781,9,GET /restaurants (search),200,OK,Week4 Load Group 1-239,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239569791,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-239,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239569951,283,POST /auth/user/login,200,OK,Week4 Load Group 1-240,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,283,0,1
+1777239570235,11,GET /restaurants (search),200,OK,Week4 Load Group 1-240,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,2
+1777239570246,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-240,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239570403,310,POST /auth/user/login,200,OK,Week4 Load Group 1-241,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,310,0,1
+1777239570714,15,GET /restaurants (search),200,OK,Week4 Load Group 1-241,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,15,0,1
+1777239570730,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-241,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239570856,258,POST /auth/user/login,200,OK,Week4 Load Group 1-242,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,258,0,2
+1777239571115,8,GET /restaurants (search),200,OK,Week4 Load Group 1-242,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239571124,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-242,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239571307,263,POST /auth/user/login,200,OK,Week4 Load Group 1-243,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,262,0,1
+1777239571570,10,GET /restaurants (search),200,OK,Week4 Load Group 1-243,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239571580,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-243,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239571754,268,POST /auth/user/login,200,OK,Week4 Load Group 1-244,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,267,0,1
+1777239572022,8,GET /restaurants (search),200,OK,Week4 Load Group 1-244,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239572030,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-244,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239572206,269,POST /auth/user/login,200,OK,Week4 Load Group 1-245,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,269,0,1
+1777239572476,12,GET /restaurants (search),200,OK,Week4 Load Group 1-245,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,0
+1777239572488,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-245,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239572654,272,POST /auth/user/login,200,OK,Week4 Load Group 1-246,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,1
+1777239572927,8,GET /restaurants (search),200,OK,Week4 Load Group 1-246,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239572936,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-246,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239573108,271,POST /auth/user/login,200,OK,Week4 Load Group 1-247,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,0
+1777239573380,13,GET /restaurants (search),200,OK,Week4 Load Group 1-247,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,1
+1777239573394,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-247,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239573558,304,POST /auth/user/login,200,OK,Week4 Load Group 1-248,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,304,0,1
+1777239573863,13,GET /restaurants (search),200,OK,Week4 Load Group 1-248,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,1
+1777239573877,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-248,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239574011,327,POST /auth/user/login,200,OK,Week4 Load Group 1-249,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,327,0,1
+1777239574339,9,GET /restaurants (search),200,OK,Week4 Load Group 1-249,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239574348,12,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-249,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,12,0,1
+1777239574458,259,POST /auth/user/login,200,OK,Week4 Load Group 1-250,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,259,0,1
+1777239574719,8,GET /restaurants (search),200,OK,Week4 Load Group 1-250,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239574728,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-250,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239574902,279,POST /auth/user/login,200,OK,Week4 Load Group 1-251,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,1
+1777239575182,7,GET /restaurants (search),200,OK,Week4 Load Group 1-251,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239575189,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-251,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239575359,280,POST /auth/user/login,200,OK,Week4 Load Group 1-252,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,280,0,1
+1777239575640,8,GET /restaurants (search),200,OK,Week4 Load Group 1-252,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239575648,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-252,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239575809,283,POST /auth/user/login,200,OK,Week4 Load Group 1-253,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,283,0,1
+1777239576093,10,GET /restaurants (search),200,OK,Week4 Load Group 1-253,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239576103,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-253,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239576254,259,POST /auth/user/login,200,OK,Week4 Load Group 1-254,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,259,0,1
+1777239576514,8,GET /restaurants (search),200,OK,Week4 Load Group 1-254,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239576523,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-254,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239576704,271,POST /auth/user/login,200,OK,Week4 Load Group 1-255,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,1
+1777239576976,9,GET /restaurants (search),200,OK,Week4 Load Group 1-255,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239576986,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-255,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239577157,279,POST /auth/user/login,200,OK,Week4 Load Group 1-256,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,1
+1777239577437,8,GET /restaurants (search),200,OK,Week4 Load Group 1-256,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239577445,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-256,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239577608,336,POST /auth/user/login,200,OK,Week4 Load Group 1-257,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,336,0,1
+1777239577945,10,GET /restaurants (search),200,OK,Week4 Load Group 1-257,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239577956,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-257,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239578057,268,POST /auth/user/login,200,OK,Week4 Load Group 1-258,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,267,0,1
+1777239578325,9,GET /restaurants (search),200,OK,Week4 Load Group 1-258,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239578335,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-258,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239578510,282,POST /auth/user/login,200,OK,Week4 Load Group 1-259,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,282,0,0
+1777239578793,11,GET /restaurants (search),200,OK,Week4 Load Group 1-259,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239578804,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-259,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239578958,264,POST /auth/user/login,200,OK,Week4 Load Group 1-260,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,264,0,0
+1777239579223,7,GET /restaurants (search),200,OK,Week4 Load Group 1-260,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239579230,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-260,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239579403,272,POST /auth/user/login,200,OK,Week4 Load Group 1-261,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,1
+1777239579676,8,GET /restaurants (search),200,OK,Week4 Load Group 1-261,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239579685,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-261,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239579852,277,POST /auth/user/login,200,OK,Week4 Load Group 1-262,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239580129,19,GET /restaurants (search),200,OK,Week4 Load Group 1-262,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,19,0,1
+1777239580149,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-262,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239580315,267,POST /auth/user/login,200,OK,Week4 Load Group 1-263,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,267,0,1
+1777239580583,8,GET /restaurants (search),200,OK,Week4 Load Group 1-263,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239580592,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-263,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239580761,268,POST /auth/user/login,200,OK,Week4 Load Group 1-264,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,268,0,1
+1777239581030,8,GET /restaurants (search),200,OK,Week4 Load Group 1-264,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239581039,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-264,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239581207,284,POST /auth/user/login,200,OK,Week4 Load Group 1-265,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,284,0,1
+1777239581492,11,GET /restaurants (search),200,OK,Week4 Load Group 1-265,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239581503,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-265,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239581653,268,POST /auth/user/login,200,OK,Week4 Load Group 1-266,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,268,0,1
+1777239581921,8,GET /restaurants (search),200,OK,Week4 Load Group 1-266,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239581930,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-266,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239582109,256,POST /auth/user/login,200,OK,Week4 Load Group 1-267,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,256,0,1
+1777239582369,8,GET /restaurants (search),200,OK,Week4 Load Group 1-267,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239582378,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-267,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239582554,263,POST /auth/user/login,200,OK,Week4 Load Group 1-268,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,263,0,0
+1777239582819,8,GET /restaurants (search),200,OK,Week4 Load Group 1-268,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239582828,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-268,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239583003,278,POST /auth/user/login,200,OK,Week4 Load Group 1-269,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,2
+1777239583282,8,GET /restaurants (search),200,OK,Week4 Load Group 1-269,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239583290,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-269,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239583454,293,POST /auth/user/login,200,OK,Week4 Load Group 1-270,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,293,0,0
+1777239583748,11,GET /restaurants (search),200,OK,Week4 Load Group 1-270,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239583760,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-270,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239583902,266,POST /auth/user/login,200,OK,Week4 Load Group 1-271,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,1
+1777239584169,7,GET /restaurants (search),200,OK,Week4 Load Group 1-271,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239584177,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-271,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239584352,282,POST /auth/user/login,200,OK,Week4 Load Group 1-272,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,282,0,1
+1777239584635,9,GET /restaurants (search),200,OK,Week4 Load Group 1-272,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,2
+1777239584645,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-272,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239584802,268,POST /auth/user/login,200,OK,Week4 Load Group 1-273,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,268,0,1
+1777239585070,8,GET /restaurants (search),200,OK,Week4 Load Group 1-273,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239585079,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-273,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239585253,271,POST /auth/user/login,200,OK,Week4 Load Group 1-274,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,1
+1777239585525,7,GET /restaurants (search),200,OK,Week4 Load Group 1-274,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239585533,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-274,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239585703,301,POST /auth/user/login,200,OK,Week4 Load Group 1-275,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,301,0,2
+1777239586005,9,GET /restaurants (search),200,OK,Week4 Load Group 1-275,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239586014,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-275,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239586154,272,POST /auth/user/login,200,OK,Week4 Load Group 1-276,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,1
+1777239586427,12,GET /restaurants (search),200,OK,Week4 Load Group 1-276,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239586439,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-276,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239586614,277,POST /auth/user/login,200,OK,Week4 Load Group 1-277,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239586891,10,GET /restaurants (search),200,OK,Week4 Load Group 1-277,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239586901,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-277,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239587082,466,POST /auth/user/login,200,OK,Week4 Load Group 1-278,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,466,0,3
+1777239587550,21,GET /restaurants (search),200,OK,Week4 Load Group 1-278,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,21,0,1
+1777239587570,17,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-278,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,17,0,0
+1777239587508,300,POST /auth/user/login,200,OK,Week4 Load Group 1-279,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,299,0,0
+1777239587808,17,GET /restaurants (search),200,OK,Week4 Load Group 1-279,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,1
+1777239587825,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-279,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239587950,291,POST /auth/user/login,200,OK,Week4 Load Group 1-280,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,291,0,1
+1777239588242,9,GET /restaurants (search),200,OK,Week4 Load Group 1-280,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239588251,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-280,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239588409,278,POST /auth/user/login,200,OK,Week4 Load Group 1-281,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,1
+1777239588687,9,GET /restaurants (search),200,OK,Week4 Load Group 1-281,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239588697,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-281,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,0
+1777239588860,271,POST /auth/user/login,200,OK,Week4 Load Group 1-282,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,0
+1777239589132,8,GET /restaurants (search),200,OK,Week4 Load Group 1-282,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239589141,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-282,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239589305,270,POST /auth/user/login,200,OK,Week4 Load Group 1-283,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,1
+1777239589575,9,GET /restaurants (search),200,OK,Week4 Load Group 1-283,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239589585,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-283,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239589753,278,POST /auth/user/login,200,OK,Week4 Load Group 1-284,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,1
+1777239590032,8,GET /restaurants (search),200,OK,Week4 Load Group 1-284,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239590041,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-284,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239590199,269,POST /auth/user/login,200,OK,Week4 Load Group 1-285,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,268,0,1
+1777239590469,8,GET /restaurants (search),200,OK,Week4 Load Group 1-285,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239590478,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-285,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239590647,275,POST /auth/user/login,200,OK,Week4 Load Group 1-286,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,1
+1777239590923,8,GET /restaurants (search),200,OK,Week4 Load Group 1-286,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239590931,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-286,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239591107,272,POST /auth/user/login,200,OK,Week4 Load Group 1-287,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,1
+1777239591380,8,GET /restaurants (search),200,OK,Week4 Load Group 1-287,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239591388,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-287,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239591554,269,POST /auth/user/login,200,OK,Week4 Load Group 1-288,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,269,0,0
+1777239591824,6,GET /restaurants (search),200,OK,Week4 Load Group 1-288,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,6,0,0
+1777239591830,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-288,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239592003,709,POST /auth/user/login,200,OK,Week4 Load Group 1-289,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,709,0,1
+1777239592716,208,GET /restaurants (search),200,OK,Week4 Load Group 1-289,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,208,0,2
+1777239592924,68,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-289,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,68,0,1
+1777239592463,1146,POST /auth/user/login,200,OK,Week4 Load Group 1-290,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1146,0,1
+1777239593611,44,GET /restaurants (search),200,OK,Week4 Load Group 1-290,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,43,0,1
+1777239593655,44,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-290,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,44,0,1
+1777239592909,859,POST /auth/user/login,200,OK,Week4 Load Group 1-291,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,859,0,1
+1777239593774,254,GET /restaurants (search),200,OK,Week4 Load Group 1-291,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,254,0,8
+1777239594029,27,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-291,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,27,0,1
+1777239593351,1152,POST /auth/user/login,200,OK,Week4 Load Group 1-292,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1152,0,1
+1777239594504,100,GET /restaurants (search),200,OK,Week4 Load Group 1-292,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,99,0,1
+1777239594605,38,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-292,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,38,0,2
+1777239593801,1022,POST /auth/user/login,200,OK,Week4 Load Group 1-293,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,1022,0,3
+1777239594824,21,GET /restaurants (search),200,OK,Week4 Load Group 1-293,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,21,0,0
+1777239594845,14,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-293,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,14,0,1
+1777239594254,703,POST /auth/user/login,200,OK,Week4 Load Group 1-294,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,703,0,1
+1777239594958,18,GET /restaurants (search),200,OK,Week4 Load Group 1-294,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,18,0,1
+1777239594977,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-294,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,10,0,0
+1777239594705,424,POST /auth/user/login,200,OK,Week4 Load Group 1-295,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,424,0,1
+1777239595130,31,GET /restaurants (search),200,OK,Week4 Load Group 1-295,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,31,0,1
+1777239595162,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-295,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,9,0,0
+1777239595154,359,POST /auth/user/login,200,OK,Week4 Load Group 1-296,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,359,0,1
+1777239595514,13,GET /restaurants (search),200,OK,Week4 Load Group 1-296,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,1
+1777239595527,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-296,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239595625,268,POST /auth/user/login,200,OK,Week4 Load Group 1-297,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,267,0,1
+1777239595893,9,GET /restaurants (search),200,OK,Week4 Load Group 1-297,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239595902,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-297,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239596070,267,POST /auth/user/login,200,OK,Week4 Load Group 1-298,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,267,0,1
+1777239596337,8,GET /restaurants (search),200,OK,Week4 Load Group 1-298,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239596346,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-298,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239596505,287,POST /auth/user/login,200,OK,Week4 Load Group 1-299,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,287,0,1
+1777239596793,10,GET /restaurants (search),200,OK,Week4 Load Group 1-299,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239596804,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-299,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,0
+1777239596954,296,POST /auth/user/login,200,OK,Week4 Load Group 1-300,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,295,0,0
+1777239597251,20,GET /restaurants (search),200,OK,Week4 Load Group 1-300,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,20,0,1
+1777239597272,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-300,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239597403,319,POST /auth/user/login,200,OK,Week4 Load Group 1-301,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,319,0,1
+1777239597722,19,GET /restaurants (search),200,OK,Week4 Load Group 1-301,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,19,0,1
+1777239597742,24,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-301,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,24,0,1
+1777239597853,379,POST /auth/user/login,200,OK,Week4 Load Group 1-302,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,379,0,0
+1777239598233,11,GET /restaurants (search),200,OK,Week4 Load Group 1-302,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239598244,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-302,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239598301,262,POST /auth/user/login,200,OK,Week4 Load Group 1-303,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,262,0,0
+1777239598564,8,GET /restaurants (search),200,OK,Week4 Load Group 1-303,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239598573,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-303,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239598754,266,POST /auth/user/login,200,OK,Week4 Load Group 1-304,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,0
+1777239599021,8,GET /restaurants (search),200,OK,Week4 Load Group 1-304,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239599029,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-304,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239599204,271,POST /auth/user/login,200,OK,Week4 Load Group 1-305,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,1
+1777239599476,8,GET /restaurants (search),200,OK,Week4 Load Group 1-305,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239599484,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-305,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239599652,277,POST /auth/user/login,200,OK,Week4 Load Group 1-306,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239599930,10,GET /restaurants (search),200,OK,Week4 Load Group 1-306,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239599940,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-306,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239600098,295,POST /auth/user/login,200,OK,Week4 Load Group 1-307,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,295,0,1
+1777239600395,11,GET /restaurants (search),200,OK,Week4 Load Group 1-307,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239600406,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-307,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239600547,281,POST /auth/user/login,200,OK,Week4 Load Group 1-308,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,281,0,1
+1777239600829,8,GET /restaurants (search),200,OK,Week4 Load Group 1-308,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239600838,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-308,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239601002,282,POST /auth/user/login,200,OK,Week4 Load Group 1-309,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,281,0,1
+1777239601286,16,GET /restaurants (search),200,OK,Week4 Load Group 1-309,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239601303,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-309,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239601452,334,POST /auth/user/login,200,OK,Week4 Load Group 1-310,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,334,0,1
+1777239601787,16,GET /restaurants (search),200,OK,Week4 Load Group 1-310,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239601803,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-310,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239601899,273,POST /auth/user/login,200,OK,Week4 Load Group 1-311,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,0
+1777239602172,10,GET /restaurants (search),200,OK,Week4 Load Group 1-311,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239602182,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-311,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239602353,272,POST /auth/user/login,200,OK,Week4 Load Group 1-312,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,1
+1777239602625,9,GET /restaurants (search),200,OK,Week4 Load Group 1-312,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239602635,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-312,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239602802,262,POST /auth/user/login,200,OK,Week4 Load Group 1-313,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,262,0,0
+1777239603065,29,GET /restaurants (search),200,OK,Week4 Load Group 1-313,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,29,0,0
+1777239603096,23,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-313,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,23,0,1
+1777239603252,273,POST /auth/user/login,200,OK,Week4 Load Group 1-314,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,1
+1777239603526,12,GET /restaurants (search),200,OK,Week4 Load Group 1-314,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,0
+1777239603538,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-314,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239603702,275,POST /auth/user/login,200,OK,Week4 Load Group 1-315,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,1
+1777239603978,8,GET /restaurants (search),200,OK,Week4 Load Group 1-315,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239603986,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-315,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239604152,273,POST /auth/user/login,200,OK,Week4 Load Group 1-316,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,1
+1777239604425,12,GET /restaurants (search),200,OK,Week4 Load Group 1-316,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239604438,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-316,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239604601,261,POST /auth/user/login,200,OK,Week4 Load Group 1-317,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,261,0,1
+1777239604863,8,GET /restaurants (search),200,OK,Week4 Load Group 1-317,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239604871,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-317,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239605052,269,POST /auth/user/login,200,OK,Week4 Load Group 1-318,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,269,0,1
+1777239605322,8,GET /restaurants (search),200,OK,Week4 Load Group 1-318,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239605330,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-318,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239605499,283,POST /auth/user/login,200,OK,Week4 Load Group 1-319,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,283,0,2
+1777239605784,10,GET /restaurants (search),200,OK,Week4 Load Group 1-319,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239605795,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-319,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239605950,264,POST /auth/user/login,200,OK,Week4 Load Group 1-320,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,264,0,2
+1777239606215,9,GET /restaurants (search),200,OK,Week4 Load Group 1-320,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239606224,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-320,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239606403,280,POST /auth/user/login,200,OK,Week4 Load Group 1-321,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,280,0,1
+1777239606684,9,GET /restaurants (search),200,OK,Week4 Load Group 1-321,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,2
+1777239606693,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-321,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239606848,277,POST /auth/user/login,200,OK,Week4 Load Group 1-322,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239607126,8,GET /restaurants (search),200,OK,Week4 Load Group 1-322,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239607137,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-322,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239607299,318,POST /auth/user/login,200,OK,Week4 Load Group 1-323,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,317,0,0
+1777239607618,19,GET /restaurants (search),200,OK,Week4 Load Group 1-323,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,18,0,1
+1777239607637,19,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-323,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,19,0,1
+1777239607747,359,POST /auth/user/login,200,OK,Week4 Load Group 1-324,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,359,0,2
+1777239608107,38,GET /restaurants (search),200,OK,Week4 Load Group 1-324,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,38,0,1
+1777239608146,57,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-324,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,57,0,1
+1777239608202,358,POST /auth/user/login,200,OK,Week4 Load Group 1-325,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,358,0,0
+1777239608561,19,GET /restaurants (search),200,OK,Week4 Load Group 1-325,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,19,0,0
+1777239608581,25,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-325,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,25,0,0
+1777239608649,306,POST /auth/user/login,200,OK,Week4 Load Group 1-326,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,306,0,3
+1777239608956,11,GET /restaurants (search),200,OK,Week4 Load Group 1-326,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239608968,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-326,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239609102,262,POST /auth/user/login,200,OK,Week4 Load Group 1-327,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,261,0,0
+1777239609364,9,GET /restaurants (search),200,OK,Week4 Load Group 1-327,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239609373,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-327,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239609550,259,POST /auth/user/login,200,OK,Week4 Load Group 1-328,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,259,0,1
+1777239609810,9,GET /restaurants (search),200,OK,Week4 Load Group 1-328,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239609819,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-328,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239610001,295,POST /auth/user/login,200,OK,Week4 Load Group 1-329,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,294,0,1
+1777239610296,9,GET /restaurants (search),200,OK,Week4 Load Group 1-329,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239610306,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-329,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239610449,267,POST /auth/user/login,200,OK,Week4 Load Group 1-330,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,267,0,1
+1777239610717,9,GET /restaurants (search),200,OK,Week4 Load Group 1-330,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,2
+1777239610727,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-330,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,1
+1777239610903,349,POST /auth/user/login,200,OK,Week4 Load Group 1-331,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,349,0,0
+1777239611253,17,GET /restaurants (search),200,OK,Week4 Load Group 1-331,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,1
+1777239611270,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-331,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,22,0,1
+1777239611353,295,POST /auth/user/login,200,OK,Week4 Load Group 1-332,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,295,0,1
+1777239611649,14,GET /restaurants (search),200,OK,Week4 Load Group 1-332,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,14,0,1
+1777239611664,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-332,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,12,0,4
+1777239611801,290,POST /auth/user/login,200,OK,Week4 Load Group 1-333,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,290,0,1
+1777239612092,16,GET /restaurants (search),200,OK,Week4 Load Group 1-333,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,16,0,1
+1777239612109,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-333,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239612251,276,POST /auth/user/login,200,OK,Week4 Load Group 1-334,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,276,0,1
+1777239612528,10,GET /restaurants (search),200,OK,Week4 Load Group 1-334,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239612538,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-334,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239612699,265,POST /auth/user/login,200,OK,Week4 Load Group 1-335,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,265,0,1
+1777239612965,9,GET /restaurants (search),200,OK,Week4 Load Group 1-335,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239612974,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-335,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239613153,270,POST /auth/user/login,200,OK,Week4 Load Group 1-336,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,1
+1777239613424,10,GET /restaurants (search),200,OK,Week4 Load Group 1-336,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239613435,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-336,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239613602,268,POST /auth/user/login,200,OK,Week4 Load Group 1-337,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,268,0,1
+1777239613870,9,GET /restaurants (search),200,OK,Week4 Load Group 1-337,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239613879,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-337,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239614052,278,POST /auth/user/login,200,OK,Week4 Load Group 1-338,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,278,0,1
+1777239614331,11,GET /restaurants (search),200,OK,Week4 Load Group 1-338,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239614342,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-338,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239614501,283,POST /auth/user/login,200,OK,Week4 Load Group 1-339,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,282,0,1
+1777239614785,10,GET /restaurants (search),200,OK,Week4 Load Group 1-339,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239614796,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-339,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239614950,277,POST /auth/user/login,200,OK,Week4 Load Group 1-340,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,2
+1777239615228,11,GET /restaurants (search),200,OK,Week4 Load Group 1-340,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239615239,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-340,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239615401,267,POST /auth/user/login,200,OK,Week4 Load Group 1-341,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,1
+1777239615669,8,GET /restaurants (search),200,OK,Week4 Load Group 1-341,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239615677,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-341,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239615854,272,POST /auth/user/login,200,OK,Week4 Load Group 1-342,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,1
+1777239616128,7,GET /restaurants (search),200,OK,Week4 Load Group 1-342,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239616136,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-342,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239616303,274,POST /auth/user/login,200,OK,Week4 Load Group 1-343,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,274,0,1
+1777239616578,8,GET /restaurants (search),200,OK,Week4 Load Group 1-343,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239616586,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-343,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239616752,285,POST /auth/user/login,200,OK,Week4 Load Group 1-344,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,285,0,1
+1777239617038,12,GET /restaurants (search),200,OK,Week4 Load Group 1-344,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239617050,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-344,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239617202,265,POST /auth/user/login,200,OK,Week4 Load Group 1-345,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,265,0,1
+1777239617467,8,GET /restaurants (search),200,OK,Week4 Load Group 1-345,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239617476,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-345,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239617651,306,POST /auth/user/login,200,OK,Week4 Load Group 1-346,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,305,0,1
+1777239617957,9,GET /restaurants (search),200,OK,Week4 Load Group 1-346,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239617967,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-346,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239618101,266,POST /auth/user/login,200,OK,Week4 Load Group 1-347,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,1
+1777239618368,9,GET /restaurants (search),200,OK,Week4 Load Group 1-347,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239618377,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-347,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239618551,270,POST /auth/user/login,200,OK,Week4 Load Group 1-348,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,270,0,1
+1777239618821,8,GET /restaurants (search),200,OK,Week4 Load Group 1-348,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239618830,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-348,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239618999,271,POST /auth/user/login,200,OK,Week4 Load Group 1-349,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,2
+1777239619270,9,GET /restaurants (search),200,OK,Week4 Load Group 1-349,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239619279,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-349,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239619450,279,POST /auth/user/login,200,OK,Week4 Load Group 1-350,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,2
+1777239619731,8,GET /restaurants (search),200,OK,Week4 Load Group 1-350,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239619739,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-350,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239619901,278,POST /auth/user/login,200,OK,Week4 Load Group 1-351,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239620180,10,GET /restaurants (search),200,OK,Week4 Load Group 1-351,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239620190,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-351,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239620355,277,POST /auth/user/login,200,OK,Week4 Load Group 1-352,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,276,0,1
+1777239620633,11,GET /restaurants (search),200,OK,Week4 Load Group 1-352,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,1
+1777239620644,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-352,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239620801,268,POST /auth/user/login,200,OK,Week4 Load Group 1-353,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,268,0,0
+1777239621070,9,GET /restaurants (search),200,OK,Week4 Load Group 1-353,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239621080,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-353,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239621251,263,POST /auth/user/login,200,OK,Week4 Load Group 1-354,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,263,0,1
+1777239621515,8,GET /restaurants (search),200,OK,Week4 Load Group 1-354,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239621524,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-354,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239621698,260,POST /auth/user/login,200,OK,Week4 Load Group 1-355,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,260,0,1
+1777239621959,9,GET /restaurants (search),200,OK,Week4 Load Group 1-355,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239621968,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-355,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239622151,739,POST /auth/user/login,200,OK,Week4 Load Group 1-356,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,739,0,4
+1777239622891,33,GET /restaurants (search),200,OK,Week4 Load Group 1-356,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,33,0,1
+1777239622925,21,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-356,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,21,0,0
+1777239622599,839,POST /auth/user/login,200,OK,Week4 Load Group 1-357,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,839,0,1
+1777239623440,27,GET /restaurants (search),200,OK,Week4 Load Group 1-357,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,27,0,0
+1777239623468,19,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-357,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,19,0,1
+1777239623049,868,POST /auth/user/login,200,OK,Week4 Load Group 1-358,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,868,0,0
+1777239623919,43,GET /restaurants (search),200,OK,Week4 Load Group 1-358,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,43,0,1
+1777239623963,32,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-358,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,32,0,2
+1777239623499,893,POST /auth/user/login,200,OK,Week4 Load Group 1-359,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,893,0,1
+1777239624394,32,GET /restaurants (search),200,OK,Week4 Load Group 1-359,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,32,0,0
+1777239624427,22,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-359,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,22,0,2
+1777239623949,914,POST /auth/user/login,200,OK,Week4 Load Group 1-360,text,true,,401,265,3,3,http://localhost:8003/auth/user/login,914,0,1
+1777239624864,13,GET /restaurants (search),200,OK,Week4 Load Group 1-360,text,true,,1409,150,3,3,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239624877,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-360,text,true,,279,489,3,3,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239624399,638,POST /auth/user/login,200,OK,Week4 Load Group 1-361,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,638,0,1
+1777239625038,11,GET /restaurants (search),200,OK,Week4 Load Group 1-361,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,11,0,0
+1777239625050,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-361,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,8,0,0
+1777239624856,352,POST /auth/user/login,200,OK,Week4 Load Group 1-362,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,352,0,1
+1777239625209,9,GET /restaurants (search),200,OK,Week4 Load Group 1-362,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239625218,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-362,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239625301,266,POST /auth/user/login,200,OK,Week4 Load Group 1-363,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,266,0,1
+1777239625568,8,GET /restaurants (search),200,OK,Week4 Load Group 1-363,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239625576,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-363,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239625748,279,POST /auth/user/login,200,OK,Week4 Load Group 1-364,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,1
+1777239626028,9,GET /restaurants (search),200,OK,Week4 Load Group 1-364,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239626037,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-364,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239626202,273,POST /auth/user/login,200,OK,Week4 Load Group 1-365,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,0
+1777239626476,8,GET /restaurants (search),200,OK,Week4 Load Group 1-365,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239626484,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-365,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239626653,291,POST /auth/user/login,200,OK,Week4 Load Group 1-366,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,291,0,1
+1777239626945,17,GET /restaurants (search),200,OK,Week4 Load Group 1-366,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,0
+1777239626962,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-366,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,1
+1777239627097,354,POST /auth/user/login,200,OK,Week4 Load Group 1-367,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,354,0,1
+1777239627452,22,GET /restaurants (search),200,OK,Week4 Load Group 1-367,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,22,0,1
+1777239627475,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-367,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,11,0,0
+1777239627552,341,POST /auth/user/login,200,OK,Week4 Load Group 1-368,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,341,0,1
+1777239627894,15,GET /restaurants (search),200,OK,Week4 Load Group 1-368,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,15,0,1
+1777239627910,24,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-368,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,24,0,0
+1777239628002,323,POST /auth/user/login,200,OK,Week4 Load Group 1-369,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,323,0,1
+1777239628326,6,GET /restaurants (search),200,OK,Week4 Load Group 1-369,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,6,0,0
+1777239628333,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-369,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239628451,277,POST /auth/user/login,200,OK,Week4 Load Group 1-370,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,277,0,1
+1777239628728,9,GET /restaurants (search),200,OK,Week4 Load Group 1-370,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239628737,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-370,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239628898,323,POST /auth/user/login,200,OK,Week4 Load Group 1-371,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,323,0,1
+1777239629222,9,GET /restaurants (search),200,OK,Week4 Load Group 1-371,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239629232,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-371,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,0
+1777239629348,287,POST /auth/user/login,200,OK,Week4 Load Group 1-372,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,287,0,1
+1777239629635,9,GET /restaurants (search),200,OK,Week4 Load Group 1-372,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239629644,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-372,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239629803,276,POST /auth/user/login,200,OK,Week4 Load Group 1-373,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,276,0,0
+1777239630080,9,GET /restaurants (search),200,OK,Week4 Load Group 1-373,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239630089,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-373,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239630248,560,POST /auth/user/login,200,OK,Week4 Load Group 1-374,text,true,,401,265,2,2,http://localhost:8003/auth/user/login,560,0,1
+1777239630809,14,GET /restaurants (search),200,OK,Week4 Load Group 1-374,text,true,,1409,150,2,2,http://localhost:8004/restaurants?search=pizza&city=San+Jose,14,0,1
+1777239630824,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-374,text,true,,279,489,2,2,http://localhost:8001/restaurants/2/reviews,13,0,0
+1777239630701,336,POST /auth/user/login,200,OK,Week4 Load Group 1-375,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,336,0,1
+1777239631038,8,GET /restaurants (search),200,OK,Week4 Load Group 1-375,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239631046,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-375,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239631155,262,POST /auth/user/login,200,OK,Week4 Load Group 1-376,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,262,0,1
+1777239631418,8,GET /restaurants (search),200,OK,Week4 Load Group 1-376,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239631427,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-376,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239631601,264,POST /auth/user/login,200,OK,Week4 Load Group 1-377,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,264,0,0
+1777239631866,8,GET /restaurants (search),200,OK,Week4 Load Group 1-377,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239631875,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-377,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239632051,273,POST /auth/user/login,200,OK,Week4 Load Group 1-378,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,1
+1777239632325,8,GET /restaurants (search),200,OK,Week4 Load Group 1-378,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239632334,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-378,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239632504,274,POST /auth/user/login,200,OK,Week4 Load Group 1-379,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,274,0,0
+1777239632779,9,GET /restaurants (search),200,OK,Week4 Load Group 1-379,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,0
+1777239632789,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-379,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239632953,297,POST /auth/user/login,200,OK,Week4 Load Group 1-380,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,297,0,1
+1777239633251,10,GET /restaurants (search),200,OK,Week4 Load Group 1-380,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239633262,11,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-380,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239633402,328,POST /auth/user/login,200,OK,Week4 Load Group 1-381,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,328,0,0
+1777239633736,18,GET /restaurants (search),200,OK,Week4 Load Group 1-381,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,17,0,0
+1777239633754,13,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-381,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,13,0,2
+1777239633853,386,POST /auth/user/login,200,OK,Week4 Load Group 1-382,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,386,0,1
+1777239634240,13,GET /restaurants (search),200,OK,Week4 Load Group 1-382,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,0
+1777239634253,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-382,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,0
+1777239634303,285,POST /auth/user/login,200,OK,Week4 Load Group 1-383,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,285,0,0
+1777239634589,7,GET /restaurants (search),200,OK,Week4 Load Group 1-383,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,7,0,0
+1777239634596,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-383,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239634752,284,POST /auth/user/login,200,OK,Week4 Load Group 1-384,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,284,0,1
+1777239635036,9,GET /restaurants (search),200,OK,Week4 Load Group 1-384,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239635045,9,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-384,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,9,0,1
+1777239635202,259,POST /auth/user/login,200,OK,Week4 Load Group 1-385,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,259,0,1
+1777239635462,10,GET /restaurants (search),200,OK,Week4 Load Group 1-385,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239635472,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-385,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239635651,284,POST /auth/user/login,200,OK,Week4 Load Group 1-386,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,283,0,1
+1777239635936,6,GET /restaurants (search),200,OK,Week4 Load Group 1-386,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,6,0,0
+1777239635943,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-386,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239636104,271,POST /auth/user/login,200,OK,Week4 Load Group 1-387,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,0
+1777239636376,8,GET /restaurants (search),200,OK,Week4 Load Group 1-387,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239636385,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-387,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,1
+1777239636551,279,POST /auth/user/login,200,OK,Week4 Load Group 1-388,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,279,0,1
+1777239636831,10,GET /restaurants (search),200,OK,Week4 Load Group 1-388,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239636842,5,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-388,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239637001,282,POST /auth/user/login,200,OK,Week4 Load Group 1-389,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,281,0,1
+1777239637284,9,GET /restaurants (search),200,OK,Week4 Load Group 1-389,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,2
+1777239637293,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-389,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239637450,275,POST /auth/user/login,200,OK,Week4 Load Group 1-390,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,274,0,2
+1777239637726,14,GET /restaurants (search),200,OK,Week4 Load Group 1-390,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,13,0,1
+1777239637740,10,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-390,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,10,0,1
+1777239637904,257,POST /auth/user/login,200,OK,Week4 Load Group 1-391,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,257,0,0
+1777239638162,8,GET /restaurants (search),200,OK,Week4 Load Group 1-391,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239638170,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-391,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239638357,275,POST /auth/user/login,200,OK,Week4 Load Group 1-392,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,1
+1777239638632,8,GET /restaurants (search),200,OK,Week4 Load Group 1-392,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239638641,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-392,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,5,0,0
+1777239638804,275,POST /auth/user/login,200,OK,Week4 Load Group 1-393,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,275,0,1
+1777239639080,10,GET /restaurants (search),200,OK,Week4 Load Group 1-393,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,10,0,1
+1777239639090,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-393,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239639252,271,POST /auth/user/login,200,OK,Week4 Load Group 1-394,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,271,0,2
+1777239639524,9,GET /restaurants (search),200,OK,Week4 Load Group 1-394,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239639533,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-394,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239639704,280,POST /auth/user/login,200,OK,Week4 Load Group 1-395,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,280,0,1
+1777239639985,8,GET /restaurants (search),200,OK,Week4 Load Group 1-395,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,0
+1777239639993,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-395,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,1
+1777239640149,273,POST /auth/user/login,200,OK,Week4 Load Group 1-396,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,273,0,1
+1777239640423,10,GET /restaurants (search),200,OK,Week4 Load Group 1-396,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,9,0,1
+1777239640433,7,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-396,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,7,0,2
+1777239640601,261,POST /auth/user/login,200,OK,Week4 Load Group 1-397,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,261,0,1
+1777239640863,8,GET /restaurants (search),200,OK,Week4 Load Group 1-397,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239640872,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-397,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239641056,283,POST /auth/user/login,200,OK,Week4 Load Group 1-398,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,283,0,1
+1777239641340,8,GET /restaurants (search),200,OK,Week4 Load Group 1-398,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,8,0,1
+1777239641349,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-398,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1
+1777239641500,273,POST /auth/user/login,200,OK,Week4 Load Group 1-399,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,272,0,1
+1777239641774,14,GET /restaurants (search),200,OK,Week4 Load Group 1-399,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,14,0,2
+1777239641789,8,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-399,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,8,0,1
+1777239641949,275,POST /auth/user/login,200,OK,Week4 Load Group 1-400,text,true,,401,265,1,1,http://localhost:8003/auth/user/login,274,0,1
+1777239642224,12,GET /restaurants (search),200,OK,Week4 Load Group 1-400,text,true,,1409,150,1,1,http://localhost:8004/restaurants?search=pizza&city=San+Jose,12,0,1
+1777239642236,6,POST /restaurants/{id}/reviews,202,Accepted,Week4 Load Group 1-400,text,true,,279,489,1,1,http://localhost:8001/restaurants/2/reviews,6,0,1

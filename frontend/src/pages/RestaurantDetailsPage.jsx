@@ -25,7 +25,7 @@ const DEFAULT_PHOTO = 'https://images.unsplash.com/photo-1517248135467-4c7edcad3
 export default function RestaurantDetailsPage() {
   const { id } = useParams()
   const dispatch = useDispatch()
-  const { user, isUser, isOwner } = useAuth()
+  const { user, isUser, isOwner, logout } = useAuth()
   const navigate = useNavigate()
   const favouriteIds = useSelector(selectFavouriteIds)
   const favPendingById = useSelector(selectFavouritesPendingById)
@@ -121,7 +121,16 @@ export default function RestaurantDetailsPage() {
         submitReview({ restaurantId: id, payload: { rating: newRating, comment: newComment } })
       )
       if (submitReview.rejected.match(result)) {
-        throw new Error(result.payload || 'Failed to submit review.')
+        const message = typeof result.payload === 'string'
+          ? result.payload
+          : 'Failed to submit review.'
+        if (/credentials|not authenticated|unauthorized|401/i.test(message)) {
+          logout()
+          setReviewError('Session expired. Please log in again.')
+          navigate('/login')
+          return
+        }
+        throw new Error(message)
       }
       const reviewId = result.payload?.reviewId
       if (reviewId && newPhotos && newPhotos.length > 0) {
