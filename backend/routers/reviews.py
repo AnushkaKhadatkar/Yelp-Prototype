@@ -19,6 +19,13 @@ from services.review_worker_service import process_review_event
 router = APIRouter(tags=["Reviews"])
 
 
+def _public_review_upload_base(request: Request) -> str:
+    explicit = os.getenv("REVIEW_PUBLIC_BASE_URL")
+    if explicit:
+        return explicit.rstrip("/")
+    return "http://127.0.0.1:8004"
+
+
 @router.post("/restaurants/{restaurant_id}/reviews", status_code=202)
 def create_review(
     restaurant_id: int,
@@ -105,7 +112,7 @@ def upload_review_photos(
         file_path = os.path.join(upload_dir, safe_name)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(photo.file, buffer)
-        photo_paths.append(f"{request.base_url}uploads/{safe_name}")
+        photo_paths.append(f"{_public_review_upload_base(request)}/uploads/{safe_name}")
 
     db[C.REVIEWS].update_one(
         {"_id": review_id},

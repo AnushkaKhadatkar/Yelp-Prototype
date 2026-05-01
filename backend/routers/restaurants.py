@@ -182,7 +182,12 @@ def get_restaurant_details(restaurant_id: int, db: Database = Depends(get_db)):
     if not restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
 
-    revs = list(db[C.REVIEWS].find({"restaurant_id": restaurant_id}))
+    revs = list(
+        db[C.REVIEWS]
+        .find({"restaurant_id": restaurant_id})
+        .sort("created_at", -1)
+        .limit(10)
+    )
     reviews_list = [_review_entry(db, r) for r in revs]
     detail = restaurant_doc_to_detail_dict(restaurant, reviews_list)
     detail["createdAt"] = (

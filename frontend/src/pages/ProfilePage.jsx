@@ -61,6 +61,17 @@ export default function ProfilePage() {
       if (d.profile_pic) {
         setPicUrl(toMediaUrl(d.profile_pic))
       }
+      login(
+        {
+          ...(user || {}),
+          id: d.id ?? user?.id,
+          name: d.name || user?.name,
+          email: d.email || user?.email,
+          profile_pic: d.profile_pic || user?.profile_pic,
+        },
+        role,
+        localStorage.getItem('token')
+      )
       setProfileLoading(false)
     }).catch(() => setProfileLoading(false))
 
@@ -81,7 +92,7 @@ export default function ProfilePage() {
       })
       setPrefsLoading(false)
     }).catch(() => setPrefsLoading(false))
-  }, [])
+  }, [login, role])
 
   const handleProfileSave = async (e) => {
     e.preventDefault()
@@ -91,7 +102,11 @@ export default function ProfilePage() {
     try {
       await updateUserProfile(profile)
       setSuccess('Profile updated successfully!')
-      login({ ...user, name: profile.name }, role, localStorage.getItem('token'))
+      login(
+        { ...(user || {}), name: profile.name, email: profile.email, profile_pic: user?.profile_pic },
+        role,
+        localStorage.getItem('token')
+      )
     } catch (err) {
       const detail = err.response?.data?.detail
       if (Array.isArray(detail)) {
@@ -142,10 +157,10 @@ export default function ProfilePage() {
     setPicLoading(true)
     try {
       const res = await uploadProfilePicture(formData)
-      const localUrl = URL.createObjectURL(file)
-      setPicUrl(localUrl)
+      const uploadedUrl = res?.data?.image_url || ''
+      setPicUrl(toMediaUrl(uploadedUrl) || URL.createObjectURL(file))
       login(
-        { ...(user || {}), profile_pic: res?.data?.image_url || user?.profile_pic },
+        { ...(user || {}), profile_pic: uploadedUrl || user?.profile_pic },
         role,
         localStorage.getItem('token')
       )

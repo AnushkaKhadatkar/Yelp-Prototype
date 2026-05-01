@@ -134,11 +134,11 @@ export default function ChatbotPanel() {
 
   return (
     <div className="flex flex-col h-full rounded-2xl overflow-hidden bg-white"
-      style={{ border: '1px solid rgba(26,18,8,0.08)', boxShadow: '0 4px 24px rgba(26,18,8,0.06)' }}>
+      style={{ border: '1px solid rgba(26,18,8,0.08)', boxShadow: '0 14px 40px rgba(26,18,8,0.10)' }}>
 
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3.5 flex-shrink-0"
-        style={{ background: 'var(--ink)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        style={{ background: 'linear-gradient(135deg, #1A1208 0%, #2A1A0E 55%, #3A2412 100%)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'var(--red)' }}>
@@ -163,7 +163,7 @@ export default function ChatbotPanel() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto min-h-0 p-4 space-y-4"
-        style={{ background: '#F9F7F4', scrollbarWidth: 'thin', scrollbarColor: 'rgba(26,18,8,0.1) transparent' }}>
+        style={{ background: 'linear-gradient(180deg, #F9F7F4 0%, #FDFBF8 100%)', scrollbarWidth: 'thin', scrollbarColor: 'rgba(26,18,8,0.1) transparent' }}>
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} fade-in`}>
             <div className={msg.role === 'user' ? 'max-w-[80%]' : 'max-w-[92%] w-full'}>
@@ -253,7 +253,7 @@ export default function ChatbotPanel() {
             {loading ? (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full inline-block"
                 style={{ animation: 'spin 0.8s linear infinite' }} />
-            ) : '↑'}
+            ) : 'Send'}
           </button>
         </div>
         <p style={{ fontSize: 11, color: 'rgba(140,126,110,0.6)', marginTop: 6, textAlign: 'center' }}>

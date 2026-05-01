@@ -1,5 +1,6 @@
 """Restaurant owner microservice: auth_owner + owners."""
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from apps.common import add_cors, lifespan_init_db
 from routers.auth_common import router as auth_common_router
@@ -8,6 +9,7 @@ from routers.owners import router as owners_router
 
 app = FastAPI(title="Yelp Owner Service", lifespan=lifespan_init_db)
 add_cors(app)
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 app.include_router(auth_common_router)
 app.include_router(auth_owner_router)
 app.include_router(owners_router)

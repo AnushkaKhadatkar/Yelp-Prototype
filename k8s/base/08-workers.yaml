@@ -27,8 +27,8 @@ spec:
               exit 1
       containers:
         - name: review-worker
-          image: yelp-lab2-backend:latest
-          imagePullPolicy: IfNotPresent
+          image: 819871251532.dkr.ecr.us-east-1.amazonaws.com/yelp/backend:latest
+          imagePullPolicy: Always
           command: ["python", "workers/review_worker.py"]
           env:
             - name: PYTHONPATH
@@ -68,8 +68,8 @@ spec:
               exit 1
       containers:
         - name: restaurant-worker
-          image: yelp-lab2-backend:latest
-          imagePullPolicy: IfNotPresent
+          image: 819871251532.dkr.ecr.us-east-1.amazonaws.com/yelp/backend:latest
+          imagePullPolicy: Always
           command: ["python", "workers/restaurant_worker.py"]
           env:
             - name: PYTHONPATH
@@ -109,8 +109,8 @@ spec:
               exit 1
       containers:
         - name: user-worker
-          image: yelp-lab2-backend:latest
-          imagePullPolicy: IfNotPresent
+          image: 819871251532.dkr.ecr.us-east-1.amazonaws.com/yelp/backend:latest
+          imagePullPolicy: Always
           command: ["python", "workers/user_worker.py"]
           env:
             - name: PYTHONPATH

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRestaurantById, claimRestaurant, uploadReviewPhotos } from '../services/api'
+import { getRestaurantById, getReviews, claimRestaurant, uploadReviewPhotos } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import { setSelectedRestaurant } from '../slices/restaurantSlice'
 import {
@@ -55,20 +55,60 @@ export default function RestaurantDetailsPage() {
   const [bannerImgError, setBannerImgError] = useState(false)
   const [pendingDeleteReviewId, setPendingDeleteReviewId] = useState(null)
   const [deleteLoading, setDeleteLoading] = useState(false)
+  const latestRequestRef = useRef(0)
+
+  const isValidRestaurantPayload = (payload, routeId) => {
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return false
+    const payloadId = Number(payload.id)
+    const expectedId = Number(routeId)
+    if (!Number.isFinite(payloadId) || !Number.isFinite(expectedId)) return false
+    return payloadId === expectedId
+  }
 
   const loadRestaurant = async () => {
+    const requestId = Date.now()
+    latestRequestRef.current = requestId
     setLoading(true)
     try {
       const res = await getRestaurantById(id)
-      const data = res.data
+      let data = res?.data
+
+      // On hard refresh, browsers/proxies may occasionally serve non-detail payloads.
+      // Force a cache-busting JSON fetch for this exact route id when payload is invalid.
+      if (!isValidRestaurantPayload(data, id)) {
+        const retry = await getRestaurantById(`${id}?_t=${Date.now()}`)
+        data = retry?.data
+      }
+
+      if (!isValidRestaurantPayload(data, id)) {
+        throw new Error('Invalid restaurant payload.')
+      }
+
+      if (latestRequestRef.current !== requestId) return
       setRestaurant(data)
       dispatch(setSelectedRestaurant(data))
       // Reviews are included in the restaurant detail response
-      setReviews(data.reviews || [])
+      let reviewsList = Array.isArray(data.reviews) ? data.reviews : []
+      if (reviewsList.length === 0 && Number(data.review_count || 0) > 0) {
+        try {
+          const revRes = await getReviews(id)
+          const revData = revRes?.data
+          reviewsList = Array.isArray(revData)
+            ? revData
+            : Array.isArray(revData?.reviews)
+              ? revData.reviews
+              : []
+        } catch {
+          // Keep empty list if fallback endpoint is unavailable.
+        }
+      }
+      if (latestRequestRef.current !== requestId) return
+      setReviews(reviewsList)
     } catch {
+      if (latestRequestRef.current !== requestId) return
       setError('Restaurant not found.')
     }
-    setLoading(false)
+    if (latestRequestRef.current === requestId) setLoading(false)
   }
 
   const uploadReviewPhotosWithRetry = async (reviewId, formData, retries = 8, delayMs = 500) => {
@@ -199,6 +239,12 @@ export default function RestaurantDetailsPage() {
   const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''
   const isFav = favouriteIds.includes(Number(id))
   const favLoading = Boolean(favPendingById[Number(id)])
+  const displayedReviews = reviews.slice(0, 10)
+  const resolveReviewPhotoUrl = (p) => {
+    if (!p) return ''
+    if (p.startsWith('http://') || p.startsWith('https://')) return p
+    return uploadPath(p, 'review')
+  }
 
   if (loading) return <div className="max-w-4xl mx-auto px-4 py-8"><LoadingSpinner text="Loading restaurant..." /></div>
   if (error) return (
@@ -375,7 +421,19 @@ export default function RestaurantDetailsPage() {
                 className="w-full text-sm"
               />
               {newPhotos.length > 0 && (
-                <p className="text-xs text-gray-400 mt-1">{newPhotos.length} file(s) selected</p>
+                <div className="mt-2">
+                  <p className="text-xs text-gray-400">{newPhotos.length} file(s) selected</p>
+                  <div className="mt-2 flex gap-2 overflow-x-auto">
+                    {newPhotos.map((f, i) => (
+                      <img
+                        key={`${f.name}-${i}`}
+                        src={URL.createObjectURL(f)}
+                        alt={f.name}
+                        className="h-16 w-16 object-cover rounded-lg border border-gray-200"
+                      />
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
             {reviewError && <p className="text-red-500 text-sm">{reviewError}</p>}
@@ -394,8 +452,10 @@ export default function RestaurantDetailsPage() {
 
       {/* Reviews */}
       <div>
-        <h2 className="font-semibold text-gray-900 text-lg mb-4">Reviews ({reviews.length})</h2>
-        {reviews.length === 0 ? (
+        <h2 className="font-semibold text-gray-900 text-lg mb-4">
+          Reviews ({reviews.length}) {reviews.length > 10 && <span className="text-xs text-gray-500 font-normal">showing latest 10</span>}
+        </h2>
+        {displayedReviews.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
             <span className="text-4xl">💬</span>
             <p className="text-gray-500 mt-3 font-medium">No reviews yet</p>
@@ -403,7 +463,7 @@ export default function RestaurantDetailsPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {reviews.map((r) => {
+            {displayedReviews.map((r) => {
               const isMyReview = currentUserId && String(r.user_id) === currentUserId
               const isEditing = editingReviewId === r.review_id
 
@@ -457,9 +517,13 @@ export default function RestaurantDetailsPage() {
                             {photos.map((p) => (
                               <img
                                 key={p}
-                                src={uploadPath(p, 'review')}
+                                src={resolveReviewPhotoUrl(p)}
                                 alt="review"
                                 className="h-20 w-20 object-cover rounded-lg border border-gray-100"
+                                onError={(e) => {
+                                  const fallback = uploadPath(p, 'restaurant')
+                                  if (e.currentTarget.src !== fallback) e.currentTarget.src = fallback
+                                }}
                               />
                             ))}
                           </div>

@@ -17,13 +17,64 @@ from services.kafka_bus import publish_event
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
+def _public_user_upload_base(request: Request) -> str:
+    # Prefer explicit public base URL for stable media links in Docker/local.
+    explicit = os.getenv("USER_PUBLIC_BASE_URL")
+    if explicit:
+        return explicit.rstrip("/")
+    # Fallback to direct local service port.
+    return "http://127.0.0.1:8001"
+
+
+def _repair_profile_pic_if_missing(db: Database, current_user) -> str | None:
+    profile_pic = getattr(current_user, "profile_pic", None)
+    if not profile_pic:
+        return None
+
+    marker = "/uploads/"
+    if marker not in profile_pic:
+        return profile_pic
+
+    filename = profile_pic.split(marker, 1)[1].strip("/")
+    if not filename:
+        return None
+
+    file_path = os.path.join("uploads", filename)
+    if os.path.exists(file_path):
+        return profile_pic
+
+    # Self-heal stale URLs after container/image resets:
+    # pick latest existing file for this user, else clear broken URL.
+    user_prefix = f"user-{current_user.id}-"
+    try:
+        candidates = [
+            f for f in os.listdir("uploads")
+            if f.startswith(user_prefix)
+        ]
+    except FileNotFoundError:
+        candidates = []
+
+    if candidates:
+        candidates.sort(key=lambda f: os.path.getmtime(os.path.join("uploads", f)), reverse=True)
+        repaired = f"http://127.0.0.1:8001/uploads/{candidates[0]}"
+        db[C.USERS].update_one({"_id": current_user.id}, {"$set": {"profile_pic": repaired}})
+        return repaired
+
+    db[C.USERS].update_one({"_id": current_user.id}, {"$set": {"profile_pic": None}})
+    return None
+
+
 @router.get("/profile", response_model=UserProfileResponse)
-def get_profile(current_user=Depends(get_current_user)):
+def get_profile(
+    db: Database = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     created_at = (
         current_user.created_at.isoformat()
         if hasattr(current_user.created_at, "isoformat") and current_user.created_at
         else None
     )
+    profile_pic = _repair_profile_pic_if_missing(db, current_user)
     return {
         "id": current_user.id,
         "name": current_user.name,
@@ -34,7 +85,7 @@ def get_profile(current_user=Depends(get_current_user)):
         "country": current_user.country,
         "languages": current_user.languages,
         "gender": current_user.gender,
-        "profile_pic": current_user.profile_pic,
+        "profile_pic": profile_pic,
         "createdAt": created_at,
     }
 
@@ -90,7 +141,7 @@ def upload_profile_picture(
     file_path = os.path.join(upload_dir, safe_name)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    image_url = f"{request.base_url}uploads/{safe_name}"
+    image_url = f"{_public_user_upload_base(request)}/uploads/{safe_name}"
 
     db[C.USERS].update_one(
         {"_id": current_user.id}, {"$set": {"profile_pic": image_url}}
